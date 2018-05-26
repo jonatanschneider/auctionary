@@ -1,4 +1,4 @@
-# < insert-app-name-here >
+# Auctionary
 
 This app is a shopping portal. It is build like a regular online shop, but 
 prices are not set. You can only buy any item by taking a bid on it. 
@@ -31,5 +31,20 @@ persisted in our MongoDB database.
 
 ## Running instructions
 
-> In this area instructions on how to run and deploy our app will be given. 
-> Please be patient; we're working on it!
+### Database
+
+Run your database using `mongod -dbPath "<path-to-your-mongodb-running-directory>"`
+
+### Server
+
+> Note: To run your server, the database must be running.
+
+> Note: To be able to compile your typescript files, typescript must be installed. If you haven't already, install it
+using `npm install -g typescript`. You may need to restart your terminal/console to recognize the tsc command. You can 
+check for a successfull installation using `which tsc`.
+
+Navigate to server directory using `cd server`. 
+
+* Compile the server application using `npm run-script compile`
+* Run the server application using `npm run-script run`
+* Compile and run the server application using `npm run-script start`
