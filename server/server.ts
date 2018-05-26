@@ -9,6 +9,12 @@ import {
     MongoError,
     UpdateWriteOpResult,
 } from 'mongodb';
+import * as passport from 'passport';
+import { AuthenticationConfig } from './AuthenticationConfig';
+import * as request from 'request-promise';
+import * as pGoogle from 'passport-google-oauth20';
+import * as bodyParser from 'body-parser';
+import { Profile } from 'passport';
 
 // Database variables
 let appDb: Db;
@@ -38,5 +44,59 @@ https.createServer(credentials, router).listen(8443, function() {
     console.log('HTTPS-server started on https://localhost:8443/');
 });
 
+// Configure router
+router.use(bodyParser.urlencoded({
+    extended: true
+}));
+
 // Publish dist folder
 router.use('/', express.static(__dirname + '/dist'));
+
+// Authentication
+router.use(passport.initialize());
+router.use(passport.session());
+
+passport.serializeUser(function(profile: Profile, done) {
+    done(null, profile);
+});
+passport.deserializeUser(function(profile: Profile, done) {
+    done(null, profile);
+});
+
+const GoogleStrategy = pGoogle.Strategy;
+
+const authConf = new AuthenticationConfig();
+
+passport.use(new GoogleStrategy({
+    clientID: authConf.googleAuth.clientID,
+    clientSecret: authConf.googleAuth.clientSecret,
+    callbackURL: authConf.googleAuth.callbackURL,
+}, function(req, accessToken, refreshToken, profile, done) {
+    const options = {
+        method: 'GET',
+        uri: 'https://www.googleapis.com/auth/plus.me',
+        qs: {
+            access_token: accessToken,
+            fields: 'email, picture, gender, first_name, last_name'
+        }
+    };
+    request(options)
+        .then(() => {
+            done(null, profile);
+        })
+        .catch((err) => {
+            console.log('Error: ' + err);
+        });
+}));
+
+router.get('/auth/google',
+    passport.authenticate('google', {
+        scope: ['profile', 'email']
+    })
+);
+router.get('/auth/google/callback',
+    passport.authenticate('google', {
+        successRedirect: '/profile',
+        failureRedirect: '/'
+    })
+);
