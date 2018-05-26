@@ -86,4 +86,4 @@ You now have multiple opportunities:
 
 * Run the client on a standalone testing server using `ng s -o`
 * Run the client in development mode delivered by the server using `npm run-script build` <sup>1</sup>
-* Ron the client in production mode delivered by the server using `npm run-script build-prod` <sup>1</sup>
+* Run the client in production mode delivered by the server using `npm run-script build-prod` <sup>1</sup>
