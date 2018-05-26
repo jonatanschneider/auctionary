@@ -1,7 +1,10 @@
 # Auctionary
 
-This app is a shopping portal. It is build like a regular online shop, but 
-prices are not set. You can only buy any item by taking a bid on it. 
+This app is a digital auction house. 
+
+* Create/Update/Delete auctions in the Seller Dashboard
+* Browse/See/Bid auctions in the Customer section
+* Browse your purchases and your lost auctions
 
 ## Technology
 
