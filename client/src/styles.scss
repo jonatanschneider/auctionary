@@ -1,0 +1,6 @@
+@import 'assets/themes/auctionary-theme.scss';
+
+@include mat-core();
+@include angular-material-theme($auctionary-theme);
+
+@import 'assets/themes/auctionary-theme';
