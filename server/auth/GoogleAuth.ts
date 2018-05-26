@@ -1,9 +1,12 @@
 import * as pGoogle from 'passport-google-oauth20';
 import * as request from 'request-promise';
+import { AuthenticationConfig } from './AuthenticationConfig';
+import { Express } from 'express';
+import { PassportStatic } from 'passport';
 
 export class GoogleAuth {
 
-    static init(passport, authConf, router) {
+    static init(passport: PassportStatic, authConf: AuthenticationConfig, router: Express) {
         passport.use(new pGoogle.Strategy({
             clientID: authConf.googleAuth.clientID,
             clientSecret: authConf.googleAuth.clientSecret,
