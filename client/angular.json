@@ -27,7 +27,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/assets/styles/theme.scss"
             ],
             "scripts": [
               "node_modules/hammerjs/hammer.js"

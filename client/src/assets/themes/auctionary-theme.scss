@@ -1,8 +1,0 @@
-@import '~@angular/material/theming';
-
-$auctionary-primary: mat-palette($mat-cyan);
-$auctionary-accent: mat-palette($mat-orange);
-
-$auctionary-warn: mat-palette($mat-red);
-
-$auctionary-theme: mat-light-theme($auctionary-primary, $auctionary-accent, $auctionary-warn);
