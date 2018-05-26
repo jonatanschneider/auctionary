@@ -9,6 +9,11 @@ import {
     MongoError,
     UpdateWriteOpResult,
 } from 'mongodb';
+import * as passport from 'passport';
+import { AuthenticationConfig } from './auth/AuthenticationConfig';
+import * as bodyParser from 'body-parser';
+import { Profile } from 'passport';
+import { GoogleAuth } from './auth/GoogleAuth';
 
 // Database variables
 let appDb: Db;
@@ -38,5 +43,25 @@ https.createServer(credentials, router).listen(8443, function() {
     console.log('HTTPS-server started on https://localhost:8443/');
 });
 
+// Configure router
+router.use(bodyParser.urlencoded({
+    extended: true
+}));
+
 // Publish dist folder
 router.use('/', express.static(__dirname + '/dist'));
+
+// Authentication
+router.use(passport.initialize());
+router.use(passport.session());
+
+passport.serializeUser(function(profile: Profile, done) {
+    done(null, profile);
+});
+passport.deserializeUser(function(profile: Profile, done) {
+    done(null, profile);
+});
+
+const authConf = new AuthenticationConfig();
+
+GoogleAuth.init(passport, authConf, router);
