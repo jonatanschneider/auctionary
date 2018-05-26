@@ -63,6 +63,7 @@ check for a successfull installation using `which tsc`.
 Navigate to server directory using `cd server`. 
 
 * Run `npm install`
+* Fill in your personal API information to the specified login methods in `server/auth/AuthenticationConfig.ts`
 
 You now have multiple opportunities:
 
