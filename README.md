@@ -70,3 +70,20 @@ You now have multiple opportunities:
 * Compile the server application using `npm run-script compile`
 * Run the server application using `npm run-script run`
 * Compile and run the server application using `npm run-script start` (preferred)
+
+### Client
+
+> Note: Developing is possible with a local testing server (on port 4200) and with a running server. The second choice 
+is recommended
+
+> Note: Build options marked with <sup>1</sup> need a running server. See `server` for further instructions 
+
+Navigate to client directory using `cd client`.
+
+* Run `npm install`
+
+You now have multiple opportunities:
+
+* Run the client on a standalone testing server using `ng s -o`
+* Run the client in development mode delivered by the server using `npm run-script build` <sup>1</sup>
+* Run the client in production mode delivered by the server using `npm run-script build-prod` <sup>1</sup>

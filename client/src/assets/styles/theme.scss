@@ -1,0 +1,17 @@
+@import '~@angular/material/theming';
+
+@import './variables';
+
+// Include the common styles for Angular Material.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+// Include theme styles for core and each component used in your app.
+@include angular-material-theme($app-theme);
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
