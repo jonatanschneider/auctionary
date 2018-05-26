@@ -1,7 +1,10 @@
 # Auctionary
 
-This app is a shopping portal. It is build like a regular online shop, but 
-prices are not set. You can only buy any item by taking a bid on it. 
+This app is a digital auction house. 
+
+* Create/Update/Delete auctions in the Seller Dashboard
+* Browse/See/Bid auctions in the Customer section
+* Browse your purchases and your lost auctions
 
 ## Technology
 
@@ -21,7 +24,7 @@ definitions.
 The communication between server and client takes place with AJAX requests (for 
 product detail pages etc.) and with io websockets (live-update of article bids).
 
-We use Promises to synch callbacks of requests.
+We use Promises to sync callbacks of requests.
 
 ### Authenticaion
 
