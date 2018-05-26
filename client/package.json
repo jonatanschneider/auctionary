@@ -4,8 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --op ../server/dist --watch",
-    "build-prod": "ng build --prod --build-optimizer",
+    "build": "ng build --output-path ../server/dist --watch",
+    "build-prod": "ng build --output-path ../server/dist --prod --build-optimizer",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
