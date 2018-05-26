@@ -24,7 +24,7 @@ definitions.
 The communication between server and client takes place with AJAX requests (for 
 product detail pages etc.) and with io websockets (live-update of article bids).
 
-We use Promises to synch callbacks of requests.
+We use Promises to sync callbacks of requests.
 
 ### Authenticaion
 
