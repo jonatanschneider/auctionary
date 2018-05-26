@@ -10,11 +10,10 @@ import {
     UpdateWriteOpResult,
 } from 'mongodb';
 import * as passport from 'passport';
-import { AuthenticationConfig } from './AuthenticationConfig';
-import * as request from 'request-promise';
-import * as pGoogle from 'passport-google-oauth20';
+import { AuthenticationConfig } from './auth/AuthenticationConfig';
 import * as bodyParser from 'body-parser';
 import { Profile } from 'passport';
+import { GoogleAuth } from './auth/GoogleAuth';
 
 // Database variables
 let appDb: Db;
@@ -63,40 +62,6 @@ passport.deserializeUser(function(profile: Profile, done) {
     done(null, profile);
 });
 
-const GoogleStrategy = pGoogle.Strategy;
-
 const authConf = new AuthenticationConfig();
 
-passport.use(new GoogleStrategy({
-    clientID: authConf.googleAuth.clientID,
-    clientSecret: authConf.googleAuth.clientSecret,
-    callbackURL: authConf.googleAuth.callbackURL,
-}, function(req, accessToken, refreshToken, profile, done) {
-    const options = {
-        method: 'GET',
-        uri: 'https://www.googleapis.com/auth/plus.me',
-        qs: {
-            access_token: accessToken,
-            fields: 'email, picture, gender, first_name, last_name'
-        }
-    };
-    request(options)
-        .then(() => {
-            done(null, profile);
-        })
-        .catch((err) => {
-            console.log('Error: ' + err);
-        });
-}));
-
-router.get('/auth/google',
-    passport.authenticate('google', {
-        scope: ['profile', 'email']
-    })
-);
-router.get('/auth/google/callback',
-    passport.authenticate('google', {
-        successRedirect: '/profile',
-        failureRedirect: '/'
-    })
-);
+GoogleAuth.init(passport, authConf, router);
