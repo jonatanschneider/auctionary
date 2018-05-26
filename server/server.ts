@@ -1,6 +1,5 @@
 import * as express from 'express';
 import * as fs from 'fs';
-import * as http from 'http';
 import * as https from 'https';
 import {
     Collection,
@@ -37,10 +36,6 @@ const credentials = { key: privateKey, cert: certificate };
 // Start https server
 https.createServer(credentials, router).listen(8443, function() {
     console.log('HTTPS-server started on https://localhost:8443/');
-});
-// Start http server
-http.createServer(router).listen(8080, function() {
-    console.log('HTTP-server started on http://localhost:8080/');
 });
 
 // Publish dist folder

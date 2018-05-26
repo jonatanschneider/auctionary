@@ -31,11 +31,25 @@ persisted in our MongoDB database.
 
 ## Running instructions
 
+### SSL certificates
+
+* Navigate to server directory using `cd server`
+* Create new folder (if not exist) using `mkdir sslcert`
+* Navigate to new sslcert directory using `cd sslcert`
+* [WIN]: Download and install [WIN32OpenSSL](http://slproweb.com/download/Win32OpenSSL_Light-1_1_0h.exe)
+* [WIN]: Add your installation path to your environment path variable
+* [WIN]: Create your own personal SSL certificates using `openssl req -x509 -out localhost.crt -keyout localhost.key 
+-newkey rsa:2048 -nodes -sha256 -subj "//CN=localhost"`
+* [UNIX]: Create your own personal SSL certificates using `openssl req -x509 -out localhost.crt -keyout localhost.key 
+-newkey rsa:2048 -nodes -sha256 -subj "/CN=localhost"`
+
 ### Database
 
 Run your database using `mongod -dbPath "<path-to-your-mongodb-running-directory>"`
 
 ### Server
+
+> Note: To run your server, you first need to generate your own personal SSL certificate
 
 > Note: To run your server, the database must be running.
 
@@ -45,6 +59,10 @@ check for a successfull installation using `which tsc`.
 
 Navigate to server directory using `cd server`. 
 
+* Run `npm install`
+
+You now have multiple opportunities:
+
 * Compile the server application using `npm run-script compile`
 * Run the server application using `npm run-script run`
-* Compile and run the server application using `npm run-script start`
+* Compile and run the server application using `npm run-script start` (preferred)
