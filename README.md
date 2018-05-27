@@ -34,6 +34,13 @@ persisted in our MongoDB database.
 
 ## Running instructions
 
+### Using the run script
+
+> Note: This feature is still in development and currently only available to Windows users.
+
+After installing the SSL certificates, installing MongoDB and Node.js, execute `run.bat`. This will take care of all 
+necessary steps for you.
+
 ### SSL certificates
 
 * Navigate to server directory using `cd server`
