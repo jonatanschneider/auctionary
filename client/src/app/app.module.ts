@@ -36,10 +36,22 @@ import {
   MatToolbarModule,
   MatTooltipModule
 } from '@angular/material';
+import { LandingPageComponent } from './landing-page/landing-page.component';
+import { RouterModule, Routes } from '@angular/router';
+import { ToolbarComponent } from './toolbar/toolbar.component';
+
+const appRoutes: Routes = [
+  {
+    path: '',
+    component: LandingPageComponent
+  }
+];
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LandingPageComponent,
+    ToolbarComponent
   ],
   imports: [
     BrowserModule,
@@ -74,7 +86,13 @@ import {
     MatTableModule,
     MatTabsModule,
     MatToolbarModule,
-    MatTooltipModule
+    MatTooltipModule,
+    RouterModule.forRoot(
+      appRoutes,
+      {
+        enableTracing: true
+      }
+    )
   ],
   providers: [],
   bootstrap: [AppComponent]
