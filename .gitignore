@@ -1,6 +1,9 @@
 # dependencies
 node_modules
+
+# server
 sslcert
+AuthenticationConfig.ts
 
 # compiled output
 dist
