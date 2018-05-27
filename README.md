@@ -38,8 +38,31 @@ persisted in our MongoDB database.
 
 > Note: This feature is still in development.
 
-After installing the SSL certificates, installing MongoDB and Node.js, execute `run.bat`. This will take care of all 
-necessary steps for you.
+#### Prerequisites
+
+Before using the run script:
+
+* Make sure Node.js is installed
+* Install the SSL certificates. Please have a look at the `SSL certificates` section for further instructions.
+* Install MongoDB. Please have a loog at the `Database` section for further instructions. You only need to install 
+MongoDB, you do not need to run it!
+
+#### Executing the run script
+
+* [WIN]: Execute `run.bat`. The script will take care of all necessary steps for you to run the app in development mode.
+* [UNIX]: Execute `./run.sh`. The script will take care of all necessary steps for you to run the app in development 
+mode.
+
+### Node.js
+
+* Download and install [Node.js](https://nodejs.org/en/)
+
+> Hint: Make sure to use the LTS version.
+
+> [WIN]: You may need to restart your machine to use Node.js commands
+
+* Install TypeScript `npm i -g typescript`
+* Install Angular `npm i -g @angular/cli`
 
 ### SSL certificates
 
@@ -55,7 +78,11 @@ necessary steps for you.
 
 ### Database
 
-Run your database using `mongod -dbPath "<path-to-your-mongodb-running-directory>"`
+* Download and install [MongoDB - Community Server](https://www.mongodb.com/download-center?jmp=nav#community)
+* Make sure your installation path of MongoDB is available in your environmental path variable
+* Run your database using `mongod -dbPath "<path-to-your-mongodb-running-directory>"`
+
+> [WIN]: You may need to restart your machine before using the command `mongod` or using the run script
 
 ### Server
 
