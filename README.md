@@ -87,3 +87,10 @@ You now have multiple opportunities:
 * Run the client on a standalone testing server using `ng s -o`
 * Run the client in development mode delivered by the server using `npm run-script build` <sup>1</sup>
 * Run the client in production mode delivered by the server using `npm run-script build-prod` <sup>1</sup>
+
+#### Styling the client
+
+Since Angular Material is used to style this web app, you can use all elements listed on 
+[Angular Material](https://material.angular.io/components/)
+
+For layouting [Angular Flex Layout](https://github.com/angular/flex-layout) is being used
