@@ -26,7 +26,7 @@ product detail pages etc.) and with io websockets (live-update of article bids).
 
 We use Promises to sync callbacks of requests.
 
-### Authenticaion
+### Authentication
 
 Authentication will be possible with common social media logins such as 
 Google+, Facebook, Instagram and Twitter using oAuth2. User data will be 
@@ -63,6 +63,7 @@ check for a successfull installation using `which tsc`.
 Navigate to server directory using `cd server`. 
 
 * Run `npm install`
+* Duplicate `server/auth/AuthentiationConfig.skeleton` and rename it to `AuthenticationConfig.ts`
 * Fill in your personal API information to the specified login methods in `server/auth/AuthenticationConfig.ts`
 
 You now have multiple opportunities:
