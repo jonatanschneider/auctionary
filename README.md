@@ -10,7 +10,7 @@ This app is a digital auction house.
 
 ### Server
 
-Regarding the server express express is being used, which is connected to a MongoDB database containing 
+Regarding the server express is being used, which is connected to a MongoDB database containing 
 all information on the items as well as information on users (seller/customer).
 
 ### Client
