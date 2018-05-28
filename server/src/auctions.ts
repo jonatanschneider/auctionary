@@ -48,5 +48,24 @@ export class Auctions {
                     res.status(status).send({message: message});
                 });
         });
+
+        router.post('/api/auctions', function (req: Request, res: Response) {
+            const auction = new Auction();
+            // TODO: trim
+            // TODO: validate
+            auction.name = req.body.name;
+            auction.description = req.body.description;
+            auction.color = req.body.color;
+            auction.startingPrice = req.body.startingPrice;
+            auction.endTime = req.body.endTime;
+            // TODO: Set user id
+
+            auctionsCollection.insertOne(auction).then(() => {
+                // TODO: return newly created user
+                res.status(201).send();
+            }).catch(() => {
+                res.status(500).send();
+            });
+        });
     }
 }
