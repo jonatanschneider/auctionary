@@ -35,8 +35,8 @@ MongoClient.connect('mongodb://localhost:27017', { useNewUrlParser: true })
 
 // Server constants
 const router = express();
-const privateKey = fs.readFileSync(__dirname + '/sslcert/localhost.key', 'utf8');
-const certificate = fs.readFileSync(__dirname + '/sslcert/localhost.crt', 'utf8');
+const privateKey = fs.readFileSync(__dirname + '/../sslcert/localhost.key', 'utf8');
+const certificate = fs.readFileSync(__dirname + '/../sslcert/localhost.crt', 'utf8');
 const credentials = { key: privateKey, cert: certificate };
 
 // Start https server
@@ -50,7 +50,7 @@ router.use(bodyParser.urlencoded({
 }));
 
 // Publish dist folder
-router.use('/', express.static(__dirname + '/dist'));
+router.use('/', express.static(__dirname + '/../dist'));
 
 // Authentication
 router.use(passport.initialize());
