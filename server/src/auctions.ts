@@ -7,5 +7,10 @@ export class Auctions {
             // TODO: Implement database actions
             res.status(200).send({ auctions: [] });
         });
+        router.get('/api/auctions/:id', function(req: Request, res: Response) {
+            const query: Object = {_id: new ObjectID(id)};
+           // TODO: Implement database actions
+            res.status(200).send({data: []});
+        });
     }
 }
