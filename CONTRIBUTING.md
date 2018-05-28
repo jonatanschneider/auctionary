@@ -29,7 +29,7 @@ For more information, see our [README.md](README.md).
 * Check for unnecessary whitespaces with `git diff --check` before commiting.
 * Create tests for your changes, if possible (yes, it takes time, it is annoying, but also it is **necassary**)
 * Run *all* tests to assure nothing else was accidentally broken.
-* When creating new components/services/guards/interceptors/..., please stick to the conventions namend in our 
+* When creating new components/services/guards/interceptors/..., please stick to the conventions named in our 
 [Wiki](https://git.thm.de/ekpf11/wbs-projekt/wikis/Angular-Conventions)
 
 ## Submitting Changes
