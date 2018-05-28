@@ -36,9 +36,9 @@ import {
   MatToolbarModule,
   MatTooltipModule
 } from '@angular/material';
-import { LandingPageComponent } from './landing-page/landing-page.component';
+import { LandingPageComponent } from './components/pages/landing-page/landing-page.component';
 import { RouterModule, Routes } from '@angular/router';
-import { ToolbarComponent } from './toolbar/toolbar.component';
+import { ToolbarComponent } from './components/fragments/toolbar/toolbar.component';
 
 const appRoutes: Routes = [
   {
