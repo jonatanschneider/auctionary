@@ -47,6 +47,7 @@ https.createServer(credentials, router).listen(8443, function () {
 });
 
 // Configure router
+router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({
     extended: true
 }));
