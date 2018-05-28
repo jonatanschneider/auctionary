@@ -1,4 +1,4 @@
-import {Bid} from './Bid';
+import { Bid } from './Bid';
 
 export class Auction {
   id: string;
