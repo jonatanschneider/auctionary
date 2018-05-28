@@ -14,10 +14,11 @@ import { AuthenticationConfig } from './auth/AuthenticationConfig';
 import * as bodyParser from 'body-parser';
 import { Profile } from 'passport';
 import { GoogleAuth } from './auth/GoogleAuth';
+import { Auctions } from "./auctions";
 
 // Database variables
 let appDb: Db;
-let auctionCollection: Collection;
+let auctionsCollection: Collection;
 
 // Connect to database server
 MongoClient.connect('mongodb://localhost:27017', { useNewUrlParser: true })
@@ -25,7 +26,7 @@ MongoClient.connect('mongodb://localhost:27017', { useNewUrlParser: true })
         // Select database
         appDb = dbClient.db('auction');
         // Select collection
-        auctionCollection = appDb.collection('auction');
+        auctionsCollection = appDb.collection('auction');
         console.log('Database connection established');
     })
     .catch((err: MongoError) => {
@@ -65,3 +66,5 @@ passport.deserializeUser(function(profile: Profile, done) {
 const authConf = new AuthenticationConfig();
 
 GoogleAuth.init(passport, authConf, router);
+
+Auctions.init(router, auctionsCollection);
