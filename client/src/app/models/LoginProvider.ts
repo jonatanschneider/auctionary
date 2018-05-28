@@ -1,7 +1,7 @@
 export enum LoginProvider {
-  GOOGLE,
-  FACEBOOK,
-  TWITTER,
-  INSTAGRAM,
-  SELF
+  GOOGLE
+  // ToDo: Add FACEBOOK
+  // ToDo: Add TWITTER
+  // ToDo: Add INSTAGRAM
+  // ToDo: Add SELF
 }
