@@ -2,11 +2,11 @@
   "name": "server",
   "version": "0.0.1",
   "description": "Server for a auctionary website",
-  "main": "server.js",
+  "main": "src/server.js",
   "scripts": {
-    "start": "tsc && node server.js",
+    "start": "tsc && node src/server.js",
     "compile": "tsc",
-    "run": "node server.js",
+    "run": "node src/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
