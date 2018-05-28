@@ -39,6 +39,8 @@ import {
 import { LandingPageComponent } from './components/pages/landing-page/landing-page.component';
 import { RouterModule, Routes } from '@angular/router';
 import { ToolbarComponent } from './components/fragments/toolbar/toolbar.component';
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { AuctionCreatePageComponent } from "./components/pages/auction-create-page/auction-create-page.component";
 import { HttpClientModule } from "@angular/common/http";
 import { AuctionDetailsComponent } from './components/fragments/auction-details/auction-details.component';
 import { LoginPageComponent } from './components/pages/login-page/login-page.component';
@@ -75,12 +77,15 @@ const appRoutes: Routes = [
     LandingPageComponent,
     ToolbarComponent,
     AuctionDetailsComponent,
+    AuctionCreatePageComponent,
     LoginPageComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     FlexLayoutModule,
+    FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     MatAutocompleteModule,
     MatButtonModule,

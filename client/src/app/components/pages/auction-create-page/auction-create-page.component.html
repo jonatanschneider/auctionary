@@ -1,0 +1,29 @@
+<h1>New auction</h1>
+<form (ngSubmit)="create()" [formGroup]="form">
+  <mat-form-field class="input-block">
+    <input matInput #name placeholder="Name" formControlName="name">
+    <mat-error *ngIf="name.invalid">Please enter a name</mat-error>
+  </mat-form-field>
+  <mat-form-field class="input-block">
+    <input matInput #startingPrice placeholder="Starting price" formControlName="startingPrice">
+    <mat-error *ngIf="startingPrice.invalid">Please enter a starting price</mat-error>
+  </mat-form-field>
+  <mat-form-field class="input-block">
+    <textarea matInput #description placeholder="Description" name="description" matTextareaAutosize
+              matAutosizeMinRows="3" matAutosizeMaxRows="8" formControlName="description"></textarea>
+    <mat-error *ngIf="description.invalid">Please enter a description</mat-error>
+  </mat-form-field>
+  <mat-form-field class="input-block">
+    <input matInput #color placeholder="Color" formControlName="color">
+    <mat-error *ngIf="color.invalid">Please enter a color</mat-error>
+  </mat-form-field>
+  <mat-form-field class="input-block">
+    <mat-select #uptime placeholder="Uptime" formControlName="uptime">
+      <mat-option *ngFor="let option of config.uptimeOptions" [value]="option.value">
+        {{ option.label }}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="uptime.invalid">Please enter an uptime</mat-error>
+  </mat-form-field>
+  <button mat-raised-button type="submit" color="primary">Submit</button>
+</form>
