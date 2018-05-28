@@ -14,7 +14,7 @@ import { AuthenticationConfig } from './auth/AuthenticationConfig';
 import * as bodyParser from 'body-parser';
 import { Profile } from 'passport';
 import { GoogleAuth } from './auth/GoogleAuth';
-import { Auctions } from "./auctions";
+import { Auctions } from './auctions';
 
 // Database variables
 let appDb: Db;
@@ -40,7 +40,7 @@ const certificate = fs.readFileSync(__dirname + '/../sslcert/localhost.crt', 'ut
 const credentials = { key: privateKey, cert: certificate };
 
 // Start https server
-https.createServer(credentials, router).listen(8443, function() {
+https.createServer(credentials, router).listen(8443, function () {
     console.log('HTTPS-server started on https://localhost:8443/');
 });
 
@@ -56,10 +56,10 @@ router.use('/', express.static(__dirname + '/../dist'));
 router.use(passport.initialize());
 router.use(passport.session());
 
-passport.serializeUser(function(profile: Profile, done) {
+passport.serializeUser(function (profile: Profile, done) {
     done(null, profile);
 });
-passport.deserializeUser(function(profile: Profile, done) {
+passport.deserializeUser(function (profile: Profile, done) {
     done(null, profile);
 });
 
