@@ -11,7 +11,6 @@ import {
 } from 'mongodb';
 import * as passport from 'passport';
 import { AuthenticationConfig } from './auth/AuthenticationConfig';
-import * as bodyParser from 'body-parser';
 import { Profile } from 'passport';
 import { GoogleAuth } from './auth/GoogleAuth';
 import { Auctions } from './auctions';
@@ -47,10 +46,7 @@ https.createServer(credentials, router).listen(8443, function () {
 });
 
 // Configure router
-router.use(bodyParser.json());
-router.use(bodyParser.urlencoded({
-    extended: true
-}));
+router.use(express.json());
 
 // Publish dist folder
 router.use('/', express.static(__dirname + '/../dist'));
