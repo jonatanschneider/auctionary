@@ -1,5 +1,3 @@
-import {Bid} from "./Bid";
-
 export class Auction {
   id: string;
   seller: string;
