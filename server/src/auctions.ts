@@ -14,7 +14,8 @@ export class Auctions {
                 .then((auction: Auction) => {
                     if (auction !== null) {
                         message = 'Successfully retrieved auction ' + id;
-                        data = new Auction( // TODO: maybe wrong Auction type?
+                        // TODO: maybe wrong Auction type?
+                        data = new Auction(
                             auction._id,
                             auction.sellerId,
                             auction.name,
