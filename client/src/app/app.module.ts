@@ -46,15 +46,20 @@ import { HttpClientModule } from '@angular/common/http';
 const appRoutes: Routes = [
   {
     path: '',
-    redirectTo: '/profile',
-    pathMatch: 'full'
-    // component: LandingPageComponent
+    component: LandingPageComponent,
+  },
+  {
+    path: 'login',
+    component: LoginPageComponent,
+    data: {
+      loginSuccessful: false
+    }
   },
   {
     path: 'profile',
     component: LoginPageComponent,
     data: {
-      loginSuccessfull: true
+      loginSuccessful: true
     }
   }
 ];
