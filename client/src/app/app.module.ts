@@ -39,6 +39,7 @@ import {
 import { LandingPageComponent } from './components/pages/landing-page/landing-page.component';
 import { RouterModule, Routes } from '@angular/router';
 import { ToolbarComponent } from './components/fragments/toolbar/toolbar.component';
+import { AuctionDetailsComponent } from './components/fragments/auction-details/auction-details.component';
 import { LoginPageComponent } from './components/pages/login-page/login-page.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HttpClientModule } from '@angular/common/http';
@@ -69,6 +70,7 @@ const appRoutes: Routes = [
     AppComponent,
     LandingPageComponent,
     ToolbarComponent,
+    AuctionDetailsComponent,
     LoginPageComponent
   ],
   imports: [
