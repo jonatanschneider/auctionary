@@ -51,14 +51,17 @@ export class Auctions {
 
         router.post('/api/auctions', function (req: Request, res: Response) {
             const auction = new Auction();
-            // TODO: trim
-            // TODO: validate
-            auction.name = req.body.name;
-            auction.description = req.body.description;
-            auction.color = req.body.color;
-            auction.startingPrice = req.body.startingPrice;
-            auction.endTime = req.body.endTime;
             // TODO: Set user id
+            auction.name = req.body.name ? req.body.name.trim() : '';
+            auction.description = req.body.description ? req.body.description.trim() : '';
+            auction.color = req.body.color ? req.body.color.trim() : '';
+            auction.startingPrice = req.body.startingPrice ? req.body.startingPrice as number : -1;
+            auction.endTime = req.body.endTime ? req.body.endTime as Date : undefined;
+
+            if(!auction.name || auction.startingPrice < 0 || !auction.endTime) {
+                res.status(400).send();
+                return;
+            }
 
             auctionsCollection.insertOne(auction).then(() => {
                 // TODO: return newly created user
