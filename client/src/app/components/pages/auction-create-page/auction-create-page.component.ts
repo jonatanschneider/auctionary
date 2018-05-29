@@ -3,6 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Auction } from '../../../models/Auction';
 import { NotificationService } from '../../../services/util/notification.service';
 import { AuctionService } from '../../../services/http/auction.service';
+import { AuthenticationService } from '../../../services/http/authentication.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-auction-create-page',
@@ -28,10 +30,14 @@ export class AuctionCreatePageComponent {
   };
 
   constructor(private auctionService: AuctionService,
-              private notificationService: NotificationService) {
+              private authenticationService: AuthenticationService,
+              private notificationService: NotificationService,
+              private router: Router) {
   }
 
   create() {
+    let sellerId: string = this.authenticationService.getUserId();
+    this.notificationService.show(sellerId);
     if (this.form.invalid) {
       this.notificationService.show('Please check your input.');
       return;
@@ -46,6 +52,7 @@ export class AuctionCreatePageComponent {
       description: this.form.get('description').value,
       color: this.form.get('color').value,
       endTime: endTime,
+      seller: sellerId
     } as Auction).subscribe((auction) => {
       if (auction) {
         this.notificationService.show('The auction has been created!');
