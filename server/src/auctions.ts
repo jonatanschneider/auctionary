@@ -1,6 +1,7 @@
 import { Express, Request, Response } from 'express';
-import { Collection } from 'mongodb';
+import { Collection, MongoError } from 'mongodb';
 import { Auction } from './model/Auction';
+import { ObjectID } from 'bson';
 
 export class Auctions {
     static init(router: Express, auctionsCollection: Collection) {
@@ -9,34 +10,30 @@ export class Auctions {
             res.status(200).send({ auctions: [] });
         });
         router.get('/api/auctions/:id', function(req: Request, res: Response) {
+            let status: number;
+            let message = '';
+            const id: string = req.params.id;
             const query: Object = {_id: new ObjectID(id)};
             auctionsCollection.findOne(query)
                 .then((auction: Auction) => {
                     if (auction !== null) {
+                        auction['id'] = auction['_id'];
+                        auction['_id'] = undefined;
+                        auction['currentBid'] = auction.bids[auction.bids.length - 1];
+                        auction['bids'] = undefined;
                         message = 'Successfully retrieved auction ' + id;
-                        // TODO: maybe wrong Auction type?
-                        data = new Auction(
-                            auction._id,
-                            auction.sellerId,
-                            auction.name,
-                            auction.description,
-                            auction.images,
-                            auction.manufacturerId,
-                            auction.color,
-                            auction.startingPrice,
-                            auction.endTime,
-                            auction.bids[auction.bids.length - 1]);
                         status = 200;
                     } else {
                         message = 'Id ' + id + 'not found';
                         status = 404;
                     }
+                    res.status(status).send({auction: auction, message: message});
                 })
                 .catch((error: MongoError) => {
                     message = 'Database error ' + error.code;
                     status = 505;
+                    res.status(status).send({message: message});
                 });
-            res.status(200).send({data: [], message: message});
         });
     }
 }
