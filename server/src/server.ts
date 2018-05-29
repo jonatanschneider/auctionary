@@ -14,6 +14,7 @@ import { AuthenticationConfig } from './auth/AuthenticationConfig';
 import { Profile } from 'passport';
 import { GoogleAuth } from './auth/GoogleAuth';
 import { Auctions } from './auctions';
+import { Users } from './users';
 
 // Server constants
 const router = express();
@@ -33,6 +34,7 @@ router.use(express.static(__dirname + './../dist'));
 // Database variables
 let appDb: Db;
 let auctionsCollection: Collection;
+let usersCollection: Collection;
 
 // Connect to database server
 MongoClient.connect('mongodb://localhost:27017', { useNewUrlParser: true })
@@ -41,6 +43,7 @@ MongoClient.connect('mongodb://localhost:27017', { useNewUrlParser: true })
         appDb = dbClient.db('auction');
         // Select collection
         auctionsCollection = appDb.collection('auction');
+        usersCollection = appDb.collection('user');
         console.log('Database connection established');
         initRoutes();
     })
@@ -63,8 +66,9 @@ const authConf = new AuthenticationConfig();
 
 function initRoutes(): void {
     console.log('Initializing routes');
-    GoogleAuth.init(passport, authConf, router);
+    GoogleAuth.init(passport, authConf, router, usersCollection);
     Auctions.init(router, auctionsCollection);
+    Users.init(router, usersCollection);
 
     // Setup middleware redirection route
     router.use('/*', express.static(__dirname + '/../dist'));
