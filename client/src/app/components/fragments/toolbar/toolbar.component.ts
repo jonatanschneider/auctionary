@@ -13,6 +13,6 @@ export class ToolbarComponent implements OnInit {
   }
 
   logout() {
-
+    document.location.href = '/logout';
   }
 }

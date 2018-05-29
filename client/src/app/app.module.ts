@@ -76,7 +76,8 @@ const appRoutes: Routes = [
     LandingPageComponent,
     ToolbarComponent,
     AuctionDetailsComponent,
-    LoginPageComponent
+    LoginPageComponent,
+    LogoutPageComponent
   ],
   imports: [
     BrowserModule,
