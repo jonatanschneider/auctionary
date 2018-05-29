@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginProvider } from '../../../models/LoginProvider';
 import { NotificationService } from '../../../services/util/notification.service';
+import { AuthenticationService } from '../../../services/http/authentication.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-login-page',
@@ -10,11 +12,31 @@ import { NotificationService } from '../../../services/util/notification.service
 export class LoginPageComponent implements OnInit {
   LoginProvider = LoginProvider;
 
-  loginSuccessfull: boolean;
+  loginSuccessful: boolean;
 
-  constructor(private notificationService: NotificationService) { }
+  constructor(private notificationService: NotificationService,
+              private authenticationService: AuthenticationService,
+              private route: ActivatedRoute) { }
 
   ngOnInit() {
+    // Pre-load data from route (whether it is called from '/login' or '/profile'
+    this.route.data
+      .subscribe((data: {loginSuccessful: boolean}) => {
+        this.loginSuccessful = data.loginSuccessful;
+      });
+
+    if (this.loginSuccessful) {
+      this.authenticationService.login().map(loggedIn => {
+        if(loggedIn) {
+          this.notificationService.show('Welcome ' /* ToDo: Add + this.authenticationService.getUsername*/);
+          // ToDo: Add redirect
+        } else {
+          this.notificationService.show('Login failed, please try again');
+        }
+      });
+    } else {
+      this.notificationService.show('Please log in first');
+    }
   }
 
   login(method: LoginProvider) {
