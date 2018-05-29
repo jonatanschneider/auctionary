@@ -55,8 +55,8 @@ export class AuctionCreatePageComponent {
       seller: sellerId
     } as Auction).subscribe((auction) => {
       if (auction) {
-        this.notificationService.show('The auction has been created!');
-        // TODO: navigate
+        this.notificationService.show('The auction has been created! ' + auction.id);
+        this.router.navigateByUrl('/auctions/' + auction.id);
       }
     });
   }
