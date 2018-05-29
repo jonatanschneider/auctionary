@@ -6,7 +6,7 @@ export class Auction {
   name: string;
   description: string;
   images: string[];
-  manufaturer: string;
+  manufacturer: string;
   color: string;
   startingPrice: number;
   endTime: Date;
