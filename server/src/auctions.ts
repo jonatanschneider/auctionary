@@ -25,7 +25,6 @@ export class Auctions {
                             auction['currentBid'] = undefined;
                         }
                         auction['bids'] = undefined;
-                        console.log(auction);
                         message = 'Successfully retrieved auction ' + id;
                         status = 200;
                     } else {
