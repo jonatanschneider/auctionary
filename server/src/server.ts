@@ -42,7 +42,6 @@ MongoClient.connect('mongodb://localhost:27017', { useNewUrlParser: true })
         // Select collection
         auctionsCollection = appDb.collection('auction');
         console.log('Database connection established');
-        console.log('Initializing routes');
         initRoutes();
     })
     .catch((err: MongoError) => {
@@ -63,6 +62,7 @@ passport.deserializeUser(function (profile: Profile, done) {
 const authConf = new AuthenticationConfig();
 
 function initRoutes(): void {
+    console.log('Initializing routes');
     GoogleAuth.init(passport, authConf, router);
     Auctions.init(router, auctionsCollection);
 
