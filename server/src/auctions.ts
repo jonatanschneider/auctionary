@@ -9,10 +9,19 @@ export class Auctions {
             // TODO: Implement database actions
             res.status(200).send({ auctions: [] });
         });
+
         router.get('/api/auctions/:id', function(req: Request, res: Response) {
             let status: number;
             let message = '';
             const id: string = req.params.id;
+
+            if (!ObjectID.isValid(id)) {
+                message = 'Invalid ID format';
+                status = 404;
+                res.status(status).send({message: message});
+                return;
+            }
+
             const query: Object = {_id: new ObjectID(id)};
             auctionsCollection.findOne(query)
                 .then((auction: Auction) => {
