@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { Auction } from "../../../models/Auction";
-import { NotificationService } from "../../../services/util/notification.service";
-import { AuctionService } from "../../../services/http/auction.service";
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Auction } from '../../../models/Auction';
+import { NotificationService } from '../../../services/util/notification.service';
+import { AuctionService } from '../../../services/http/auction.service';
 
 @Component({
   selector: 'app-auction-create-page',

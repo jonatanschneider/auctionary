@@ -58,7 +58,7 @@ export class Auctions {
             auction.startingPrice = req.body.startingPrice ? req.body.startingPrice as number : -1;
             auction.endTime = req.body.endTime ? req.body.endTime as Date : undefined;
 
-            if(!auction.name || auction.startingPrice < 0 || !auction.endTime) {
+            if (!auction.name || auction.startingPrice < 0 || !auction.endTime) {
                 res.status(400).send();
                 return;
             }
