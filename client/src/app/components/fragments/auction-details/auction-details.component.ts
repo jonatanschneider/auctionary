@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Auction } from '../../../models/Auction';
 
 @Component({
   selector: 'app-auction-details',
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./auction-details.component.scss']
 })
 export class AuctionDetailsComponent implements OnInit {
+  public auction: Auction;
 
   constructor() {
   }
