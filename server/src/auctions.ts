@@ -19,12 +19,17 @@ export class Auctions {
                     if (auction !== null) {
                         auction['id'] = auction['_id'];
                         auction['_id'] = undefined;
-                        auction['currentBid'] = auction.bids[auction.bids.length - 1];
+                        if (auction.hasOwnProperty('bids') && auction.bids.length > 0) {
+                            auction['currentBid'] = auction.bids[auction.bids.length - 1];
+                        } else {
+                            auction['currentBid'] = undefined;
+                        }
                         auction['bids'] = undefined;
+                        console.log(auction);
                         message = 'Successfully retrieved auction ' + id;
                         status = 200;
                     } else {
-                        message = 'Id ' + id + 'not found';
+                        message = 'Id ' + id + ' not found';
                         status = 404;
                     }
                     res.status(status).send({auction: auction, message: message});
