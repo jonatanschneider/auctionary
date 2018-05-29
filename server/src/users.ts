@@ -18,7 +18,7 @@ export class Users {
                         // Strip unwanted information
                         user['_id'] = undefined;
                         user['auctions'] = undefined;
-                        user['own-auctions'] = undefined;
+                        user['ownAuctions'] = undefined;
 
                         res.status(200).send(user);
                     } else {
