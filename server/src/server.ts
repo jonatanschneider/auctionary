@@ -66,7 +66,7 @@ const authConf = new AuthenticationConfig();
 
 function initRoutes(): void {
     console.log('Initializing routes');
-    GoogleAuth.init(passport, authConf, router);
+    GoogleAuth.init(passport, authConf, router, usersCollection);
     Auctions.init(router, auctionsCollection);
     Users.init(router, usersCollection);
 
