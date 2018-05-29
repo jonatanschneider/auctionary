@@ -72,11 +72,6 @@ const appRoutes: Routes = [
   {
     path: 'auctions/new',
     component: AuctionCreatePageComponent
-  },
-  {
-    path: 'auctions/:id',
-    // ToDo: Change to detail view page of auction
-    component: LandingPageComponent
   }
 ];
 
