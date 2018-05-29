@@ -10,14 +10,14 @@ export class AuctionService {
 
   private apiUrl = {
     base: 'https://localhost:8443/api',
-    auction: '/auction'
+    auction: '/auctions'
   };
 
   constructor(private httpClient: HttpClient) {
   }
 
   getAuction(id: string): Observable<Auction> {
-    const connectionUrl: string = this.apiUrl.base + this.apiUrl.auction + id;
+    const connectionUrl: string = this.apiUrl.base + this.apiUrl.auction + '/' + id;
     return this.http.get<Auction>(connectionUrl, {observe: response});
   }
 }
