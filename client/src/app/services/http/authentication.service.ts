@@ -15,7 +15,7 @@ export class AuthenticationService {
 
   private apiUrl = {
     base: 'https://localhost:8443/api',
-    user: '/user/'
+    user: '/user'
   };
   private httpOptions = {
     headers: new HttpHeaders({})
@@ -25,8 +25,8 @@ export class AuthenticationService {
               private http: HttpClient) {
   }
 
-  login(): Observable<boolean> {
-    const connectionUrl: string = this.apiUrl.base + this.apiUrl.user;
+  login(userId: string): Observable<boolean> {
+    const connectionUrl: string = this.apiUrl.base + this.apiUrl.user + '/' + userId;
 
     return this.http.get<User>(connectionUrl, this.httpOptions)
       .map(user => {

@@ -59,7 +59,7 @@ const appRoutes: Routes = [
     }
   },
   {
-    path: 'profile',
+    path: 'profile/:userId',
     component: LoginPageComponent,
     data: {
       loginSuccessful: true
