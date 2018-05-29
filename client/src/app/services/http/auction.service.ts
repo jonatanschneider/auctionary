@@ -14,7 +14,11 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class AuctionService {
-  private apiUrl = 'api/auctions';
+  private apiUrl = {
+    base: 'https://localhost:8443/api',
+    auctions: '/auctions',
+    new: '/new'
+  };
 
   constructor(
     private http: HttpClient,
@@ -22,7 +26,9 @@ export class AuctionService {
   }
 
   addAuction(auction: Auction): Observable<Auction> {
-    return this.http.post<Auction>(this.apiUrl, auction, httpOptions).pipe(
+    let connectionUrl: string = this.apiUrl.base + this.apiUrl.auctions;
+
+    return this.http.post<Auction>(connectionUrl, auction, httpOptions).pipe(
       catchError(this.handleError<Auction>('addAuction'))
     );
   }
