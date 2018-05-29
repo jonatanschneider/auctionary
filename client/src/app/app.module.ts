@@ -68,7 +68,11 @@ const appRoutes: Routes = [
   {
     path: 'auctions/:id',
     component: AuctionDetailsComponent
-  }
+  },
+  {
+    path: 'auctions/new',
+    component: AuctionCreatePageComponent,
+  },
 ];
 
 @NgModule({
