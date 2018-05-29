@@ -63,9 +63,11 @@ export class Auctions {
                 return;
             }
 
-            auctionsCollection.insertOne(auction).then(() => {
-                // TODO: consider returning the newly created auction here
-                res.status(201).send();
+            auctionsCollection.insertOne(auction).then((insertedAuction) => {
+                const transformedAuction = insertedAuction.ops[0];
+                transformedAuction.id = transformedAuction._id;
+                delete transformedAuction._id;
+                res.status(201).send(insertedAuction.ops[0]);
             }).catch(() => {
                 res.status(500).send();
             });
