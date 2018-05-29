@@ -48,6 +48,16 @@ const appRoutes: Routes = [
   {
     path: '',
     component: LandingPageComponent,
+    data: {
+      doLogout: false
+    }
+  },
+  {
+    path: 'logout',
+    component: LandingPageComponent,
+    data: {
+      doLogout: true
+    }
   },
   {
     path: 'login',
