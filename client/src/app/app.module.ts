@@ -45,7 +45,16 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 const appRoutes: Routes = [
   {
     path: '',
-    component: LandingPageComponent
+    redirectTo: '/profile',
+    pathMatch: 'full'
+    // component: LandingPageComponent
+  },
+  {
+    path: 'profile',
+    component: LoginPageComponent,
+    data: {
+      loginSuccessfull: true
+    }
   }
 ];
 
