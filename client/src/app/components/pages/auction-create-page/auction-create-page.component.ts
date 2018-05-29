@@ -46,9 +46,11 @@ export class AuctionCreatePageComponent {
       description: this.form.get('description').value,
       color: this.form.get('color').value,
       endTime: endTime,
-    } as Auction).subscribe(() => {
-      this.notificationService.show('The auction has been created!');
-      // TODO: navigate
+    } as Auction).subscribe((auction) => {
+      if (auction) {
+        this.notificationService.show('The auction has been created!');
+        // TODO: navigate
+      }
     });
   }
 }
