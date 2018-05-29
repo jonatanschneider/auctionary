@@ -64,7 +64,7 @@ export class Auctions {
             }
 
             auctionsCollection.insertOne(auction).then(() => {
-                // TODO: return newly created user
+                // TODO: consider returning the newly created auction here
                 res.status(201).send();
             }).catch(() => {
                 res.status(500).send();
