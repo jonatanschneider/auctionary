@@ -43,21 +43,16 @@ import { AuctionDetailsComponent } from './components/fragments/auction-details/
 import { LoginPageComponent } from './components/pages/login-page/login-page.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HttpClientModule } from '@angular/common/http';
+import {LogoutPageComponent} from "./components/pages/logout-page/logout-page.component";
 
 const appRoutes: Routes = [
   {
     path: '',
     component: LandingPageComponent,
-    data: {
-      doLogout: false
-    }
   },
   {
     path: 'logout',
-    component: LandingPageComponent,
-    data: {
-      doLogout: true
-    }
+    component: LogoutPageComponent,
   },
   {
     path: 'login',
