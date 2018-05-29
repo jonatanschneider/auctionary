@@ -37,4 +37,11 @@ export class AuthenticationService {
         return of(false);
       });
   }
+
+  getUserId(): string {
+    if(this.user) {
+      return this.user.id;
+    }
+    return undefined;
+  }
 }
