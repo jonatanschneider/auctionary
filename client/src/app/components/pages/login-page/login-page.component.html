@@ -12,7 +12,9 @@
         </p>
       </mat-card-content>
       <mat-card-actions>
-        <button mat-raised-button color="primary" (click)="login(LoginProvider.GOOGLE)">Google+</button>
+        <button mat-raised-button color="primary" (click)="login(LoginProvider.GOOGLE)" *ngIf="!loginSuccessfull">
+          Google+
+        </button>
       </mat-card-actions>
     </mat-card>
   </div>

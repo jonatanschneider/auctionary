@@ -10,6 +10,8 @@ import { NotificationService } from '../../../services/util/notification.service
 export class LoginPageComponent implements OnInit {
   LoginProvider = LoginProvider;
 
+  loginSuccessfull: boolean;
+
   constructor(private notificationService: NotificationService) { }
 
   ngOnInit() {
@@ -25,5 +27,4 @@ export class LoginPageComponent implements OnInit {
         this.notificationService.show('Login method not supported');
     }
   }
-
 }
