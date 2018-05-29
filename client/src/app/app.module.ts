@@ -62,6 +62,10 @@ const appRoutes: Routes = [
     data: {
       loginSuccessful: true
     }
+  },
+  {
+    path: 'auctions/:id',
+    component: AuctionDetailsComponent
   }
 ];
 

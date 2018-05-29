@@ -8,11 +8,19 @@ import { Auction } from '../../../models/Auction';
 })
 export class AuctionDetailsComponent implements OnInit {
   public auction: Auction;
-
+  private auctionID: string;
   constructor() {
   }
 
   ngOnInit() {
+    this.route.params.subscribe((params: any) => {
+      this.auctionID = params['id'];
+      if (id !== null) {
+        this.auction = auctionService.getAuction(auctionID);
+      }
+    });
+
+
   }
 
 }
