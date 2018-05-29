@@ -39,11 +39,28 @@ import {
 import { LandingPageComponent } from './components/pages/landing-page/landing-page.component';
 import { RouterModule, Routes } from '@angular/router';
 import { ToolbarComponent } from './components/fragments/toolbar/toolbar.component';
+import { LoginPageComponent } from './components/pages/login-page/login-page.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { HttpClientModule } from '@angular/common/http';
 
 const appRoutes: Routes = [
   {
     path: '',
-    component: LandingPageComponent
+    component: LandingPageComponent,
+  },
+  {
+    path: 'login',
+    component: LoginPageComponent,
+    data: {
+      loginSuccessful: false
+    }
+  },
+  {
+    path: 'profile',
+    component: LoginPageComponent,
+    data: {
+      loginSuccessful: true
+    }
   }
 ];
 
@@ -51,11 +68,14 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     LandingPageComponent,
-    ToolbarComponent
+    ToolbarComponent,
+    LoginPageComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    FlexLayoutModule,
+    HttpClientModule,
     MatAutocompleteModule,
     MatButtonModule,
     MatButtonToggleModule,
