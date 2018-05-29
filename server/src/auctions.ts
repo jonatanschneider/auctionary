@@ -35,7 +35,7 @@ export class Auctions {
                     res.status(status).send({auction: auction, message: message});
                 })
                 .catch((error: MongoError) => {
-                    message = 'Database error ' + error.code;
+                    message = 'Database error: ' + error;
                     status = 505;
                     res.status(status).send({message: message});
                 });
