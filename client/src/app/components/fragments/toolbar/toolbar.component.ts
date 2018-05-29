@@ -11,8 +11,4 @@ export class ToolbarComponent implements OnInit {
 
   ngOnInit() {
   }
-
-  logout() {
-    document.location.href = '/logout';
-  }
 }
