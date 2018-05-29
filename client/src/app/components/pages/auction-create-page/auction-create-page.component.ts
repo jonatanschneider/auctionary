@@ -13,8 +13,8 @@ export class AuctionCreatePageComponent {
   form = new FormGroup({
     name: new FormControl('', [Validators.required]),
     startingPrice: new FormControl('', [Validators.required]),
-    description: new FormControl('', [Validators.required]),
-    color: new FormControl('', [Validators.required]),
+    description: new FormControl(''),
+    color: new FormControl(''),
     uptime: new FormControl('', [Validators.required]),
   });
 
