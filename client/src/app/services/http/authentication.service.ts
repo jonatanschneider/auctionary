@@ -37,4 +37,8 @@ export class AuthenticationService {
         return of(false);
       });
   }
+
+  logout(): Observable<boolean> {
+    return of(true)
+  }
 }
