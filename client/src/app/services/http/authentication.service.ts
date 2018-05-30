@@ -39,7 +39,8 @@ export class AuthenticationService {
   }
 
   logout(): Observable<boolean> {
-    return of(true)
+    this.user = undefined;
+    return of(true);
   }
 
   getUserId(): string {
