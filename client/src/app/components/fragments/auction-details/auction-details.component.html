@@ -1,17 +1,15 @@
-<mat-card class="details-card">
+<mat-card class="details-card" *ngIf='auction'>
   <mat-card-header>
-    <mat-card-title class="name">Name</mat-card-title>
-    <mat-card-subtitle class="manufacturer">Hersteller</mat-card-subtitle>
-    <mat-card-title class="price">Aktuelles Gebot</mat-card-title>
-    <mat-card-subtitle class="timer">Verbleibende Zeit</mat-card-subtitle>
+    <mat-card-title class="name">{{auction.name}}</mat-card-title>
+    <mat-card-subtitle class="manufacturer">{{auction.manufacturer}}</mat-card-subtitle>
+    <mat-card-title class="price">{{auction.currentBid}}</mat-card-title>
+    <mat-card-subtitle class="timer">{{auction.endTime}}</mat-card-subtitle>
   </mat-card-header>
-  <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="PICTURE">
+  <img mat-card-image src='{{auction.images}}'>
   <mat-card-content>
-    <p>Farbe: <span class="color">Test</span></p>
+    <p>Farbe: <span class="color">{{auction.color}}</span></p>
     <p class="description">
-      Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-      dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
-      Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+      {{auction.description}}
     </p>
   </mat-card-content>
   <mat-card-actions>

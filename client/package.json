@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build --output-path ../server/dist --watch",
+    "start": "ng serve --aot",
+    "build": "ng build --output-path ../server/dist --watch --aot",
     "build-prod": "ng build --output-path ../server/dist --prod --build-optimizer",
     "test": "ng test",
     "lint": "ng lint",

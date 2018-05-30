@@ -39,10 +39,12 @@ import {
 import { LandingPageComponent } from './components/pages/landing-page/landing-page.component';
 import { RouterModule, Routes } from '@angular/router';
 import { ToolbarComponent } from './components/fragments/toolbar/toolbar.component';
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { AuctionCreatePageComponent } from "./components/pages/auction-create-page/auction-create-page.component";
+import { HttpClientModule } from "@angular/common/http";
 import { AuctionDetailsComponent } from './components/fragments/auction-details/auction-details.component';
 import { LoginPageComponent } from './components/pages/login-page/login-page.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { HttpClientModule } from '@angular/common/http';
 import {LogoutPageComponent} from "./components/pages/logout-page/logout-page.component";
 
 const appRoutes: Routes = [
@@ -62,11 +64,19 @@ const appRoutes: Routes = [
     }
   },
   {
-    path: 'profile',
+    path: 'profile/:userId',
     component: LoginPageComponent,
     data: {
       loginSuccessful: true
     }
+  },
+  {
+    path: 'auctions/new',
+    component: AuctionCreatePageComponent
+  },
+  {
+    path: 'auctions/:id',
+    component: AuctionDetailsComponent
   }
 ];
 
@@ -77,12 +87,15 @@ const appRoutes: Routes = [
     ToolbarComponent,
     AuctionDetailsComponent,
     LoginPageComponent,
-    LogoutPageComponent
+    LogoutPageComponent,
+    AuctionCreatePageComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     FlexLayoutModule,
+    FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     MatAutocompleteModule,
     MatButtonModule,

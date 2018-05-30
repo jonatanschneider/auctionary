@@ -14,11 +14,11 @@ export class Users {
                 .then(user => {
                     if (user) {
                         // Map user id
-                        user['id'] = user['_id'];
+                        user.id = user._id;
                         // Strip unwanted information
-                        user['_id'] = undefined;
-                        user['auctions'] = undefined;
-                        user['ownAuctions'] = undefined;
+                        delete user._id;
+                        delete user.auctions;
+                        delete user.ownAuctions;
 
                         res.status(200).send(user);
                     } else {
