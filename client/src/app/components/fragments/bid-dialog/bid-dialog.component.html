@@ -1,0 +1,13 @@
+<mat-dialog-container>
+  <h1 mat-dialog-title="" class="mat-dialog-title">{{auction.name}}</h1>
+  <div class="mat-dialog-content" mat-dialog-content="">
+    <p>Sie bieten auf: {{auction.name}}</p>
+    <mat-form-field>
+      <input matInput [(ngModel)]="bid" placeholder="Geben Sie ihr Gebot ein">
+    </mat-form-field>
+  </div>
+  <mat-dialog-actions>
+    <button mat-button="">Abbrechen</button>
+    <button mat-button="">Ok</button>
+  </mat-dialog-actions>
+</mat-dialog-container>
