@@ -1,11 +1,15 @@
 <mat-toolbar color="primary">
-  <span>Auctionary</span>
-
-  <span class="fill-space"></span>
-
-  <span>Place your bid</span>
-
-  <span class="fill-space"></span>
-
-  <app-log-button></app-log-button>
+  <mat-toolbar-row>
+    <span>Auctionary </span>
+    <button mat-button routerLink="/auctions/new" *ngIf="user">
+      <mat-icon>note_add</mat-icon>
+      New auction
+    </button>
+    <button mat-button routerLink="/auctions">
+      <mat-icon>view_list</mat-icon>
+      Discover Auctions
+    </button>
+    <span class="fill-space"></span>
+    <app-log-button></app-log-button>
+  </mat-toolbar-row>
 </mat-toolbar>
