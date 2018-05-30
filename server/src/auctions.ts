@@ -119,8 +119,23 @@ export class Auctions {
          *
          * Deletes the auction selected by its id in the database
          */
-        router.delete('api/auctions/:id', function (req: Request, res: Response) {
-            res.status(501).send();
-        })
+        router.delete('/api/auctions/:id', function (req: Request, res: Response) {
+            const id: string = req.params.id;
+
+            if (!ObjectID.isValid(id)) {
+                res.status(404).send();
+                return;
+            }
+
+            const query: Object = { _id: new ObjectID(id) };
+            auctionsCollection.deleteOne(query)
+                .then(() => {
+                    res.status(200).send();
+                })
+                .catch((error: MongoError) => {
+                    console.log('[ERR]: Failed to delete auction from database', error);
+                    res.send(505).send();
+                });
+        });
     }
 }
