@@ -6,12 +6,13 @@ import { Observable } from 'rxjs/internal/Observable';
 import { of } from 'rxjs/internal/observable/of';
 import 'rxjs-compat/add/operator/map';
 import 'rxjs-compat/add/operator/catch';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
-  user: User;
+  user: BehaviorSubject<User>;
 
   private apiUrl = {
     base: 'https://localhost:8443/api',
@@ -23,6 +24,7 @@ export class AuthenticationService {
 
   constructor(private notificationService: NotificationService,
               private http: HttpClient) {
+    this.user = new BehaviorSubject<User>(undefined);
   }
 
   login(userId: string): Observable<boolean> {
@@ -30,7 +32,7 @@ export class AuthenticationService {
 
     return this.http.get<User>(connectionUrl, this.httpOptions)
       .map(user => {
-        this.user = user;
+        this.user.next(user);
         return true;
       })
       .catch(() => {
@@ -38,10 +40,20 @@ export class AuthenticationService {
       });
   }
 
+  logout(): Observable<boolean> {
+    this.user.next(undefined);
+    return of(true);
+  }
+
   getUserId(): string {
-    if(this.user) {
-      return this.user.id;
+    const user = this.user.getValue();
+    if (user) {
+      return user.id;
     }
     return undefined;
+  }
+
+  get watchUser(): Observable<User> {
+    return this.user.asObservable();
   }
 }

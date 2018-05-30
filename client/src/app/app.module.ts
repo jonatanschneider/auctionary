@@ -45,11 +45,16 @@ import { HttpClientModule } from "@angular/common/http";
 import { AuctionDetailsComponent } from './components/fragments/auction-details/auction-details.component';
 import { LoginPageComponent } from './components/pages/login-page/login-page.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import {LogButtonComponent} from "./components/fragments/log-button/log-button.component";
 
 const appRoutes: Routes = [
   {
     path: '',
     component: LandingPageComponent,
+  },
+  {
+    path: 'logout',
+    component: LogButtonComponent,
   },
   {
     path: 'login',
@@ -81,8 +86,9 @@ const appRoutes: Routes = [
     LandingPageComponent,
     ToolbarComponent,
     AuctionDetailsComponent,
+    LoginPageComponent,
+    LogButtonComponent,
     AuctionCreatePageComponent,
-    LoginPageComponent
   ],
   imports: [
     BrowserModule,
