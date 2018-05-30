@@ -45,6 +45,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { AuctionDetailsComponent } from './components/fragments/auction-details/auction-details.component';
 import { LoginPageComponent } from './components/pages/login-page/login-page.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { BidDialogComponent } from './components/fragments/bid-dialog/bid-dialog.component';
 
 const appRoutes: Routes = [
   {
@@ -82,7 +83,8 @@ const appRoutes: Routes = [
     ToolbarComponent,
     AuctionDetailsComponent,
     AuctionCreatePageComponent,
-    LoginPageComponent
+    LoginPageComponent,
+    BidDialogComponent
   ],
   imports: [
     BrowserModule,
