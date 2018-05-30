@@ -26,6 +26,7 @@ export class LogButtonComponent implements OnInit {
   logout() {
     let user: User = this.authenticationService.user;
     if(user) {
+      //TODO check if logout can be generified, if yes: remove switch
       let method: LoginProvider = user.login.type;
 
       switch(method) {
