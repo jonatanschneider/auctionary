@@ -104,5 +104,23 @@ export class Auctions {
                     res.status(500).send();
                 });
         });
+
+        /**
+         * PUT /api/auctions/:id
+         *
+         * Updates the auction selected by its id in the database and returns it to client
+         */
+        router.put('/api/auctions/:id', function (req: Request, res: Response) {
+            res.status(501).send();
+        });
+
+        /**
+         * DELETE /api/auctions/:id
+         *
+         * Deletes the auction selected by its id in the database
+         */
+        router.delete('api/auctions/:id', function (req: Request, res: Response) {
+            res.status(501).send();
+        })
     }
 }
