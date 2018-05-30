@@ -32,7 +32,9 @@ export class LogButtonComponent implements OnInit {
         case LoginProvider.GOOGLE:
           this.authenticationService.logout().subscribe(() => {
             this.notificationService.show("Successfully logged out");
-            document.location.href = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=https://localhost:8443/"
+            //document.location.href = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=https://localhost:8443/"
+            this.authenticationService.user = undefined;
+            this.router.navigateByUrl('/')
           });
           break;
 
