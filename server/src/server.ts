@@ -46,6 +46,7 @@ MongoClient.connect('mongodb://localhost:27017', { useNewUrlParser: true })
         usersCollection = appDb.collection('user');
         console.log('Database connection established');
         initRoutes();
+        console.log('Server initialized');
     })
     .catch((err: MongoError) => {
         console.error('Connection to database failed:\n' + err);
