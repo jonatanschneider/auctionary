@@ -33,6 +33,13 @@ export class AuctionService {
     );
   }
 
+  getAuctions(): Observable<Auction[]> {
+    let connectionUrl: string = this.apiUrl.base + this.apiUrl.auctions;
+    return this.http.get<Auction[]>(connectionUrl, httpOptions).pipe(
+      catchError(this.handleError<Auction[]>('getAuctions'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
