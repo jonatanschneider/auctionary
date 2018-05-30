@@ -28,16 +28,26 @@ export class AuctionService {
   addAuction(auction: Auction): Observable<Auction> {
     let connectionUrl: string = this.apiUrl.base + this.apiUrl.auctions;
 
-    return this.http.post<Auction>(connectionUrl, auction, httpOptions).pipe(
-      catchError(this.handleError<Auction>('addAuction'))
-    );
+    return this.http.post<Auction>(connectionUrl, auction, httpOptions)
+      .pipe(
+        catchError(this.handleError<Auction>('addAuction'))
+      );
+  }
+
+  getAuction(id: string): Observable<Auction> {
+    let connectionUrl: string = this.apiUrl.base + this.apiUrl.auctions + '/' + id;
+    return this.http.get<Auction>(connectionUrl, httpOptions)
+      .pipe(
+        catchError(this.handleError<Auction>('getAuction'))
+      );
   }
 
   getAuctions(): Observable<Auction[]> {
     let connectionUrl: string = this.apiUrl.base + this.apiUrl.auctions;
-    return this.http.get<Auction[]>(connectionUrl, httpOptions).pipe(
-      catchError(this.handleError<Auction[]>('getAuctions'))
-    );
+    return this.http.get<Auction[]>(connectionUrl, httpOptions)
+      .pipe(
+        catchError(this.handleError<Auction[]>('getAuctions'))
+      );
   }
 
   /**
