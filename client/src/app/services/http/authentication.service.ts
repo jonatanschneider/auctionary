@@ -24,11 +24,7 @@ export class AuthenticationService {
 
   constructor(private notificationService: NotificationService,
               private http: HttpClient) {
-    if (window.localStorage.getItem('user')) {
-      this.user = new BehaviorSubject<User>(new User());
-    } else {
-      this.user = new BehaviorSubject<User>(undefined);
-    }
+    this.user = new BehaviorSubject<User>(undefined);
   }
 
   login(userId: string): Observable<boolean> {
