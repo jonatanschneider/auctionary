@@ -111,6 +111,36 @@ export class Auctions {
          * Updates the auction selected by its id in the database and returns it to client
          */
         router.put('/api/auctions/:id', function (req: Request, res: Response) {
+            const id: string = req.params.id;
+
+            if (!ObjectID.isValid(id)) {
+                res.status(404).send();
+                return;
+            }
+
+            const query: Object = { _id: new ObjectID(id) };
+            const set: Object = {
+                $set: {
+                    name: req.body.name ? req.body.name.trim() : '',
+                    description: req.body.description ? req.body.description.trim() : '',
+                    color: req.body.color ? req.body.color.trim() : '',
+                    startingPrice: req.body.startingPrice ? req.body.startingPrice as number : -1,
+                    endTime: req.body.endTime ? req.body.endTime as Date : undefined
+                }
+            };
+            auctionsCollection.updateOne(query, set)
+                .then(response => {
+                    if (response.matchedCount === 1) {
+                        res.status(200).send();
+                    } else {
+                        res.status(404).send();
+                    }
+                })
+                .catch((error: MongoError) => {
+                    console.log('[ERR]: Failed to update auction in database', error);
+                    res.status(505).send();
+                });
+
             res.status(501).send();
         });
 
