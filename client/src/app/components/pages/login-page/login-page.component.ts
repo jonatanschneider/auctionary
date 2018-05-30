@@ -12,21 +12,15 @@ import { ActivatedRoute } from '@angular/router';
 export class LoginPageComponent implements OnInit {
   LoginProvider = LoginProvider;
 
-  loginSuccessful: boolean;
-
   constructor(private notificationService: NotificationService,
               private authenticationService: AuthenticationService,
               private route: ActivatedRoute) { }
 
   ngOnInit() {
-    // Pre-load data from route (whether it is called from '/login' or '/profile'
-    this.route.data
-      .subscribe((data: {loginSuccessful: boolean}) => {
-        this.loginSuccessful = data.loginSuccessful;
-      });
+    let userId: string = this.route.snapshot.paramMap.get('userId');
 
-    if (this.loginSuccessful) {
-      this.authenticationService.login().map(loggedIn => {
+    if (userId) {
+      this.authenticationService.login(userId).subscribe(loggedIn => {
         if(loggedIn) {
           this.notificationService.show('Welcome ' /* ToDo: Add + this.authenticationService.getUsername*/);
           // ToDo: Add redirect
