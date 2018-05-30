@@ -74,7 +74,7 @@ export class Auctions {
         });
 
         /**
-         * POST /api/auctins
+         * POST /api/auctions
          *
          * Creates a new auction in the database and returns it to client
          */
