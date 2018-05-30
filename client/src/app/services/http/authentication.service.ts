@@ -36,7 +36,7 @@ export class AuthenticationService {
 
     return this.http.get<User>(connectionUrl, this.httpOptions)
       .map(user => {
-        this.user = new BehaviorSubject<User>(user);
+        this.user.next(user);
         return true;
       })
       .catch(() => {
@@ -45,7 +45,7 @@ export class AuthenticationService {
   }
 
   logout(): Observable<boolean> {
-    this.user = new BehaviorSubject<User>(undefined);
+    this.user.next(undefined);
     return of(true);
   }
 
