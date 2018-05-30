@@ -1,24 +1,56 @@
 import { Express, Request, Response } from 'express';
-import { Collection, MongoError } from 'mongodb';
+import {
+    Collection,
+    Db,
+    DeleteWriteOpResultObject,
+    MongoClient,
+    MongoError,
+    UpdateWriteOpResult,
+} from 'mongodb';
 import { Auction } from './model/Auction';
 import { ObjectID } from 'bson';
 
 export class Auctions {
     static init(router: Express, auctionsCollection: Collection) {
+
+        /**
+         * GET /api/auctions
+         *
+         * Returns all auctions stored in the database
+         */
         router.get('/api/auctions', function (req: Request, res: Response) {
-            // TODO: Implement database actions
-            res.status(200).send({ auctions: [] });
+            auctionsCollection.find({}).toArray()
+                .then((auctions: Auction[]) => {
+                    if (auctions !== null) {
+                        for (let auction of auctions) {
+                            auction['id'] = auction['_id'];
+                            auction['_id'] = undefined;
+                            if (auction['bids']) {
+                                auction['currentBid'] = auction['bids'][auction.bids.length - 1];
+                                auction['bids'] = undefined;
+                            }
+                        }
+                        res.status(200).send(auctions);
+                    } else {
+                        res.status(200).send([]);
+                    }
+                })
+                .catch((error: MongoError) => {
+                    console.log('[ERR]: Failed to fetch auctions from database', error);
+                    res.status(505).send();
+                });
         });
 
+        /**
+         * GET /api/auctions/:id
+         *
+         * Returns the auction requested by its id
+         */
         router.get('/api/auctions/:id', function (req: Request, res: Response) {
-            let status: number;
-            let message = '';
             const id: string = req.params.id;
 
             if (!ObjectID.isValid(id)) {
-                message = 'Invalid ID format';
-                status = 404;
-                res.status(status).send({ message: message });
+                res.status(404).send();
                 return;
             }
 
@@ -28,27 +60,24 @@ export class Auctions {
                     if (auction !== null) {
                         auction['id'] = auction['_id'];
                         auction['_id'] = undefined;
-                        if (auction.hasOwnProperty('bids') && auction.bids.length > 0) {
-                            auction['currentBid'] = auction.bids[auction.bids.length - 1];
-                        } else {
-                            auction['currentBid'] = undefined;
+                        if (auction['bids']) {
+                            auction['currentBid'] = auction['bids'][auction['bids'].length - 1];
                         }
                         auction['bids'] = undefined;
-                        message = 'Successfully retrieved auction ' + id;
-                        status = 200;
-                    } else {
-                        message = 'Id ' + id + ' not found';
-                        status = 404;
                     }
-                    res.status(status).send({ auction: auction, message: message });
+                    res.status(200).send(auction);
                 })
                 .catch((error: MongoError) => {
-                    message = 'Database error: ' + error;
-                    status = 505;
-                    res.status(status).send({ message: message });
+                    console.log('[ERR]: Failed to fetch auction from database', error);
+                    res.status(505).send();
                 });
         });
 
+        /**
+         * POST /api/auctions
+         *
+         * Creates a new auction in the database and returns it to client
+         */
         router.post('/api/auctions', function (req: Request, res: Response) {
             const auction = new Auction();
             auction.sellerId = req.body.seller ? req.body.seller.trim() : '';
@@ -70,8 +99,72 @@ export class Auctions {
                     delete transformedAuction._id;
                     res.status(201).send(insertedAuction.ops[0]);
                 })
-                .catch(() => {
+                .catch((error: MongoError) => {
+                    console.log('[ERR]: Failed to create auction in database', error);
                     res.status(500).send();
+                });
+        });
+
+        /**
+         * PUT /api/auctions/:id
+         *
+         * Updates the auction selected by its id in the database and returns it to client
+         */
+        router.put('/api/auctions/:id', function (req: Request, res: Response) {
+            const id: string = req.params.id;
+
+            if (!ObjectID.isValid(id)) {
+                res.status(404).send();
+                return;
+            }
+
+            const query: Object = { _id: new ObjectID(id) };
+            const set: Object = {
+                $set: {
+                    name: req.body.name ? req.body.name.trim() : '',
+                    description: req.body.description ? req.body.description.trim() : '',
+                    color: req.body.color ? req.body.color.trim() : '',
+                    startingPrice: req.body.startingPrice ? req.body.startingPrice as number : -1,
+                    endTime: req.body.endTime ? req.body.endTime as Date : undefined
+                }
+            };
+            auctionsCollection.updateOne(query, set)
+                .then(response => {
+                    if (response.matchedCount === 1) {
+                        res.status(200).send();
+                    } else {
+                        res.status(404).send();
+                    }
+                })
+                .catch((error: MongoError) => {
+                    console.log('[ERR]: Failed to update auction in database', error);
+                    res.status(505).send();
+                });
+
+            res.status(501).send();
+        });
+
+        /**
+         * DELETE /api/auctions/:id
+         *
+         * Deletes the auction selected by its id in the database
+         */
+        router.delete('/api/auctions/:id', function (req: Request, res: Response) {
+            const id: string = req.params.id;
+
+            if (!ObjectID.isValid(id)) {
+                res.status(404).send();
+                return;
+            }
+
+            const query: Object = { _id: new ObjectID(id) };
+            auctionsCollection.deleteOne(query)
+                .then(() => {
+                    res.status(200).send();
+                })
+                .catch((error: MongoError) => {
+                    console.log('[ERR]: Failed to delete auction from database', error);
+                    res.send(505).send();
                 });
         });
     }
