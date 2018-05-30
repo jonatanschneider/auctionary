@@ -73,6 +73,11 @@ export class Auctions {
                 });
         });
 
+        /**
+         * POST /api/auctins
+         *
+         * Creates a new auction in the database and returns it to client
+         */
         router.post('/api/auctions', function (req: Request, res: Response) {
             const auction = new Auction();
             auction.sellerId = req.body.seller ? req.body.seller.trim() : '';
