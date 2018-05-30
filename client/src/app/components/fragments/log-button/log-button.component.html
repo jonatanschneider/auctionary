@@ -1,0 +1,3 @@
+<div *ngIf="isLoggedIn(); then signout else signin"></div>
+<ng-template #signout><button mat-raised-button color="warn" (click)="logout()">Logout</button></ng-template>
+<ng-template #signin><button mat-raised-button (click)="login()">Login</button></ng-template>
