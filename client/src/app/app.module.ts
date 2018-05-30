@@ -48,6 +48,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import {LogButtonComponent} from "./components/fragments/log-button/log-button.component";
 import { AuctionListPageComponent } from './components/pages/auction-list-page/auction-list-page.component';
 import { AuctionListItemComponent } from './components/fragments/auction-list-item/auction-list-item.component';
+import { AuthenticationGuard } from './guards/authentication.guard';
 
 const appRoutes: Routes = [
   {
@@ -60,17 +61,11 @@ const appRoutes: Routes = [
   },
   {
     path: 'login',
-    component: LoginPageComponent,
-    data: {
-      loginSuccessful: false
-    }
+    component: LoginPageComponent
   },
   {
     path: 'profile/:userId',
-    component: LoginPageComponent,
-    data: {
-      loginSuccessful: true
-    }
+    component: LoginPageComponent
   },
   {
     path: 'auctions',
@@ -78,6 +73,7 @@ const appRoutes: Routes = [
   },
   {
     path: 'auctions/new',
+    canActivate: [AuthenticationGuard],
     component: AuctionCreatePageComponent
   },
   {
@@ -143,7 +139,9 @@ const appRoutes: Routes = [
       }
     )
   ],
-  providers: [],
+  providers: [
+    AuthenticationGuard
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
