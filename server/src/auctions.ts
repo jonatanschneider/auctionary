@@ -1,13 +1,42 @@
 import { Express, Request, Response } from 'express';
-import { Collection, MongoError } from 'mongodb';
+import {
+    Collection,
+    Db,
+    DeleteWriteOpResultObject,
+    MongoClient,
+    MongoError,
+    UpdateWriteOpResult,
+} from 'mongodb';
 import { Auction } from './model/Auction';
 import { ObjectID } from 'bson';
 
 export class Auctions {
     static init(router: Express, auctionsCollection: Collection) {
+
+        /**
+         * GET /api/auctions
+         *
+         * Returns all auctions stored in the database
+         */
         router.get('/api/auctions', function (req: Request, res: Response) {
-            // TODO: Implement database actions
-            res.status(200).send({ auctions: [] });
+            auctionsCollection.find({}).toArray(function (err, auctions) {
+                if (err) {
+                    res.status(500).send();
+                }
+                if (auctions !== null) {
+                    for (let auction of auctions) {
+                        auction['id'] = auction['_id'];
+                        auction['_id'] = undefined;
+                        if (auction['bids']) {
+                            auction['currentBid'] = auction.bids[auction.bids.length - 1];
+                            auction['bids'] = undefined;
+                        }
+                    }
+                    res.status(200).send(auctions);
+                } else {
+                    res.status(200).send([]);
+                }
+            });
         });
 
         router.get('/api/auctions/:id', function (req: Request, res: Response) {
