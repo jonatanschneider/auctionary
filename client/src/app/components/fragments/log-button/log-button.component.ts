@@ -10,6 +10,7 @@ import {User} from '../../../models/User';
   styleUrls: ['./log-button.component.scss']
 })
 export class LogButtonComponent implements OnInit {
+  user: User;
 
   constructor(private authenticationService: AuthenticationService,
               private notificationService: NotificationService,
@@ -17,15 +18,13 @@ export class LogButtonComponent implements OnInit {
   }
 
   ngOnInit() {
-  }
-
-  isLoggedIn(): boolean {
-    return this.authenticationService.user !== undefined;
+    this.authenticationService.watchUser.subscribe(user => {
+      this.user = user;
+    });
   }
 
   logout() {
-    const user: User = this.authenticationService.user;
-    if (user) {
+    if (this.user) {
       this.authenticationService.logout().subscribe(() => {
         this.notificationService.show('Successfully logged out');
         this.router.navigateByUrl('/');
