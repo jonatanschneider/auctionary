@@ -207,8 +207,8 @@ export class Auctions {
                 })
                 .then((auction: Auction) => {
                     auctionsCollection.updateOne(query, auction)
-                        .then(respone => {
-                            if (respone.matchedCount === 1) {
+                        .then(response => {
+                            if (response.matchedCount === 1) {
                                 res.status(200).send();
                             } else {
                                 res.status(404).send();
