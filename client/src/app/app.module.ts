@@ -93,6 +93,7 @@ const appRoutes: Routes = [
     AuctionCreatePageComponent,
     AuctionListPageComponent,
     AuctionListItemComponent,
+    LoginPageComponent,
   ],
   imports: [
     BrowserModule,
