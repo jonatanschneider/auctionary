@@ -179,7 +179,10 @@ export class Auctions {
             const userID = req.body.userid ? req.body.userid : '';
             const newBid = req.body.bid ? req.body.bid as number : -1;
 
-            // TODO check for invalid values
+            if (id === '' || userID === '' || newBid === -1){
+                res.status(400).send();
+                return;
+            }
 
             if (!ObjectID.isValid(id)) {
                 res.status(404).send();
