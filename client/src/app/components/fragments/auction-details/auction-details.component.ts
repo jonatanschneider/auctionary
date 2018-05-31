@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Auction } from '../../../models/Auction';
-import { AuctionService } from '../../../services/auction/auction.service';
 import { ActivatedRoute } from '@angular/router';
+import { AuctionService } from '../../../services/http/auction.service';
 
 @Component({
   selector: 'app-auction-details',
@@ -9,26 +9,24 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./auction-details.component.scss']
 })
 export class AuctionDetailsComponent implements OnInit {
-  public auction: Auction;
-  private auctionID: string;
+  auction: Auction;
 
   constructor(private route: ActivatedRoute, public auctionService: AuctionService) {
   }
 
   ngOnInit() {
     this.route.params.subscribe((params: any) => {
-      this.auctionID = params['id'];
-      if (this.auctionID !== undefined) {
-        this.auctionService.getAuction(this.auctionID)
-          .subscribe(auction => {
-            if (auction) {
-              this.auction = auction;
-            }
-          });
+      if(params['id']) {
+        this.getAuction(params['id']);
       }
     });
+  }
 
-
+  getAuction(auctionId: string): void {
+    this.auctionService.getAuction(auctionId)
+      .subscribe((auction: Auction) => {
+        this.auction = auction;
+      });
   }
 
 }

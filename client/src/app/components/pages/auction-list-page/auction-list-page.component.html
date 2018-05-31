@@ -1,0 +1,6 @@
+<mat-list *ngIf="auctions">
+  <app-auction-list-item *ngFor="let auction of auctions" [auction]="auction"></app-auction-list-item>
+</mat-list>
+<p *ngIf="!auctions">
+  Sorry, there are no auctions yet. Try <a routerLink="/auctions/new">create a new auction</a>.
+</p>

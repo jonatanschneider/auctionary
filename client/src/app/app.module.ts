@@ -46,6 +46,8 @@ import { AuctionDetailsComponent } from './components/fragments/auction-details/
 import { LoginPageComponent } from './components/pages/login-page/login-page.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import {LogButtonComponent} from "./components/fragments/log-button/log-button.component";
+import { AuctionListPageComponent } from './components/pages/auction-list-page/auction-list-page.component';
+import { AuctionListItemComponent } from './components/fragments/auction-list-item/auction-list-item.component';
 
 const appRoutes: Routes = [
   {
@@ -71,6 +73,10 @@ const appRoutes: Routes = [
     }
   },
   {
+    path: 'auctions',
+    component: AuctionListPageComponent
+  },
+  {
     path: 'auctions/new',
     component: AuctionCreatePageComponent
   },
@@ -89,6 +95,8 @@ const appRoutes: Routes = [
     LoginPageComponent,
     LogButtonComponent,
     AuctionCreatePageComponent,
+    AuctionListPageComponent,
+    AuctionListItemComponent,
   ],
   imports: [
     BrowserModule,
