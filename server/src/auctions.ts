@@ -9,6 +9,7 @@ import {
 } from 'mongodb';
 import { Auction } from './model/Auction';
 import { ObjectID } from 'bson';
+import {Bid} from "./model/Bid";
 
 export class Auctions {
     static init(router: Express, auctionsCollection: Collection) {
@@ -166,6 +167,55 @@ export class Auctions {
                     console.log('[ERR]: Failed to delete auction from database', error);
                     res.send(505).send();
                 });
+        });
+
+        /**
+         * POST /api/auctions/bid
+         *
+         * Creates a new bid for an auction
+         */
+        router.post('/api/auctions/bid', function(req: Request, res: Response) {
+            const id = req.body.id ? req.body.id.trim() : '';
+            const userID = req.body.userid ? req.body.userid : '';
+            const newBid = req.body.bid ? req.body.bid as number : -1;
+
+            // TODO check for invalid values
+
+            if (!ObjectID.isValid(id)) {
+                res.status(404).send();
+                return;
+            }
+
+            const query: Object = {_id: new ObjectID(id)};
+            auctionsCollection.findOne(query)
+                .then((auction: Auction) => {
+                    if (newBid > auction.bids[auction.bids.length - 1].price) {
+                        const bid = new Bid();
+                        bid.userId = userID;
+                        bid.price = newBid;
+                        bid.time = new Date();
+                        auction.bids.push(bid);
+                        return auction;
+                    }
+                })
+                .catch((error: MongoError) => {
+                    console.log('[ERR]: Failed to fetch auction from database', error);
+                    res.status(505).send();
+                })
+                .then((auction: Auction) => {
+                    auctionsCollection.updateOne(query, auction)
+                        .then(respone => {
+                            if (respone.matchedCount === 1) {
+                                res.status(200).send();
+                            } else {
+                                res.status(404).send();
+                            }
+                        });
+                })
+                .catch((error: MongoError) => {
+                    console.log('[ERR]: Failed to update auction in database', error);
+                    res.status(505).send();
+                })
         });
     }
 }
