@@ -12,7 +12,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
   providedIn: 'root'
 })
 export class AuthenticationService {
-  user: BehaviorSubject<User>;
+  private user: BehaviorSubject<User>;
 
   private apiUrl = {
     base: 'https://localhost:8443/api',
@@ -43,6 +43,10 @@ export class AuthenticationService {
   logout(): Observable<boolean> {
     this.user.next(undefined);
     return of(true);
+  }
+
+  getUser(): User {
+    return this.user.getValue();
   }
 
   getUserId(): string {

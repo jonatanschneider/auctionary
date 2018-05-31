@@ -28,8 +28,6 @@ export class LoginPageComponent implements OnInit {
           this.notificationService.show('Login failed, please try again');
         }
       });
-    } else {
-      this.notificationService.show('Please log in first');
     }
   }
 
