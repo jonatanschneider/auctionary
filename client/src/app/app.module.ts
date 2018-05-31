@@ -49,6 +49,7 @@ import {LogButtonComponent} from "./components/fragments/log-button/log-button.c
 import { AuctionListPageComponent } from './components/pages/auction-list-page/auction-list-page.component';
 import { AuctionListItemComponent } from './components/fragments/auction-list-item/auction-list-item.component';
 import { AuthenticationGuard } from './guards/authentication.guard';
+import { BidDialogComponent } from './components/fragments/bid-dialog/bid-dialog.component';
 
 const appRoutes: Routes = [
   {
@@ -94,6 +95,7 @@ const appRoutes: Routes = [
     AuctionListPageComponent,
     AuctionListItemComponent,
     LoginPageComponent,
+    BidDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -140,6 +142,7 @@ const appRoutes: Routes = [
       }
     )
   ],
+  entryComponents: [AuctionDetailsComponent, BidDialogComponent],
   providers: [
     AuthenticationGuard
   ],

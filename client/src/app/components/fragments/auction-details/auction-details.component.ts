@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Auction } from '../../../models/Auction';
 import { ActivatedRoute } from '@angular/router';
 import { AuctionService } from '../../../services/http/auction.service';
+import {MatDialog} from '@angular/material';
+import {BidDialogComponent} from '../bid-dialog/bid-dialog.component';
 
 @Component({
   selector: 'app-auction-details',
@@ -10,15 +12,30 @@ import { AuctionService } from '../../../services/http/auction.service';
 })
 export class AuctionDetailsComponent implements OnInit {
   auction: Auction;
-
-  constructor(private route: ActivatedRoute, public auctionService: AuctionService) {
+  newBid: string;
+  constructor(private route: ActivatedRoute, public auctionService: AuctionService,
+              public dialog: MatDialog) {
   }
 
   ngOnInit() {
     this.route.params.subscribe((params: any) => {
-      if(params['id']) {
+      if (params['id']) {
         this.getAuction(params['id']);
       }
+    });
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(BidDialogComponent, {
+      width: '250px',
+      data: { auction: this.auction }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      this.newBid = result;
+      console.log(this.newBid);
+      // TODO: bid handling
     });
   }
 
