@@ -17,14 +17,13 @@ export class AuthenticationGuard implements CanActivate {
 
   canActivate(next: ActivatedRouteSnapshot,
               state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    // Get active user
-    const user: User = this.authenticationService.getUser();
-    if (user) {
+    if (this.authenticationService.isLoggedIn()) {
       return true;
+    } else {
+      // If user is not logged in
+      this.notificationService.show('You are not authorized to view this page.');
+      this.router.navigate(['/login']);
+      return false;
     }
-    // If user is not set
-    this.notificationService.show('You are not authorized to view this page.');
-    this.router.navigate(['/login']);
-    return false;
   }
 }

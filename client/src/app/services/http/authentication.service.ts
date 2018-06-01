@@ -28,7 +28,7 @@ export class AuthenticationService {
   constructor(private dataStoreService: DataStoreService,
               private http: HttpClient) {
     this.user = new BehaviorSubject<User>(undefined);
-    if(this.dataStoreService.has(AUTH_HEADER_KEY)){
+    if (this.dataStoreService.has(AUTH_HEADER_KEY)) {
       this.login(this.dataStoreService.get(AUTH_HEADER_KEY));
     }
   }
@@ -39,12 +39,12 @@ export class AuthenticationService {
     return this.http.get<User>(connectionUrl, this.httpOptions)
       .map(user => {
         this.user.next(user);
-        this.dataStoreService.set(AUTH_HEADER_KEY, user.id);
+        this.dataStoreService.set(AUTH_HEADER_KEY, JSON.stringify(user));
         return true;
       })
       .catch((err) => {
         console.log(err);
-        if(this.dataStoreService.has(AUTH_HEADER_KEY)){
+        if (this.dataStoreService.has(AUTH_HEADER_KEY)) {
           this.dataStoreService.remove(AUTH_HEADER_KEY);
         }
         return of(false);
@@ -53,7 +53,7 @@ export class AuthenticationService {
 
   logout(): Observable<boolean> {
     this.user.next(undefined);
-    if(this.dataStoreService.has(AUTH_HEADER_KEY)){
+    if (this.dataStoreService.has(AUTH_HEADER_KEY)) {
       this.dataStoreService.remove(AUTH_HEADER_KEY);
     }
     return of(true);
@@ -75,7 +75,12 @@ export class AuthenticationService {
     return this.user.asObservable();
   }
 
-  isLoggedIn(): boolean{
+  isLoggedIn(): boolean {
+    if(this.dataStoreService.has(AUTH_HEADER_KEY)) {
+      if(!this.user.getValue()) {
+        this.user.next(JSON.parse(this.dataStoreService.get(AUTH_HEADER_KEY)));
+      }
+    }
     return this.dataStoreService.has(AUTH_HEADER_KEY);
   }
 }
