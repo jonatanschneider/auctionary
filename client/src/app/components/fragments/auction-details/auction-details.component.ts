@@ -14,7 +14,6 @@ import { Location } from '@angular/common';
 })
 export class AuctionDetailsComponent implements OnInit {
   auction: Auction;
-  bidDialog = false;
 
   constructor(private route: ActivatedRoute,
               private auctionService: AuctionService,
