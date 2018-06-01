@@ -206,7 +206,7 @@ export class Auctions {
                 })
                 // Update auction
                 .then((bids: Bid) => {
-                    if (bids !== null) {
+                    if (bids) {
                         auctionsCollection.updateOne(query, {$push: { bids }})
                             .then(response => {
                                 if (response.matchedCount === 1) {
