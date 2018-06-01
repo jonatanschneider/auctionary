@@ -75,7 +75,7 @@ export class AuthenticationService {
     return this.user.asObservable();
   }
 
-  isLoggedIn(): boolean {
-    return !this.user.getValue() === undefined;
+  isLoggedIn(): boolean{
+    return this.dataStoreService.has(AUTH_HEADER_KEY);
   }
 }
