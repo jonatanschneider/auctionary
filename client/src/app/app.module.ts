@@ -41,7 +41,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ToolbarComponent } from './components/fragments/toolbar/toolbar.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuctionCreatePageComponent } from './components/pages/auction-create-page/auction-create-page.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuctionDetailsComponent } from './components/fragments/auction-details/auction-details.component';
 import { LoginPageComponent } from './components/pages/login-page/login-page.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -50,6 +50,8 @@ import { AuctionListPageComponent } from './components/pages/auction-list-page/a
 import { AuctionListItemComponent } from './components/fragments/auction-list-item/auction-list-item.component';
 import { AuthenticationGuard } from './guards/authentication.guard';
 import { BidDialogComponent } from './components/dialogs/bid-dialog/bid-dialog.component';
+import { AuthenticationInterceptor } from './interceptors/authentication.interceptor';
+import { DataStoreService } from './services/util/data-store.service';
 
 const appRoutes: Routes = [
   {
@@ -153,7 +155,14 @@ const appRoutes: Routes = [
     BidDialogComponent
   ],
   providers: [
-    AuthenticationGuard
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthenticationInterceptor,
+      multi: true
+    },
+    AuthenticationGuard,
+    AuthenticationInterceptor,
+    DataStoreService
   ],
   bootstrap: [
     AppComponent

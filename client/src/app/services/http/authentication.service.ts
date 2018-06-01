@@ -7,6 +7,9 @@ import { of } from 'rxjs/internal/observable/of';
 import 'rxjs-compat/add/operator/map';
 import 'rxjs-compat/add/operator/catch';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { DataStoreService } from '../util/data-store.service';
+
+const AUTH_HEADER_KEY = 'Auctionary-User-Id';
 
 @Injectable({
   providedIn: 'root'
@@ -22,9 +25,12 @@ export class AuthenticationService {
     headers: new HttpHeaders({})
   };
 
-  constructor(private notificationService: NotificationService,
+  constructor(private dataStoreService: DataStoreService,
               private http: HttpClient) {
     this.user = new BehaviorSubject<User>(undefined);
+    if(this.dataStoreService.has(AUTH_HEADER_KEY)){
+      this.login(this.dataStoreService.get(AUTH_HEADER_KEY));
+    }
   }
 
   login(userId: string): Observable<boolean> {
@@ -33,15 +39,23 @@ export class AuthenticationService {
     return this.http.get<User>(connectionUrl, this.httpOptions)
       .map(user => {
         this.user.next(user);
+        this.dataStoreService.set(AUTH_HEADER_KEY, user.id);
         return true;
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err);
+        if(this.dataStoreService.has(AUTH_HEADER_KEY)){
+          this.dataStoreService.remove(AUTH_HEADER_KEY);
+        }
         return of(false);
       });
   }
 
   logout(): Observable<boolean> {
     this.user.next(undefined);
+    if(this.dataStoreService.has(AUTH_HEADER_KEY)){
+      this.dataStoreService.remove(AUTH_HEADER_KEY);
+    }
     return of(true);
   }
 
@@ -59,5 +73,9 @@ export class AuthenticationService {
 
   get watchUser(): Observable<User> {
     return this.user.asObservable();
+  }
+
+  isLoggedIn(): boolean{
+    return this.dataStoreService.has(AUTH_HEADER_KEY);
   }
 }

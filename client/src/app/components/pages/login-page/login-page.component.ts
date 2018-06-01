@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LoginProvider } from '../../../models/LoginProvider';
 import { NotificationService } from '../../../services/util/notification.service';
 import { AuthenticationService } from '../../../services/http/authentication.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-page',
@@ -14,20 +14,23 @@ export class LoginPageComponent implements OnInit {
 
   constructor(private notificationService: NotificationService,
               private authenticationService: AuthenticationService,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private router: Router) {
+  }
 
   ngOnInit() {
     let userId: string = this.route.snapshot.paramMap.get('userId');
 
     if (userId) {
-      this.authenticationService.login(userId).subscribe(loggedIn => {
-        if(loggedIn) {
-          this.notificationService.show('Welcome ' /* ToDo: Add + this.authenticationService.getUsername*/);
-          // ToDo: Add redirect
-        } else {
-          this.notificationService.show('Login failed, please try again');
-        }
-      });
+      this.authenticationService.login(userId)
+        .subscribe(loggedIn => {
+          if (loggedIn) {
+            this.notificationService.show('Welcome ' + this.authenticationService.getUser().name);
+            this.router.navigate(['dashboard']);
+          } else {
+            this.notificationService.show('Login failed, please try again');
+          }
+        });
     }
   }
 
