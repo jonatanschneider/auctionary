@@ -187,13 +187,19 @@ export class Auctions {
             const query: Object = {_id: new ObjectID(id)};
             auctionsCollection.findOne(query)
                 .then((auction: Auction) => {
-                    if (!auction.bids ||
-                        auction.bids.length === 0 ||
-                        newBid > (auction.bids[auction.bids.length - 1].price as number)) {
-                        const bid = new Bid();
-                        bid.userId = userID;
-                        bid.price = newBid;
-                        bid.time = new Date();
+                    const bid = new Bid();
+                    bid.userId = userID;
+                    bid.price = newBid;
+                    bid.time = new Date();
+                    if (!auction.bids || auction.bids.length === 0) {
+                        if (newBid > auction.startingPrice) {
+                            return bid;
+                        } else {
+                            console.log('[ERR]: Bid is below starting price');
+                            res.status(400).send();
+                            return null;
+                        }
+                    } else if (newBid > (auction.bids[auction.bids.length - 1].price as number)) {
                         return bid;
                     } else {
                         console.log('[ERR]: Bid is too low');
