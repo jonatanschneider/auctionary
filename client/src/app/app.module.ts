@@ -39,17 +39,17 @@ import {
 import { LandingPageComponent } from './components/pages/landing-page/landing-page.component';
 import { RouterModule, Routes } from '@angular/router';
 import { ToolbarComponent } from './components/fragments/toolbar/toolbar.component';
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { AuctionCreatePageComponent } from "./components/pages/auction-create-page/auction-create-page.component";
-import { HttpClientModule } from "@angular/common/http";
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AuctionCreatePageComponent } from './components/pages/auction-create-page/auction-create-page.component';
+import { HttpClientModule } from '@angular/common/http';
 import { AuctionDetailsComponent } from './components/fragments/auction-details/auction-details.component';
 import { LoginPageComponent } from './components/pages/login-page/login-page.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import {LogButtonComponent} from "./components/fragments/log-button/log-button.component";
+import { LogButtonComponent } from './components/fragments/log-button/log-button.component';
 import { AuctionListPageComponent } from './components/pages/auction-list-page/auction-list-page.component';
 import { AuctionListItemComponent } from './components/fragments/auction-list-item/auction-list-item.component';
 import { AuthenticationGuard } from './guards/authentication.guard';
-import { BidDialogComponent } from './components/fragments/bid-dialog/bid-dialog.component';
+import { BidDialogComponent } from './components/dialogs/bid-dialog/bid-dialog.component';
 
 const appRoutes: Routes = [
   {
@@ -95,7 +95,7 @@ const appRoutes: Routes = [
     AuctionListPageComponent,
     AuctionListItemComponent,
     LoginPageComponent,
-    BidDialogComponent,
+    BidDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -142,11 +142,16 @@ const appRoutes: Routes = [
       }
     )
   ],
-  entryComponents: [AuctionDetailsComponent, BidDialogComponent],
+  entryComponents: [
+    AuctionDetailsComponent,
+    BidDialogComponent
+  ],
   providers: [
     AuthenticationGuard
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [
+    AppComponent
+  ]
 })
 export class AppModule {
 }
