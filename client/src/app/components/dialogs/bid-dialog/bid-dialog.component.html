@@ -1,0 +1,13 @@
+<h1 mat-dialog-title>{{data.auction.name}}</h1>
+<div mat-dialog-content>
+  <p *ngIf="data.auction.currentBid">Aktulles Gebot: {{data.auction.currentBid.price}} €</p>
+  <p *ngIf="!data.auction.currentBid">Aktulles Gebot: {{data.auction.startingPrice}} €</p>
+  <p>Wie hoch ist Ihr Gebot?</p>
+  <mat-form-field>
+    <input matInput [(ngModel)]="data.newBid">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Abbrechen</button>
+  <button mat-button [mat-dialog-close]="data.newBid">BIETEN</button>
+</div>
