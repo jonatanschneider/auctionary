@@ -52,6 +52,7 @@ import { AuthenticationGuard } from './guards/authentication.guard';
 import { BidDialogComponent } from './components/dialogs/bid-dialog/bid-dialog.component';
 import { AuthenticationInterceptor } from './interceptors/authentication.interceptor';
 import { DataStoreService } from './services/util/data-store.service';
+import { DashboardPageComponent } from './components/pages/dashboard-page/dashboard-page.component';
 
 const appRoutes: Routes = [
   {
@@ -88,6 +89,10 @@ const appRoutes: Routes = [
     canActivate: [AuthenticationGuard],
     component: AuctionDetailsComponent,
     data: {dialog: true}
+  },
+  {
+    path: 'dashboard',
+    component: DashboardPageComponent
   }
 ];
 
@@ -103,7 +108,8 @@ const appRoutes: Routes = [
     AuctionListPageComponent,
     AuctionListItemComponent,
     LoginPageComponent,
-    BidDialogComponent
+    BidDialogComponent,
+    DashboardPageComponent
   ],
   imports: [
     BrowserModule,

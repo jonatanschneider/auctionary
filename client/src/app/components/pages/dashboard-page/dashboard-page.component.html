@@ -1,0 +1,7 @@
+<mat-list>
+  <h3 mat-subheader>My auctions</h3>
+  <app-auction-list-item *ngFor="let myAuction of myAuctions" [auction]="myAuction"></app-auction-list-item>
+  <mat-divider></mat-divider>
+  <h3 mat-subheader>My bids</h3>
+  <app-auction-list-item *ngFor="let bidAuction of bidAuctions" [auction]="bidAuction"></app-auction-list-item>
+</mat-list>
