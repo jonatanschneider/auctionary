@@ -1,5 +1,5 @@
-import {Component, Inject} from '@angular/core';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { Component, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: 'app-bid-dialog',
@@ -8,9 +8,9 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 })
 export class BidDialogComponent {
 
-  constructor(
-    public dialogRef: MatDialogRef<BidDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) { }
+  constructor(public dialogRef: MatDialogRef<BidDialogComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: any) {
+  }
 
   onNoClick(): void {
     this.dialogRef.close();
