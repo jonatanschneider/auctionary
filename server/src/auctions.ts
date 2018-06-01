@@ -177,12 +177,12 @@ export class Auctions {
         router.post('/api/auctions/:auctionId/bid', function(req: Request, res: Response) {
             const id = req.params.auctionId;
             const userID = req.body.userid ? req.body.userid : '';
-            const newBid = req.body.bid ? req.body.bid as number : -1;
+            const newBid = req.body.bid ? Number(req.body.bid) : -1;
 
             if (userID === '' || newBid === -1 || !ObjectID.isValid(id)) {
                 res.status(400).send();
                 return;
-            }
+            } 
             // Find auction in database
             const query: Object = {_id: new ObjectID(id)};
             auctionsCollection.findOne(query)
@@ -192,14 +192,14 @@ export class Auctions {
                     bid.price = newBid;
                     bid.time = new Date();
                     if (!auction.bids || auction.bids.length === 0) {
-                        if (newBid > auction.startingPrice) {
+                        if (newBid > Number(auction.startingPrice)) {
                             return bid;
                         } else {
                             console.log('[ERR]: Bid is below starting price!');
                             res.status(400).send();
                             return null;
                         }
-                    } else if (newBid > (auction.bids[auction.bids.length - 1].price as number)) {
+                    } else if (newBid > Number(auction.bids[auction.bids.length - 1].price)) {
                         return bid;
                     } else {
                         console.log('[ERR]: Bid is too low');
