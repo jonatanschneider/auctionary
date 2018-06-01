@@ -95,6 +95,10 @@ export class Users {
                     };
                     auctionsCollection.find(query).toArray()
                         .then((ownAuctions: Auction[]) => {
+                            for(let auction of ownAuctions) {
+                                auction['id'] = auction['_id'];
+                                auction['_id'] = undefined;
+                            }
                             res.status(200).send(ownAuctions);
                         });
                 })
@@ -130,8 +134,12 @@ export class Users {
                         }
                     };
                     auctionsCollection.find(query).toArray()
-                        .then((ownAuctions: Auction[]) => {
-                            res.status(200).send(ownAuctions);
+                        .then((bidAuctions: Auction[]) => {
+                            for(let auction of bidAuctions) {
+                                auction['id'] = auction['_id'];
+                                auction['_id'] = undefined;
+                            }
+                            res.status(200).send(bidAuctions);
                         });
                 })
                 .catch((error: MongoError) => {
