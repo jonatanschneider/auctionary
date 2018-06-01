@@ -80,6 +80,11 @@ const appRoutes: Routes = [
   {
     path: 'auctions/:id',
     component: AuctionDetailsComponent
+  },
+  {
+    path: 'auctions/:id/bid',
+    component: AuctionDetailsComponent,
+    data: {dialog: true}
   }
 ];
 

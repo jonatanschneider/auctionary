@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Auction } from '../../../models/Auction';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, UrlSegment} from '@angular/router';
 import { AuctionService } from '../../../services/http/auction.service';
 import { MatDialog } from '@angular/material';
 import { BidDialogComponent } from '../../dialogs/bid-dialog/bid-dialog.component';
@@ -14,6 +14,7 @@ import { Location } from '@angular/common';
 })
 export class AuctionDetailsComponent implements OnInit {
   auction: Auction;
+  bidDialog = false;
 
   constructor(private route: ActivatedRoute,
               private auctionService: AuctionService,
@@ -26,6 +27,14 @@ export class AuctionDetailsComponent implements OnInit {
     this.route.params.subscribe((params: any) => {
       if (params['id']) {
         this.getAuction(params['id']);
+      }
+    });
+  }
+
+  checkForOpenDialog(): void {
+    this.route.data.subscribe((data: any) => {
+      if (data.dialog === true && this.auction) {
+        this.openDialog();
       }
     });
   }
@@ -52,6 +61,7 @@ export class AuctionDetailsComponent implements OnInit {
     this.auctionService.getAuction(auctionId)
       .subscribe((auction: Auction) => {
         this.auction = auction;
+        this.checkForOpenDialog();
       });
   }
 
