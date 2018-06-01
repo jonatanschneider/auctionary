@@ -182,7 +182,7 @@ export class Auctions {
             if (userID === '' || newBid === -1 || !ObjectID.isValid(id)) {
                 res.status(400).send();
                 return;
-            }
+            } 
             // Find auction in database
             const query: Object = {_id: new ObjectID(id)};
             auctionsCollection.findOne(query)
