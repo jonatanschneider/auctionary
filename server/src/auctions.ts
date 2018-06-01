@@ -9,6 +9,7 @@ import {
 } from 'mongodb';
 import { Auction } from './model/Auction';
 import { ObjectID } from 'bson';
+import { Bid } from './model/Bid';
 
 export class Auctions {
     static init(router: Express, auctionsCollection: Collection) {
@@ -165,6 +166,68 @@ export class Auctions {
                 .catch((error: MongoError) => {
                     console.log('[ERR]: Failed to delete auction from database', error);
                     res.send(505).send();
+                });
+        });
+
+        /**
+         * POST /api/auctions/:auctionId/bid
+         *
+         * Creates a new bid for an auction
+         */
+        router.post('/api/auctions/:auctionId/bid', function(req: Request, res: Response) {
+            const id = req.params.auctionId;
+            const userID = req.body.userid ? req.body.userid : '';
+            const newBid = req.body.bid ? req.body.bid as number : -1;
+
+            if (userID === '' || newBid === -1 || !ObjectID.isValid(id)) {
+                res.status(400).send();
+                return;
+            }
+            // Find auction in database
+            const query: Object = {_id: new ObjectID(id)};
+            auctionsCollection.findOne(query)
+                .then((auction: Auction) => {
+                    const bid = new Bid();
+                    bid.userId = userID;
+                    bid.price = newBid;
+                    bid.time = new Date();
+                    if (!auction.bids || auction.bids.length === 0) {
+                        if (newBid > auction.startingPrice) {
+                            return bid;
+                        } else {
+                            console.log('[ERR]: Bid is below starting price!');
+                            res.status(400).send();
+                            return null;
+                        }
+                    } else if (newBid > (auction.bids[auction.bids.length - 1].price as number)) {
+                        return bid;
+                    } else {
+                        console.log('[ERR]: Bid is too low');
+                        res.status(400).send();
+                        return null;
+                    }
+                })
+                .catch((error: MongoError) => {
+                    console.log('[ERR]: Failed to fetch auction from database', error);
+                    res.status(505).send();
+                    return;
+                })
+                // Update auction
+                .then((bids: Bid) => {
+                    if (bids) {
+                        auctionsCollection.updateOne(query, {$push: { bids }})
+                            .then(response => {
+                                if (response.matchedCount === 1) {
+                                    res.status(200).send();
+                                } else {
+                                    res.status(404).send();
+                                }
+                            });
+                    }
+                })
+                .catch((error: MongoError) => {
+                    console.log('[ERR]: Failed to update auction in database', error);
+                    res.status(505).send();
                 });
         });
     }
