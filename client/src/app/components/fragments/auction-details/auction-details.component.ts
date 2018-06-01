@@ -5,7 +5,7 @@ import { AuctionService } from '../../../services/http/auction.service';
 import { MatDialog } from '@angular/material';
 import { BidDialogComponent } from '../../dialogs/bid-dialog/bid-dialog.component';
 import { AuthenticationService } from '../../../services/http/authentication.service';
-import { Bid } from '../../../models/Bid';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-auction-details',
@@ -18,7 +18,8 @@ export class AuctionDetailsComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private auctionService: AuctionService,
               private authenticationService: AuthenticationService,
-              private dialog: MatDialog) {
+              private dialog: MatDialog,
+              private location: Location) {
   }
 
   ngOnInit() {
@@ -30,13 +31,14 @@ export class AuctionDetailsComponent implements OnInit {
   }
 
   openDialog(): void {
+    this.location.go('auctions/' + this.auction.id + '/bid');
     const dialogRef = this.dialog.open(BidDialogComponent, {
       width: '250px',
       data: { auction: this.auction }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      // TODO: get user ID from auth
+      this.location.go('/auctions/' + this.auction.id);
       if (result !== undefined) {
         this.auctionService.createBid(this.auction.id, this.authenticationService.getUserId(), result)
           .subscribe(() => {
