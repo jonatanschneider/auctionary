@@ -183,7 +183,6 @@ export class Auctions {
                 res.status(400).send();
                 return;
             }
-
             // Find auction in database
             const query: Object = {_id: new ObjectID(id)};
             auctionsCollection.findOne(query)
