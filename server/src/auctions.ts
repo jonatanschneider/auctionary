@@ -187,7 +187,9 @@ export class Auctions {
             const query: Object = {_id: new ObjectID(id)};
             auctionsCollection.findOne(query)
                 .then((auction: Auction) => {
-                    if (newBid > (auction.bids[auction.bids.length - 1].price as number)) {
+                    if (!auction.bids ||
+                        auction.bids.length === 0 ||
+                        newBid > (auction.bids[auction.bids.length - 1].price as number)) {
                         const bid = new Bid();
                         bid.userId = userID;
                         bid.price = newBid;
