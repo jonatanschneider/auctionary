@@ -80,6 +80,12 @@ const appRoutes: Routes = [
   {
     path: 'auctions/:id',
     component: AuctionDetailsComponent
+  },
+  {
+    path: 'auctions/:id/bid',
+    canActivate: [AuthenticationGuard],
+    component: AuctionDetailsComponent,
+    data: {dialog: true}
   }
 ];
 

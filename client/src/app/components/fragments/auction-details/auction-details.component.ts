@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Auction } from '../../../models/Auction';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, UrlSegment} from '@angular/router';
 import { AuctionService } from '../../../services/http/auction.service';
 import { MatDialog } from '@angular/material';
 import { BidDialogComponent } from '../../dialogs/bid-dialog/bid-dialog.component';
 import { AuthenticationService } from '../../../services/http/authentication.service';
-import { Bid } from '../../../models/Bid';
+import { Location } from '@angular/common';
+import {User} from "../../../models/User";
 
 @Component({
   selector: 'app-auction-details',
@@ -14,12 +15,13 @@ import { Bid } from '../../../models/Bid';
 })
 export class AuctionDetailsComponent implements OnInit {
   auction: Auction;
-  newBid: Bid = new Bid();
+  user: User;
 
   constructor(private route: ActivatedRoute,
               private auctionService: AuctionService,
               private authenticationService: AuthenticationService,
-              private dialog: MatDialog) {
+              private dialog: MatDialog,
+              private location: Location) {
   }
 
   ngOnInit() {
@@ -28,21 +30,35 @@ export class AuctionDetailsComponent implements OnInit {
         this.getAuction(params['id']);
       }
     });
+
+    this.authenticationService.watchUser.subscribe((user: User) => {
+      this.user = user;
+    });
+  }
+
+  checkForOpenDialog(): void {
+    this.route.data.subscribe((data: any) => {
+      if (data.dialog === true && this.auction) {
+        this.openDialog();
+      }
+    });
   }
 
   openDialog(): void {
+    this.location.go('auctions/' + this.auction.id + '/bid');
     const dialogRef = this.dialog.open(BidDialogComponent, {
       width: '250px',
       data: { auction: this.auction }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      this.newBid.price = result;
-      this.newBid.userId = this.authenticationService.getUserId();
-      this.newBid.time = new Date();
-      console.log(this.newBid);
-      // TODO: bid handling
+      this.location.go('/auctions/' + this.auction.id);
+      if (result !== undefined) {
+        this.auctionService.createBid(this.auction.id, this.authenticationService.getUserId(), result)
+          .subscribe(() => {
+            this.getAuction(this.auction.id);
+          });
+      }
     });
   }
 
@@ -50,6 +66,7 @@ export class AuctionDetailsComponent implements OnInit {
     this.auctionService.getAuction(auctionId)
       .subscribe((auction: Auction) => {
         this.auction = auction;
+        this.checkForOpenDialog();
       });
   }
 
