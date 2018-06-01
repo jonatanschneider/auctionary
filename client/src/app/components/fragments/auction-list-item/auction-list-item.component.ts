@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Auction } from '../../../models/Auction';
+import { AuthenticationService } from '../../../services/http/authentication.service';
+import { User } from '../../../models/User';
 
 @Component({
   selector: 'app-auction-list-item',
@@ -8,12 +10,14 @@ import { Auction } from '../../../models/Auction';
 })
 export class AuctionListItemComponent implements OnInit {
 
+  user: User;
   @Input()
   auction: Auction;
 
-  constructor() { }
+  constructor(private authenticationService: AuthenticationService) { }
 
   ngOnInit() {
+    this.user = this.authenticationService.getUser()
   }
 
 }
