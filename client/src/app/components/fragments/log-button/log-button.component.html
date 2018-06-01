@@ -1,3 +1,9 @@
 <div *ngIf="user; then signout else signin"></div>
-<ng-template #signout><button mat-raised-button color="warn" (click)="logout()">Logout</button></ng-template>
-<ng-template #signin><button mat-raised-button routerLink="/login">Login</button></ng-template>
+<ng-template #signout fxFlex fxLayout="row" fxLayoutGap="5px">
+  <span class="mat-subheading-1">Place your bid or </span>
+  <button mat-raised-button color="warn" (click)="logout()">Logout</button>
+</ng-template>
+<ng-template #signin>
+  <button mat-raised-button routerLink="/login">Login</button>
+  <span class="mat-subheading-1"> and place your bid</span>
+</ng-template>
