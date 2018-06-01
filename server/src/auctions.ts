@@ -9,7 +9,7 @@ import {
 } from 'mongodb';
 import { Auction } from './model/Auction';
 import { ObjectID } from 'bson';
-import {Bid} from "./model/Bid";
+import { Bid } from './model/Bid';
 
 export class Auctions {
     static init(router: Express, auctionsCollection: Collection) {
