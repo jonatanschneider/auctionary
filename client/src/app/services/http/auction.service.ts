@@ -18,7 +18,10 @@ export class AuctionService {
     base: 'https://localhost:8443/api',
     auctions: '/auctions',
     bid: '/bid',
-    new: '/new'
+    new: '/new',
+    me: '/me',
+    ownAuctions: 'my-auctions',
+    bidAuctions: 'bid-auctions'
   };
 
   constructor(
@@ -49,6 +52,32 @@ export class AuctionService {
       .pipe(
         catchError(this.handleError<Auction[]>('getAuctions'))
       );
+  }
+
+  /**
+   * Get auctions the user created
+   *
+   * @returns {Observable<Auction[]>}
+   */
+  getMyAuctions(): Observable<Auction[]> {
+    let connectionUrl: string = this.apiUrl.base + this.apiUrl.me + this.apiUrl.ownAuctions;
+    return this.http.get<Auction[]>(connectionUrl, httpOptions)
+      .pipe(
+        catchError(this.handleError<Auction[]>('getMyAuctions'))
+      );
+  }
+
+  /**
+   * Get auctions the user bid on
+   *
+   * @returns {Observable<Auction[]>}
+   */
+  getMyBidAuctions(): Observable<Auction[]> {
+    let connectionUrl: string = this.apiUrl.base + this.apiUrl.me + this.apiUrl.bidAuctions;
+    return this.http.get<Auction[]>(connectionUrl, httpOptions)
+      .pipe(
+        catchError(this.handleError<Auction[]>('getMyBidAuctions'))
+      )
   }
 
   createBid(id: string, userId: string, bid: string): Observable<Auction> {
