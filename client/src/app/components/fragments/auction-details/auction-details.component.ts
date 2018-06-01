@@ -33,7 +33,9 @@ export class AuctionDetailsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
-      this.newBid = result;
+      this.newBid.price = result;
+      this.newBid.userId = this.authenticationService.getUserId();
+      this.newBid.time = new Date();
       console.log(this.newBid);
       // TODO: bid handling
     });
