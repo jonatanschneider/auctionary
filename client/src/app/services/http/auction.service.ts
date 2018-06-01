@@ -20,8 +20,8 @@ export class AuctionService {
     bid: '/bid',
     new: '/new',
     me: '/me',
-    ownAuctions: 'my-auctions',
-    bidAuctions: 'bid-auctions'
+    ownAuctions: '/my-auctions',
+    bidAuctions: '/bid-auctions'
   };
 
   constructor(
