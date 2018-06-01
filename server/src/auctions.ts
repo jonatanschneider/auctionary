@@ -192,14 +192,14 @@ export class Auctions {
                     bid.price = newBid;
                     bid.time = new Date();
                     if (!auction.bids || auction.bids.length === 0) {
-                        if (newBid > auction.startingPrice) {
+                        if (newBid > Number(auction.startingPrice)) {
                             return bid;
                         } else {
                             console.log('[ERR]: Bid is below starting price!');
                             res.status(400).send();
                             return null;
                         }
-                    } else if (newBid > (auction.bids[auction.bids.length - 1].price as number)) {
+                    } else if (newBid > Number(auction.bids[auction.bids.length - 1].price)) {
                         return bid;
                     } else {
                         console.log('[ERR]: Bid is too low');
