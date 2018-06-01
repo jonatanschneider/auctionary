@@ -53,12 +53,12 @@ export class AuctionService {
 
   createBid(id: string, userId: string, bid: number): Observable<Auction> {
     let connectionUrl: string = this.apiUrl.base + this.apiUrl.auctions
-      + this.apiUrl.bid + '/' + id;
+      + '/' + id + this.apiUrl.bid;
     let data = {
       userid: userId,
       bid: bid
     };
-    return this.http.put<Auction>(connectionUrl, data, httpOptions)
+    return this.http.post<Auction>(connectionUrl, data, httpOptions)
       .pipe(
         catchError(this.handleError<Auction>('createBid'))
       );
