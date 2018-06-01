@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material';
 import { BidDialogComponent } from '../../dialogs/bid-dialog/bid-dialog.component';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { Location } from '@angular/common';
+import {User} from "../../../models/User";
 
 @Component({
   selector: 'app-auction-details',
@@ -14,6 +15,7 @@ import { Location } from '@angular/common';
 })
 export class AuctionDetailsComponent implements OnInit {
   auction: Auction;
+  user: User;
 
   constructor(private route: ActivatedRoute,
               private auctionService: AuctionService,
@@ -27,6 +29,10 @@ export class AuctionDetailsComponent implements OnInit {
       if (params['id']) {
         this.getAuction(params['id']);
       }
+    });
+
+    this.authenticationService.watchUser.subscribe((user: User) => {
+      this.user = user;
     });
   }
 
