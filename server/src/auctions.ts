@@ -170,55 +170,58 @@ export class Auctions {
         });
 
         /**
-         * POST /api/auctions/bid
+         * PUT /api/auctions/bid/:id
          *
          * Creates a new bid for an auction
          */
-        router.post('/api/auctions/bid', function(req: Request, res: Response) {
-            const id = req.body.id ? req.body.id.trim() : '';
+        router.put('/api/auctions/bid/:id', function(req: Request, res: Response) {
+            const id = req.params.id;
             const userID = req.body.userid ? req.body.userid : '';
             const newBid = req.body.bid ? req.body.bid as number : -1;
 
-            if (id === '' || userID === '' || newBid === -1){
+            if (userID === '' || newBid === -1 || !ObjectID.isValid(id)) {
                 res.status(400).send();
                 return;
             }
 
-            if (!ObjectID.isValid(id)) {
-                res.status(404).send();
-                return;
-            }
-
+            // Find auction in database
             const query: Object = {_id: new ObjectID(id)};
             auctionsCollection.findOne(query)
                 .then((auction: Auction) => {
-                    if (newBid > auction.bids[auction.bids.length - 1].price) {
+                    if (newBid > (auction.bids[auction.bids.length - 1].price as number)) {
                         const bid = new Bid();
                         bid.userId = userID;
                         bid.price = newBid;
                         bid.time = new Date();
-                        auction.bids.push(bid);
-                        return auction;
+                        return bid;
+                    } else {
+                        console.log('[ERR]: Bid is too low');
+                        res.status(400).send();
+                        return null;
                     }
                 })
                 .catch((error: MongoError) => {
                     console.log('[ERR]: Failed to fetch auction from database', error);
                     res.status(505).send();
+                    return;
                 })
-                .then((auction: Auction) => {
-                    auctionsCollection.updateOne(query, auction)
-                        .then(response => {
-                            if (response.matchedCount === 1) {
-                                res.status(200).send();
-                            } else {
-                                res.status(404).send();
-                            }
-                        });
+                // Update auction
+                .then((bids: Bid) => {
+                    if (bids !== null) {
+                        auctionsCollection.updateOne(query, {$push: { bids }})
+                            .then(response => {
+                                if (response.matchedCount === 1) {
+                                    res.status(200).send();
+                                } else {
+                                    res.status(404).send();
+                                }
+                            });
+                    }
                 })
                 .catch((error: MongoError) => {
                     console.log('[ERR]: Failed to update auction in database', error);
                     res.status(505).send();
-                })
+                });
         });
     }
 }
