@@ -4,6 +4,8 @@ import { ObjectID } from 'bson';
 import { Request, Response } from 'express';
 import { Auction } from './model/Auction';
 
+const AUTH_HEADER_KEY = 'auctionary-user-id';
+
 export class Users {
     static init(router: Router, usersCollection: Collection, auctionsCollection: Collection) {
         router.get('/api/user/:id', function (req: Request, res: Response) {
@@ -38,7 +40,7 @@ export class Users {
          * Get own user data
          */
         router.get('/api/me', function (req: Request, res: Response) {
-            let userId: string = req.headers.me.toString();
+            let userId: string = JSON.parse(req.headers[AUTH_HEADER_KEY].toString()).id;
             let query: Object = {
                 _id: new ObjectID(userId)
             };
@@ -70,7 +72,7 @@ export class Users {
          * Get own created auctions
          */
         router.get('/api/me/my-auctions', function (req: Request, res: Response) {
-            let userId: string = req.headers.me.toString();
+            let userId: string = JSON.parse(req.headers[AUTH_HEADER_KEY].toString()).id;
             let query: Object = {
                 _id: new ObjectID(userId)
             };
@@ -106,7 +108,7 @@ export class Users {
          * Get auctions the user bid on
          */
         router.get('/api/me/bid-auctions', function (req: Request, res: Response) {
-            let userId: string = req.headers.me.toString();
+            let userId: string = JSON.parse(req.headers[AUTH_HEADER_KEY].toString()).id;
             let query: Object = {
                 _id: new ObjectID(userId)
             };
