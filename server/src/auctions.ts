@@ -170,12 +170,12 @@ export class Auctions {
         });
 
         /**
-         * PUT /api/auctions/bid/:id
+         * POST /api/auctions/:auctionId/bid
          *
          * Creates a new bid for an auction
          */
-        router.put('/api/auctions/bid/:id', function(req: Request, res: Response) {
-            const id = req.params.id;
+        router.post('/api/auctions/:auctionId/bid', function(req: Request, res: Response) {
+            const id = req.params.auctionId;
             const userID = req.body.userid ? req.body.userid : '';
             const newBid = req.body.bid ? req.body.bid as number : -1;
 
