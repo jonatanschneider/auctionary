@@ -17,6 +17,7 @@ export class AuctionService {
   private apiUrl = {
     base: 'https://localhost:8443/api',
     auctions: '/auctions',
+    bid: '/bid',
     new: '/new'
   };
 
@@ -47,6 +48,19 @@ export class AuctionService {
     return this.http.get<Auction[]>(connectionUrl, httpOptions)
       .pipe(
         catchError(this.handleError<Auction[]>('getAuctions'))
+      );
+  }
+
+  createBid(id: string, userId: string, bid: number): Observable<Auction> {
+    let connectionUrl: string = this.apiUrl.base + this.apiUrl.auctions
+      + this.apiUrl.bid + '/' + id;
+    let data = {
+      userid: userId,
+      bid: bid
+    };
+    return this.http.put<Auction>(connectionUrl, data, httpOptions)
+      .pipe(
+        catchError(this.handleError<Auction>('createBid'))
       );
   }
 
