@@ -80,7 +80,6 @@ export class Users {
             usersCollection.findOne(query)
                 .then(user => {
                     if (user.ownAuctionIds) {
-                        console.log('[LOG]: Auction Ids: ', user.ownAuctionIds);
                         for (let auctionId of user.ownAuctionIds) {
                             auctionIds.push(new ObjectID(auctionId));
                         }
@@ -92,7 +91,42 @@ export class Users {
                             '$in': auctionIds
                         }
                     };
-                    console.log('[LOG]: Own auctions query: ', query);
+                    auctionsCollection.find(query).toArray()
+                        .then((ownAuctions: Auction[]) => {
+                            res.status(200).send(ownAuctions);
+                        });
+                })
+                .catch((error: MongoError) => {
+                    console.log('[ERR]: Could not finde one user ', error);
+                    res.status(505).send([]);
+                });
+        });
+
+        /**
+         * Get auctions the user bid on
+         */
+        router.get('/api/me/bid-auctions', function (req: Request, res: Response) {
+            let userId: string = req.headers.me.toString();
+            let query: Object = {
+                _id: new ObjectID(userId)
+            };
+            let auctionIds: string[] = [];
+
+            // Get all auction ids created by own user
+            usersCollection.findOne(query)
+                .then(user => {
+                    if (user.auctionIds) {
+                        for (let auctionId of user.auctionIds) {
+                            auctionIds.push(new ObjectID(auctionId));
+                        }
+                    }
+                })
+                .then(() => {
+                    query = {
+                        '_id': {
+                            '$in': auctionIds
+                        }
+                    };
                     auctionsCollection.find(query).toArray()
                         .then((ownAuctions: Auction[]) => {
                             res.status(200).send(ownAuctions);
