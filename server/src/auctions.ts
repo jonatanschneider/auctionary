@@ -177,7 +177,7 @@ export class Auctions {
         router.post('/api/auctions/:auctionId/bid', function(req: Request, res: Response) {
             const id = req.params.auctionId;
             const userID = req.body.userid ? req.body.userid : '';
-            const newBid = req.body.bid ? req.body.bid as number : -1;
+            const newBid = req.body.bid ? Number(req.body.bid) : -1;
 
             if (userID === '' || newBid === -1 || !ObjectID.isValid(id)) {
                 res.status(400).send();
