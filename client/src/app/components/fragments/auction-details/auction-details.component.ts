@@ -14,7 +14,6 @@ import { Bid } from '../../../models/Bid';
 })
 export class AuctionDetailsComponent implements OnInit {
   auction: Auction;
-  newBid: Bid = new Bid();
 
   constructor(private route: ActivatedRoute,
               private auctionService: AuctionService,
@@ -37,12 +36,13 @@ export class AuctionDetailsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      this.newBid.price = result;
-      this.newBid.userId = this.authenticationService.getUserId();
-      this.newBid.time = new Date();
-      console.log(this.newBid);
-      // TODO: bid handling
+      // TODO: get user ID from auth
+      if (result !== undefined) {
+        this.auctionService.createBid(this.auction.id, this.authenticationService.getUserId(), result)
+          .subscribe(() => {
+            this.getAuction(this.auction.id);
+          });
+      }
     });
   }
 
