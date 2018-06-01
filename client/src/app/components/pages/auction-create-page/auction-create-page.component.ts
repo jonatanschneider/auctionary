@@ -52,7 +52,7 @@ export class AuctionCreatePageComponent {
       description: this.form.get('description').value,
       color: this.form.get('color').value,
       endTime: endTime,
-      seller: sellerId
+      sellerId: sellerId
     } as Auction).subscribe((auction) => {
       if (auction) {
         this.notificationService.show('The auction has been created! ' + auction.id);
