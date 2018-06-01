@@ -195,7 +195,7 @@ export class Auctions {
                         if (newBid > auction.startingPrice) {
                             return bid;
                         } else {
-                            console.log('[ERR]: Bid is below starting price');
+                            console.log('[ERR]: Bid is below starting price!');
                             res.status(400).send();
                             return null;
                         }
