@@ -187,24 +187,24 @@ export class Auctions {
             if (userID === '' || newBid === -1 || !ObjectID.isValid(id)) {
                 res.status(400).send();
                 return;
-            } 
+            }
             // Find auction in database
             const query: Object = {_id: new ObjectID(id)};
             auctionsCollection.findOne(query)
                 .then((auction: Auction) => {
                     const bid = new Bid();
                     bid.userId = userID;
-                    bid.price = newBid;
+                    bid.price = newBid * 10; // Workaround to get decimal numbers into database
                     bid.time = new Date();
                     if (!auction.bids || auction.bids.length === 0) {
-                        if (newBid > Number(auction.startingPrice)) {
+                        if (bid.price > Number(auction.startingPrice)) {
                             return bid;
                         } else {
                             console.log('[ERR]: Bid is below starting price!');
                             res.status(400).send();
                             return null;
                         }
-                    } else if (newBid > Number(auction.bids[auction.bids.length - 1].price)) {
+                    } else if (bid.price > Number(auction.bids[auction.bids.length - 1].price)) {
                         return bid;
                     } else {
                         console.log('[ERR]: Bid is too low');
