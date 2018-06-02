@@ -111,13 +111,15 @@ export class AuctionDetailsComponent implements OnInit {
       width: '250px'
     });
 
-    dialogRef.afterClosed().subscribe(() => {
-      this.auctionService.deleteAuction(this.auction.id)
-        .subscribe(() => {
-          this.notificationService.show('Successfully deleted auction ');
-          this.router.navigate(['auctions']);
-        })
-    })
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.auctionService.deleteAuction(this.auction.id)
+          .subscribe(() => {
+            this.notificationService.show('Successfully deleted auction ');
+            this.router.navigate(['auctions']);
+          });
+      }
+    });
   }
 
   getAuction(auctionId: string): void {
