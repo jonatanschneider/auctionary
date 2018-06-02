@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Auction } from '../../../models/Auction';
-import {ActivatedRoute, UrlSegment} from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { AuctionService } from '../../../services/http/auction.service';
 import { MatDialog } from '@angular/material';
 import { BidDialogComponent } from '../../dialogs/bid-dialog/bid-dialog.component';
@@ -8,6 +8,7 @@ import { AuthenticationService } from '../../../services/http/authentication.ser
 import { Location } from '@angular/common';
 import { User } from '../../../models/User';
 import { SocketService } from '../../../services/socket/socket.service';
+import { EditDialogComponent } from '../../dialogs/edit-dialog/edit-dialog.component';
 
 @Component({
   selector: 'app-auction-details',
@@ -43,12 +44,12 @@ export class AuctionDetailsComponent implements OnInit {
   checkForOpenDialog(): void {
     this.route.data.subscribe((data: any) => {
       if (data.dialog === true && this.auction) {
-        this.openDialog();
+        this.openBidDialog();
       }
     });
   }
 
-  openDialog(): void {
+  openBidDialog(): void {
     this.location.go('auctions/' + this.auction.id + '/bid');
     const dialogRef = this.dialog.open(BidDialogComponent, {
       width: '250px',
