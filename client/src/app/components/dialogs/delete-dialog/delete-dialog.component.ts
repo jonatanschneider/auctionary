@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { BidDialogComponent } from '../bid-dialog/bid-dialog.component';
 import { MatDialogRef } from '@angular/material';
 
 @Component({
@@ -9,7 +8,7 @@ import { MatDialogRef } from '@angular/material';
 })
 export class DeleteDialogComponent {
 
-  constructor(public dialogRef: MatDialogRef<BidDialogComponent>) {
+  constructor(public dialogRef: MatDialogRef<DeleteDialogComponent>) {
   }
 
   onNoClick(): void {

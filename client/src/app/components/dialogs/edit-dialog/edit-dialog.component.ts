@@ -1,6 +1,5 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { BidDialogComponent } from '../bid-dialog/bid-dialog.component';
 
 @Component({
   selector: 'app-edit-dialog',
@@ -9,7 +8,7 @@ import { BidDialogComponent } from '../bid-dialog/bid-dialog.component';
 })
 export class EditDialogComponent {
 
-  constructor(public dialogRef: MatDialogRef<BidDialogComponent>,
+  constructor(public dialogRef: MatDialogRef<EditDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
