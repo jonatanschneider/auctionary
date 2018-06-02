@@ -16,6 +16,7 @@ import { GoogleAuth } from './auth/GoogleAuth';
 import { Auctions } from './auctions';
 import { Users } from './users';
 import socket = require('socket.io');
+import {InstagramAuth} from "./auth/InstagramAuth";
 
 // Server constants
 const router = express();
@@ -38,7 +39,7 @@ let auctionsCollection: Collection;
 let usersCollection: Collection;
 
 // Connect to database server
-MongoClient.connect('mongodb://localhost:27017', { useNewUrlParser: true })
+MongoClient.connect('mongodb://localhost:27017')
     .then((dbClient: MongoClient) => {
         // Select database
         appDb = dbClient.db('auction');
@@ -68,6 +69,7 @@ const authConf = new AuthenticationConfig();
 
 function initRoutes(): void {
     console.log('Initializing routes');
+    InstagramAuth.init(passport, authConf, router, usersCollection);
     GoogleAuth.init(passport, authConf, router, usersCollection);
     Auctions.init(router, auctionsCollection);
     Users.init(router, usersCollection);
