@@ -11,6 +11,8 @@ import { Auction } from './model/Auction';
 import { ObjectID } from 'bson';
 import { Bid } from './model/Bid';
 
+const AUTH_HEADER_KEY = 'auctionary-user-id';
+
 export class Auctions {
     static init(router: Express, auctionsCollection: Collection) {
 
@@ -88,7 +90,7 @@ export class Auctions {
          */
         router.post('/api/auctions', function (req: Request, res: Response) {
             const auction = new Auction();
-            auction.sellerId = req.body.seller ? req.body.seller.trim() : '';
+            auction.sellerId = JSON.parse(req.headers[AUTH_HEADER_KEY].toString()).id;
             auction.name = req.body.name ? req.body.name.trim() : '';
             auction.description = req.body.description ? req.body.description.trim() : '';
             auction.color = req.body.color ? req.body.color.trim() : '';

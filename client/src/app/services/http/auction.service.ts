@@ -93,14 +93,11 @@ export class AuctionService {
       );
   }
 
-  editAuction(auction: Auction): Observable<boolean> {
+  editAuction(auction: Auction): Observable<Auction> {
     let connectionUrl: string = this.apiUrl.base + this.apiUrl.auctions + '/' + auction.id;
-    return this.http.put(connectionUrl, auction, httpOptions)
-      .map(() => {
-        return true;
-      })
+    return this.http.put<Auction>(connectionUrl, auction, httpOptions)
       .pipe(
-        catchError(this.handleError<boolean>('editAuction'))
+        catchError(this.handleError<Auction>('editAuction'))
       );
   }
 
