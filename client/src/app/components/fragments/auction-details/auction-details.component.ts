@@ -58,7 +58,8 @@ export class AuctionDetailsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       this.location.go('/auctions/' + this.auction.id);
       if (result !== undefined) {
-        this.auctionService.createBid(this.auction.id, this.authenticationService.getUserId(), result)
+        const bid = result.euro + '.' + result.cent;
+        this.auctionService.createBid(this.auction.id, this.authenticationService.getUserId(), bid)
           .subscribe(() => {
             this.getAuction(this.auction.id);
             this.socketService.sendBid(this.auction.id);
