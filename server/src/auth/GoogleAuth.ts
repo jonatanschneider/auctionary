@@ -71,6 +71,7 @@ export class GoogleAuth {
             })
             .catch((error: MongoError) => {
                 console.log('[ERR]: Could not check user', error);
+                return '';
             });
     }
 
@@ -92,7 +93,7 @@ export class GoogleAuth {
             })
             .catch((error: MongoError) => {
                 console.log('[ERR]: Could not persist user', error);
-                return '';
+                return null;
             });
     }
 }
