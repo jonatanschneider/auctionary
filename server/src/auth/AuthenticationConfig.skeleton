@@ -10,5 +10,10 @@ export class AuthenticationConfig {
            clientSecret: '',
            callbackURL: 'https://localhost:8443/auth/instagram/callback'
     };
+    public facebookAuth = {
+            clientID: '',
+            clientSecret: '',
+            callbackURL: 'https://localhost:8443/auth/facebook/callback'
+        };
 
 }
