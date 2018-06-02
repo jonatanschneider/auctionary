@@ -205,7 +205,7 @@ export class Auctions {
                 return;
             }
             // Find auction in database
-            const query: Object = {_id: new ObjectID(id)};
+            let query: Object = {_id: new ObjectID(id)};
             auctionsCollection.findOne(query)
                 .then((auction: Auction) => {
                     const bid = new Bid();
@@ -240,8 +240,23 @@ export class Auctions {
                             .then(response => {
                                 if (response.matchedCount === 1) {
                                     res.status(200).send();
+                                    return true;
                                 } else {
                                     res.status(404).send();
+                                    return false;
+                                }
+                            })
+                            .then(success => {
+                                if (success) {
+                                    query = {_id: new ObjectID(userID)};
+                                    usersCollection.updateOne(query, {$push: {auctionIds: id}})
+                                        .then(response => {
+                                            if (response.matchedCount === 1) {
+                                                res.status(200).send();
+                                            } else {
+                                                res.status(404).send();
+                                            }
+                                        });
                                 }
                             });
                     }
