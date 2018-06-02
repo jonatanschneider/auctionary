@@ -73,7 +73,7 @@ function initRoutes(): void {
     FacebookAuth.init(passport, authConf, router, usersCollection);
     InstagramAuth.init(passport, authConf, router, usersCollection);
     GoogleAuth.init(passport, authConf, router, usersCollection);
-    Auctions.init(router, auctionsCollection);
+    Auctions.init(router, auctionsCollection, usersCollection);
     Users.init(router, usersCollection, auctionsCollection);
 
     // Setup middleware redirection route

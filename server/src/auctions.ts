@@ -14,7 +14,7 @@ import { Bid } from './model/Bid';
 const AUTH_HEADER_KEY = 'auctionary-user-id';
 
 export class Auctions {
-    static init(router: Express, auctionsCollection: Collection) {
+    static init(router: Express, auctionsCollection: Collection, usersCollection: Collection) {
 
         /**
          * GET /api/auctions
@@ -108,6 +108,18 @@ export class Auctions {
                     transformedAuction.id = transformedAuction._id;
                     delete transformedAuction._id;
                     res.status(201).send(insertedAuction.ops[0]);
+                    return transformedAuction.id;
+                })
+                .then((auctionId: any) => {
+                    const query = {_id : new ObjectID(auction.sellerId)};
+                  usersCollection.updateOne(query, {$push: {ownAuctionIds: auctionId}})
+                      .then((response) => {
+                          if (response.matchedCount === 1) {
+                              res.status(200).send();
+                          } else {
+                              res.status(404).send();
+                          }
+                      });
                 })
                 .catch((error: MongoError) => {
                     console.log('[ERR]: Failed to create auction in database', error);
