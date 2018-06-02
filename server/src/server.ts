@@ -15,6 +15,7 @@ import { Profile } from 'passport';
 import { GoogleAuth } from './auth/GoogleAuth';
 import { Auctions } from './auctions';
 import { Users } from './users';
+import socket = require('socket.io');
 
 // Server constants
 const router = express();
@@ -23,7 +24,7 @@ const certificate = fs.readFileSync(__dirname + '/../sslcert/localhost.crt', 'ut
 const credentials = { key: privateKey, cert: certificate };
 
 // Start https server
-https.createServer(credentials, router).listen(8443, function () {
+const server = https.createServer(credentials, router).listen(8443, function () {
     console.log('HTTPS-server started on https://localhost:8443/');
 });
 
@@ -74,3 +75,10 @@ function initRoutes(): void {
     // Setup middleware redirection route
     router.use('/*', express.static(__dirname + '/../dist'));
 }
+
+const io = socket(server);
+io.on('connection', (socket) => {
+    socket.on('newBid', function (data) {
+        socket.broadcast.emit('newBid', data);
+    });
+});
