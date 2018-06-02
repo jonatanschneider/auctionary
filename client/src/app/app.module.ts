@@ -53,6 +53,7 @@ import { BidDialogComponent } from './components/dialogs/bid-dialog/bid-dialog.c
 import { AuthenticationInterceptor } from './interceptors/authentication.interceptor';
 import { DataStoreService } from './services/util/data-store.service';
 import { DashboardPageComponent } from './components/pages/dashboard-page/dashboard-page.component';
+import { EditDialogComponent } from './components/dialogs/edit-dialog/edit-dialog.component';
 
 const appRoutes: Routes = [
   {
@@ -109,7 +110,8 @@ const appRoutes: Routes = [
     AuctionListItemComponent,
     LoginPageComponent,
     BidDialogComponent,
-    DashboardPageComponent
+    DashboardPageComponent,
+    EditDialogComponent
   ],
   imports: [
     BrowserModule,

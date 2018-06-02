@@ -1,0 +1,20 @@
+<h1 mat-dialog-title>{{data.auction.name}}</h1>
+<div mat-dialog-content>
+  <mat-form-field>
+    <input matInput placeholder="Name" [ngModel]="data.auction.name" name="name">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Starting price" [ngModel]="data.auction.startingPrice" name="startingPrice">
+  </mat-form-field>
+  <mat-form-field class="input-block">
+    <textarea matInput placeholder="Description" name="description" matTextareaAutosize
+              matAutosizeMinRows="3" matAutosizeMaxRows="8" formControlName="description"></textarea>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Color" [ngModel]="data.auction.color" name="color">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Abort</button>
+  <button mat-button [mat-dialog-close]="data.newBid">Save</button>
+</div>

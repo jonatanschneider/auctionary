@@ -68,6 +68,24 @@ export class AuctionDetailsComponent implements OnInit {
     });
   }
 
+  openEditDialog(): void {
+    this.location.go('auctions/' + this.auction.id + '/edit');
+    const dialogRef = this.dialog.open(EditDialogComponent, {
+      width: '400px',
+      data: { auction: this.auction }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.location.go('auctions/' + this.auction.id);
+      if (result !== undefined) {
+        this.auctionService.editAuction(result)
+          .subscribe(() => {
+            this.getAuction(this.auction.id);
+          })
+      }
+    })
+  }
+
   getAuction(auctionId: string): void {
     this.auctionService.getAuction(auctionId)
       .subscribe((auction: Auction) => {

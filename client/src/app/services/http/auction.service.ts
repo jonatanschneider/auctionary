@@ -93,6 +93,17 @@ export class AuctionService {
       );
   }
 
+  editAuction(auction: Auction): Observable<boolean> {
+    let connectionUrl: string = this.apiUrl.base + this.apiUrl.auctions + '/' + auction.id;
+    return this.http.put(connectionUrl, auction, httpOptions)
+      .map(() => {
+        return true;
+      })
+      .pipe(
+        catchError(this.handleError<boolean>('editAuction'))
+      );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
