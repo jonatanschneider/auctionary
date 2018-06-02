@@ -174,7 +174,9 @@ const appRoutes: Routes = [
   ],
   entryComponents: [
     AuctionDetailsComponent,
-    BidDialogComponent
+    BidDialogComponent,
+    EditDialogComponent,
+    DeleteDialogComponent
   ],
   providers: [
     {
