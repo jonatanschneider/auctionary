@@ -50,18 +50,20 @@ export class AuctionDetailsComponent implements OnInit {
       if (!this.auction) {
         return;
       }
-      switch(data){
-        case 'bid':
-          this.openBidDialog();
-          break;
-        case 'edit':
-          this.openEditDialog();
-          break;
-        /* ToDo: Add case 'delete':
-          this.openDeleteDialog();
-          break;*/
-        default:
-          return;
+      if (data.dialog) {
+        switch (data.dialog) {
+          case 'bid':
+            this.openBidDialog();
+            break;
+          case 'edit':
+            this.openEditDialog();
+            break;
+          case 'delete':
+            this.openDeleteDialog();
+            break;
+          default:
+            return;
+        }
       }
     });
   }
