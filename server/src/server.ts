@@ -17,6 +17,7 @@ import { Auctions } from './auctions';
 import { Users } from './users';
 import socket = require('socket.io');
 import { InstagramAuth } from './auth/InstagramAuth';
+import {FacebookAuth} from './auth/FacebookAuth';
 
 // Server constants
 const router = express();
@@ -69,6 +70,7 @@ const authConf = new AuthenticationConfig();
 
 function initRoutes(): void {
     console.log('Initializing routes');
+    FacebookAuth.init(passport, authConf, router, usersCollection);
     InstagramAuth.init(passport, authConf, router, usersCollection);
     GoogleAuth.init(passport, authConf, router, usersCollection);
     Auctions.init(router, auctionsCollection);
