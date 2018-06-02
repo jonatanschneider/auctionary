@@ -17,7 +17,9 @@ export class AuctionListItemComponent implements OnInit {
   constructor(private authenticationService: AuthenticationService) { }
 
   ngOnInit() {
-    this.user = this.authenticationService.getUser()
+    this.authenticationService.watchUser.subscribe((user: User) => {
+      this.user = user;
+    });
   }
 
 }
