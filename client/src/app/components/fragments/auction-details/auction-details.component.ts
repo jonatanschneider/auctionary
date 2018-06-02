@@ -6,7 +6,8 @@ import { MatDialog } from '@angular/material';
 import { BidDialogComponent } from '../../dialogs/bid-dialog/bid-dialog.component';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { Location } from '@angular/common';
-import {User} from "../../../models/User";
+import { User } from '../../../models/User';
+import { SocketService } from '../../../services/socket/socket.service';
 
 @Component({
   selector: 'app-auction-details',
@@ -21,7 +22,8 @@ export class AuctionDetailsComponent implements OnInit {
               private auctionService: AuctionService,
               private authenticationService: AuthenticationService,
               private dialog: MatDialog,
-              private location: Location) {
+              private location: Location,
+              private socketService: SocketService) {
   }
 
   ngOnInit() {
@@ -34,6 +36,8 @@ export class AuctionDetailsComponent implements OnInit {
     this.authenticationService.watchUser.subscribe((user: User) => {
       this.user = user;
     });
+
+    this.socketConnection();
   }
 
   checkForOpenDialog(): void {
@@ -57,6 +61,7 @@ export class AuctionDetailsComponent implements OnInit {
         this.auctionService.createBid(this.auction.id, this.authenticationService.getUserId(), result)
           .subscribe(() => {
             this.getAuction(this.auction.id);
+            this.socketService.sendBid(this.auction.id);
           });
       }
     });
@@ -70,4 +75,13 @@ export class AuctionDetailsComponent implements OnInit {
       });
   }
 
+  socketConnection() {
+    this.socketService.initSocket();
+    this.socketService.onBid()
+      .subscribe((data) => {
+        if (data.auctionID === this.auction.id) {
+          this.getAuction(this.auction.id);
+        }
+      });
+  }
 }
