@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Auction } from '../../../models/Auction';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuctionService } from '../../../services/http/auction.service';
 import { MatDialog } from '@angular/material';
 import { BidDialogComponent } from '../../dialogs/bid-dialog/bid-dialog.component';
@@ -9,6 +9,8 @@ import { Location } from '@angular/common';
 import { User } from '../../../models/User';
 import { SocketService } from '../../../services/socket/socket.service';
 import { EditDialogComponent } from '../../dialogs/edit-dialog/edit-dialog.component';
+import { NotificationService } from '../../../services/util/notification.service';
+import { DeleteDialogComponent } from '../../dialogs/delete-dialog/delete-dialog.component';
 
 @Component({
   selector: 'app-auction-details',
@@ -24,7 +26,9 @@ export class AuctionDetailsComponent implements OnInit {
               private authenticationService: AuthenticationService,
               private dialog: MatDialog,
               private location: Location,
-              private socketService: SocketService) {
+              private socketService: SocketService,
+              private notificationService: NotificationService,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -43,8 +47,21 @@ export class AuctionDetailsComponent implements OnInit {
 
   checkForOpenDialog(): void {
     this.route.data.subscribe((data: any) => {
-      if (data.dialog === true && this.auction) {
-        this.openBidDialog();
+      if (!this.auction) {
+        return;
+      }
+      switch(data){
+        case 'bid':
+          this.openBidDialog();
+          break;
+        case 'edit':
+          this.openEditDialog();
+          break;
+        /* ToDo: Add case 'delete':
+          this.openDeleteDialog();
+          break;*/
+        default:
+          return;
       }
     });
   }
@@ -81,8 +98,23 @@ export class AuctionDetailsComponent implements OnInit {
         this.auctionService.editAuction(result)
           .subscribe(() => {
             this.getAuction(this.auction.id);
-          })
+          });
       }
+    });
+  }
+
+  openDeleteDialog(): void {
+    this.location.go('auctions/' + this.auction.id + '/delete');
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      width: '250px'
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.auctionService.deleteAuction(this.auction.id)
+        .subscribe(() => {
+          this.notificationService.show('Successfully deleted auction ');
+          this.router.navigate(['auctions']);
+        })
     })
   }
 

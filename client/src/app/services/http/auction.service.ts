@@ -101,6 +101,14 @@ export class AuctionService {
       );
   }
 
+  deleteAuction(auctionId: string): Observable<Auction> {
+    let connectionUrl: string= this.apiUrl.base + this.apiUrl.auctions + '/' + auctionId;
+    return this.http.delete<Auction>(connectionUrl, httpOptions)
+      .pipe(
+        catchError(this.handleError<Auction>('deleteAuction'))
+      );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
