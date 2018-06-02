@@ -179,6 +179,11 @@ export class Auctions {
             const userID = req.body.userid ? req.body.userid : '';
             const newBid = req.body.bid ? Number(req.body.bid) : -1;
 
+            if (req.body.bid.length - 1 > req.body.bid.indexOf('.') + 2 || req.body.bid.indexOf(',') !== -1) {
+                console.log('[ERR]: Bid has wrong format');
+                return;
+            }
+
             if (userID === '' || newBid === -1 || !ObjectID.isValid(id)) {
                 res.status(400).send();
                 return;
