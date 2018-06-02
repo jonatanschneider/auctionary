@@ -36,6 +36,9 @@ export class LoginPageComponent implements OnInit {
 
   login(method: LoginProvider) {
     switch (method) {
+      case LoginProvider.FACEBOOK:
+        document.location.href = '/auth/facebook';
+        break;
       case LoginProvider.INSTAGRAM:
         document.location.href = '/auth/instagram';
         break;
