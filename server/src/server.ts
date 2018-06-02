@@ -39,7 +39,7 @@ let auctionsCollection: Collection;
 let usersCollection: Collection;
 
 // Connect to database server
-MongoClient.connect('mongodb://localhost:27017')
+MongoClient.connect('mongodb://localhost:27017', { useNewUrlParser: true })
     .then((dbClient: MongoClient) => {
         // Select database
         appDb = dbClient.db('auction');

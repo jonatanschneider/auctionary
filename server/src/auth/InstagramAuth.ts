@@ -55,7 +55,6 @@ export class InstagramAuth {
     }
 
     static checkUser(user, usersCollection: Collection): Promise<string> {
-        console.log('[LOG]: Checking user...');
 
         let query: Object = {
             'login.type': LoginProvider.INSTAGRAM,
@@ -63,22 +62,18 @@ export class InstagramAuth {
         };
         return usersCollection.findOne(query)
             .then((foundUser: User) => {
-                console.log("[LOG]: FindOne found ", foundUser);
                 if (foundUser) {
-                    console.log("[LOG]: UserId: ", foundUser._id);
                     return foundUser._id;
                 } else {
                     return this.persistUser(user, usersCollection);
                 }
             })
             .catch((error: MongoError) => {
-                console.log('[ERR]: Could not check user', error);
                 return '';
             });
     }
 
     static persistUser(user, usersCollection: Collection): Promise<string> {
-        console.log('[LOG]: Persisting user...');
         let insertUser = new User();
 
         insertUser.name = user.displayName;
@@ -90,11 +85,9 @@ export class InstagramAuth {
 
         return usersCollection.insertOne(insertUser)
             .then(insertDocument => {
-                console.log('[LOG]: Inserted document with data ', insertDocument);
                 return insertDocument.insertedId;
             })
             .catch((error: MongoError) => {
-                console.log('[ERR]: Could not persist user', error);
                 return null;
             });
     }
