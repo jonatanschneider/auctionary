@@ -1,5 +1,5 @@
 export enum LoginProvider {
-  OOGLE,
+  GOOGLE,
   INSTAGRAM,
   FACEBOOK,
   TWITTER

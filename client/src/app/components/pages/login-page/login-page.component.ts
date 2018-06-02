@@ -36,7 +36,9 @@ export class LoginPageComponent implements OnInit {
 
   login(method: LoginProvider) {
     switch (method) {
-      // ToDo: Add support for more login methods
+      case LoginProvider.INSTAGRAM:
+        document.location.href = '/auth/instagram';
+        break;
       case LoginProvider.GOOGLE:
         document.location.href = '/auth/google';
         break;
