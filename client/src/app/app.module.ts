@@ -54,6 +54,7 @@ import { AuthenticationInterceptor } from './interceptors/authentication.interce
 import { DataStoreService } from './services/util/data-store.service';
 import { DashboardPageComponent } from './components/pages/dashboard-page/dashboard-page.component';
 import { EditDialogComponent } from './components/dialogs/edit-dialog/edit-dialog.component';
+import { DeleteDialogComponent } from './components/dialogs/delete-dialog/delete-dialog.component';
 
 const appRoutes: Routes = [
   {
@@ -89,7 +90,19 @@ const appRoutes: Routes = [
     path: 'auctions/:id/bid',
     canActivate: [AuthenticationGuard],
     component: AuctionDetailsComponent,
-    data: {dialog: true}
+    data: {dialog: 'bid'}
+  },
+  {
+    path: 'auctions/:id/edit',
+    canActivate: [AuthenticationGuard],
+    component: AuctionDetailsComponent,
+    data: {dialog: 'edit'}
+  },
+  {
+    path: 'auctions/:id/delete',
+    canActivate: [AuthenticationGuard],
+    component: AuctionDetailsComponent,
+    data: {dialog: 'delete'}
   },
   {
     path: 'dashboard',
@@ -111,7 +124,8 @@ const appRoutes: Routes = [
     LoginPageComponent,
     BidDialogComponent,
     DashboardPageComponent,
-    EditDialogComponent
+    EditDialogComponent,
+    DeleteDialogComponent
   ],
   imports: [
     BrowserModule,

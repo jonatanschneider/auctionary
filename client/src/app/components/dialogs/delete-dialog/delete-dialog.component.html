@@ -1,0 +1,7 @@
+<h1 mat-dialog-title>Delete {{data.auction.name}}</h1>
+<div mat-dialog-content>
+  <p>Are you sure you want to delete {{data.auction.name}}?</p>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Abort</button>
+  <button mat-button color="danger" [mat-dialog-close]="data.newBid">Delete</button>
+</div>
