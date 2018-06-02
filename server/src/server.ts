@@ -16,7 +16,7 @@ import { GoogleAuth } from './auth/GoogleAuth';
 import { Auctions } from './auctions';
 import { Users } from './users';
 import socket = require('socket.io');
-import {InstagramAuth} from "./auth/InstagramAuth";
+import { InstagramAuth } from './auth/InstagramAuth';
 
 // Server constants
 const router = express();

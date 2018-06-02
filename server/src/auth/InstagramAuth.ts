@@ -23,9 +23,9 @@ export class InstagramAuth {
                 }
             };
             request(options).then(igRes => {
-                let parsedRes = JSON.parse(igRes);
-                profile.emails = [{value: parsedRes.data.email}];
-                profile.photos = [{value: parsedRes.data.profile_picture}];
+                const parsedRes = JSON.parse(igRes);
+                profile.emails = [{ value: parsedRes.data.email }];
+                profile.photos = [{ value: parsedRes.data.profile_picture }];
                 profile.gender = parsedRes.gender;
                 profile.name.givenName = '';
                 profile.name.familyName = parsedRes.data.full_name;
@@ -50,13 +50,13 @@ export class InstagramAuth {
                     })
                     .catch(() => {
                         res.redirect('/');
-                    })
+                    });
             });
     }
 
     static checkUser(user, usersCollection: Collection): Promise<string> {
 
-        let query: Object = {
+        const query: Object = {
             'login.type': LoginProvider.INSTAGRAM,
             'login.id': user.id
         };
@@ -74,7 +74,7 @@ export class InstagramAuth {
     }
 
     static persistUser(user, usersCollection: Collection): Promise<string> {
-        let insertUser = new User();
+        const insertUser = new User();
 
         insertUser.name = user.displayName;
         insertUser.firstname = user.name.givenName;
