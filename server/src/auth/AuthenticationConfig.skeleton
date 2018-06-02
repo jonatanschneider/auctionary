@@ -5,5 +5,10 @@ export class AuthenticationConfig {
         clientSecret: '',
         callbackURL: 'https://localhost:8443/auth/google/callback'
     };
+    public instagramAuth = {
+           clientID: '',
+           clientSecret: '',
+           callbackURL: 'https://localhost:8443/auth/instagram/callback'
+    };
 
 }
