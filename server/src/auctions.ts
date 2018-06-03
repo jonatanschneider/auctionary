@@ -140,6 +140,11 @@ export class Auctions {
                 return;
             }
 
+            if (JSON.parse(req.headers[AUTH_HEADER_KEY].toString()).id !== id) {
+                res.status(403).send();
+                return;
+            }
+
             const query: Object = { _id: new ObjectID(id) };
             console.log(req.body);
             const set: Object = {
@@ -175,6 +180,11 @@ export class Auctions {
 
             if (!ObjectID.isValid(id)) {
                 res.status(404).send();
+                return;
+            }
+
+            if (JSON.parse(req.headers[AUTH_HEADER_KEY].toString()).id !== id) {
+                res.status(403).send();
                 return;
             }
 
