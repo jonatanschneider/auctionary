@@ -61,9 +61,8 @@ export class AuctionDetailsComponent implements OnInit {
           case 'delete':
             this.openDeleteDialog();
             break;
-          default:
-            return;
         }
+        data.dialog = '';
       }
     });
   }
@@ -96,9 +95,10 @@ export class AuctionDetailsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       this.location.go('auctions/' + this.auction.id);
-      if (result !== undefined) {
+      if (result) {
         this.auctionService.editAuction(result)
           .subscribe(() => {
+            this.notificationService.show('Successfully updated auction');
             this.getAuction(this.auction.id);
           });
       }
