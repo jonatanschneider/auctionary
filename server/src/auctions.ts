@@ -162,8 +162,6 @@ export class Auctions {
                     console.log('[ERR]: Failed to update auction in database', error);
                     res.status(505).send();
                 });
-
-            res.status(501).send();
         });
 
         /**
