@@ -8,25 +8,17 @@
           New auction
         </button>
       </h3>
-      <ng-container *ngIf="!myAuctions || myAuctions.length !== 0">
-        <app-auction-list-item *ngFor="let myAuction of myAuctions" [auction]="myAuction"></app-auction-list-item>
-      </ng-container>
+      <app-auction-list-item *ngFor="let myAuction of myAuctions" [auction]="myAuction"></app-auction-list-item>
       <mat-divider></mat-divider>
       <h3 mat-subheader>Current bids</h3>
-      <ng-container *ngIf="!myAuctions || myAuctions.length !== 0">
-        <app-auction-list-item *ngFor="let bidAuctions of bidAuctions" [auction]="bidAuctions"></app-auction-list-item>
-      </ng-container>
+      <app-auction-list-item *ngFor="let bidAuctions of bidAuctions" [auction]="bidAuctions"></app-auction-list-item>
       <mat-divider></mat-divider>
       <h3 mat-subheader>Won auctions</h3>
-      <ng-container *ngIf="!myAuctions || myAuctions.length !== 0">
-        <app-auction-list-item *ngFor="let wonAuctions of wonAuctions" [auction]="wonAuctions"></app-auction-list-item>
-      </ng-container>
+      <app-auction-list-item *ngFor="let wonAuctions of wonAuctions" [auction]="wonAuctions"></app-auction-list-item>
       <mat-divider></mat-divider>
       <h3 mat-subheader>Lost auctions</h3>
-      <ng-container *ngIf="!myAuctions || myAuctions.length !== 0">
-        <app-auction-list-item *ngFor="let lostAuctions of lostAuctions"
-                               [auction]="lostAuctions"></app-auction-list-item>
-      </ng-container>
+      <app-auction-list-item *ngFor="let lostAuctions of lostAuctions"
+                             [auction]="lostAuctions"></app-auction-list-item>
     </mat-list>
   </div>
 </div>
