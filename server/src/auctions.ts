@@ -22,7 +22,7 @@ export class Auctions {
          * Returns all auctions stored in the database
          */
         router.get('/api/auctions', function (req: Request, res: Response) {
-            auctionsCollection.find({}).toArray()
+            auctionsCollection.find({ endTime: { $gt: new Date().toISOString() } }).toArray()
                 .then((auctions: Auction[]) => {
                     if (auctions !== null) {
                         for (let auction of auctions) {
