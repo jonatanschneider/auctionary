@@ -1,23 +1,28 @@
-<mat-card class="details-card" *ngIf='auction'>
-  <mat-card-header>
-    <mat-card-title class="name">{{auction.name}}</mat-card-title>
-    <mat-card-subtitle class="manufacturer">{{auction.manufacturer}}</mat-card-subtitle>
-    <mat-card-title class="price" *ngIf="auction.currentBid">{{auction.currentBid.price}} €</mat-card-title>
-    <mat-card-title class="price" *ngIf="!auction.currentBid">{{auction.startingPrice}} €</mat-card-title>
-    <mat-card-subtitle class="timer">{{auction.endTime | date}}</mat-card-subtitle>
-    <mat-card-subtitle class="countdown" *ngIf="remainingTime.valueOf() / 1000 >= 60">{{getRemainder()}}</mat-card-subtitle>
-    <mat-card-subtitle class="countdown-warn" *ngIf="remainingTime.valueOf() < 60 && remainingTime.valueOf() > 0">{{getRemainder()}}</mat-card-subtitle>
-  </mat-card-header>
-  <img mat-card-image src='{{auction.images}}'>
-  <mat-card-content>
-    <p>Color: <span class="color">{{auction.color}}</span></p>
-    <p class="description">
-      {{auction.description}}
-    </p>
-  </mat-card-content>
-  <mat-card-actions>
-    <button mat-button (click)="openBidDialog()" [disabled]="!this.user">BID</button>
-  </mat-card-actions>
-</mat-card>
-
-
+<div fxFlex fxLayout="row" fxLayoutAlign="center">
+  <div fxFlex fxLayout="column" fxLayoutAlign="start" class="container">
+    <mat-card class="details-card" *ngIf='auction'>
+      <mat-card-header>
+        <mat-card-title class="name">{{auction.name}}</mat-card-title>
+        <mat-card-subtitle class="manufacturer">{{auction.manufacturer}}</mat-card-subtitle>
+        <mat-card-title class="price" *ngIf="auction.currentBid">{{auction.currentBid.price}} €</mat-card-title>
+        <mat-card-title class="price" *ngIf="!auction.currentBid">{{auction.startingPrice}} €</mat-card-title>
+        <mat-card-subtitle class="timer">{{auction.endTime | date}}</mat-card-subtitle>
+        <mat-card-subtitle class="countdown" *ngIf="remainingTime.valueOf() / 1000 >= 60">{{getRemainder()}}
+        </mat-card-subtitle>
+        <mat-card-subtitle class="countdown-warn" *ngIf="remainingTime.valueOf() < 60 && remainingTime.valueOf() > 0">
+          {{getRemainder()}}
+        </mat-card-subtitle>
+      </mat-card-header>
+      <img mat-card-image src='{{auction.images}}'>
+      <mat-card-content>
+        <p>Color: <span class="color">{{auction.color}}</span></p>
+        <p class="description">
+          {{auction.description}}
+        </p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button (click)="openBidDialog()" [disabled]="!this.user">BID</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
