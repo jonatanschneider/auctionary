@@ -12,13 +12,23 @@ export class AuctionListItemComponent implements OnInit {
 
   user: User;
   @Input()
-  auction: Auction;
+  auction: any;
+  hasHighestBid = false;
 
   constructor(private authenticationService: AuthenticationService) { }
 
   ngOnInit() {
     this.authenticationService.watchUser.subscribe((user: User) => {
       this.user = user;
+      if (this.auction.bids) {
+        if (this.auction.bids[this.auction.bids.length - 1].userId === this.user.id) {
+          this.hasHighestBid = true;
+        }
+      } else {
+        if (this.auction.currentBid.userId === this.user.id) {
+          this.hasHighestBid = true;
+        }
+      }
     });
   }
 
