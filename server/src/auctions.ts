@@ -80,7 +80,7 @@ export class Auctions {
                             currentUserHasHighestBid = true;
                         }
                     }
-                    res.status(200).send({auction: auction, currentUserHasHighestBid: currentUserHasHighestBid});
+                    res.status(200).send({auction: auction, highestBid: currentUserHasHighestBid});
                 })
                 .catch((error: MongoError) => {
                     console.log('[ERR]: Failed to fetch auction from database', error);
