@@ -135,7 +135,7 @@ export class AuctionDetailsComponent implements OnInit {
       .subscribe((auction: Auction) => {
         this.auction = auction;
         this.checkForOpenDialog();
-        this.remainingTime = Math.abs(Date.now() - auction.endTime.getTime());
+        this.remainingTime = Math.round(new Date(Date.parse(auction.endTime.toString()) - Date.now()).getTime() / 1000);
       });
   }
 
