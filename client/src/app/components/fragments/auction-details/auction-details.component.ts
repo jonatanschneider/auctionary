@@ -20,6 +20,7 @@ import { DeleteDialogComponent } from '../../dialogs/delete-dialog/delete-dialog
 export class AuctionDetailsComponent implements OnInit {
   auction: Auction;
   user: User;
+  remainingTime: Number;
 
   constructor(private route: ActivatedRoute,
               private auctionService: AuctionService,
@@ -41,6 +42,12 @@ export class AuctionDetailsComponent implements OnInit {
     this.authenticationService.watchUser.subscribe((user: User) => {
       this.user = user;
     });
+
+    setInterval( () => {
+      if (this.remainingTime > 0) {
+        this.remainingTime = this.remainingTime.valueOf() - 1;
+      }
+    }, 1000);
 
     this.socketConnection();
   }
@@ -128,6 +135,7 @@ export class AuctionDetailsComponent implements OnInit {
       .subscribe((auction: Auction) => {
         this.auction = auction;
         this.checkForOpenDialog();
+        this.remainingTime = Math.floor((Date.parse(auction.endTime.toString()) - Date.now()) / 1000);
       });
   }
 
@@ -139,5 +147,26 @@ export class AuctionDetailsComponent implements OnInit {
           this.getAuction(this.auction.id);
         }
       });
+  }
+
+  getRemainder(): String {
+    let seconds = this.remainingTime.valueOf();
+    let output: String = '';
+
+    if (seconds >= (7 * 24 * 60 * 60)) {
+      output += Math.floor(seconds / (7 * 24 * 60 * 60)) + ' weeks, ';
+      seconds = seconds % (7 * 24 * 60 * 60);
+    }
+    if (seconds >= (24 * 60 * 60)) {
+      output += Math.floor(seconds / (24 * 60 * 60)) + ' days, ';
+      seconds = seconds % (24 * 60 * 60);
+    }
+    output +=  Math.floor(seconds / (60 * 60)) + ':';
+    seconds = seconds % (60 * 60);
+    output +=  Math.floor(seconds / 60) + ':';
+    seconds = seconds % 60;
+    output +=  Math.floor(seconds) + ' left';
+
+    return output;
   }
 }
