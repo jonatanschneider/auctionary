@@ -201,7 +201,7 @@ export class Auctions {
             };;
             auctionsCollection.deleteOne(query)
                 .then(response => {
-                    if(response.deleteCount === 1) {
+                    if(response.deletedCount === 1) {
                         res.status(200).send();
                     } else {
                         res.status(403).send();
