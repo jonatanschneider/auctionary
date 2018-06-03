@@ -28,8 +28,11 @@ export class Auctions {
                             auction['_id'] = undefined;
                             if (auction['bids']) {
                                 auction['currentBid'] = auction['bids'][auction.bids.length - 1];
+                                auction['currentBid'].price = auction['currentBid'].price / 100;
+                                auction['startingPrice'] = auction['startingPrice'] / 100;
                                 auction['bids'] = undefined;
                             }
+                            auction['startingPrice'] = auction['startingPrice'] / 100;
                         }
                         res.status(200).send(auctions);
                     } else {
@@ -63,8 +66,12 @@ export class Auctions {
                         auction['_id'] = undefined;
                         if (auction['bids']) {
                             auction['currentBid'] = auction['bids'][auction['bids'].length - 1];
+                            auction['currentBid'].price = auction['currentBid'].price / 100;
+                            auction['startingPrice'] = auction['startingPrice'] / 100;
                         }
                         auction['bids'] = undefined;
+                        auction['startingPrice'] = auction['startingPrice'] / 100;
+
                     }
                     res.status(200).send(auction);
                 })
@@ -85,7 +92,7 @@ export class Auctions {
             auction.name = req.body.name ? req.body.name.trim() : '';
             auction.description = req.body.description ? req.body.description.trim() : '';
             auction.color = req.body.color ? req.body.color.trim() : '';
-            auction.startingPrice = req.body.startingPrice ? req.body.startingPrice as number : -1;
+            auction.startingPrice = req.body.startingPrice ? Auctions.createPriceFromInput(req.body.startingPrice) : -1;
             auction.endTime = req.body.endTime ? req.body.endTime as Date : undefined;
 
             if (!auction.name || !auction.sellerId || auction.startingPrice < 0 || !auction.endTime) {
@@ -125,7 +132,7 @@ export class Auctions {
                     name: req.body.name ? req.body.name.trim() : '',
                     description: req.body.description ? req.body.description.trim() : '',
                     color: req.body.color ? req.body.color.trim() : '',
-                    startingPrice: req.body.startingPrice ? req.body.startingPrice as number : -1,
+                    startingPrice: req.body.startingPrice ? Auctions.createPriceFromInput(req.body.startingPrice) : -1,
                     endTime: req.body.endTime ? req.body.endTime as Date : undefined
                 }
             };
@@ -177,12 +184,12 @@ export class Auctions {
         router.post('/api/auctions/:auctionId/bid', function(req: Request, res: Response) {
             const id = req.params.auctionId;
             const userID = req.body.userid ? req.body.userid : '';
-            const newBid = req.body.bid ? Number(req.body.bid) : -1;
+            const newBid = req.body.bid ? Auctions.createPriceFromInput(req.body.bid) : -1;
 
             if (userID === '' || newBid === -1 || !ObjectID.isValid(id)) {
                 res.status(400).send();
                 return;
-            } 
+            }
             // Find auction in database
             const query: Object = {_id: new ObjectID(id)};
             auctionsCollection.findOne(query)
@@ -192,14 +199,14 @@ export class Auctions {
                     bid.price = newBid;
                     bid.time = new Date();
                     if (!auction.bids || auction.bids.length === 0) {
-                        if (newBid > Number(auction.startingPrice)) {
+                        if (bid.price > Number(auction.startingPrice)) {
                             return bid;
                         } else {
                             console.log('[ERR]: Bid is below starting price!');
                             res.status(400).send();
                             return null;
                         }
-                    } else if (newBid > Number(auction.bids[auction.bids.length - 1].price)) {
+                    } else if (bid.price > Number(auction.bids[auction.bids.length - 1].price)) {
                         return bid;
                     } else {
                         console.log('[ERR]: Bid is too low');
@@ -230,5 +237,15 @@ export class Auctions {
                     res.status(505).send();
                 });
         });
+    }
+
+    static createPriceFromInput(input: string) {
+        if (input.indexOf(',') !== -1) {
+            input = input.replace(',', '.');
+        } else if (input.indexOf('.') === -1) {
+            return Number(input) * 100;
+        }
+        const splitted = input.split('.');
+        return Number(splitted[0]) * 100 + Number(splitted[1].substring(0, 2));
     }
 }

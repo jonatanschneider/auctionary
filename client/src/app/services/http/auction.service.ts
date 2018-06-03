@@ -51,7 +51,7 @@ export class AuctionService {
       );
   }
 
-  createBid(id: string, userId: string, bid: number): Observable<Auction> {
+  createBid(id: string, userId: string, bid: string): Observable<Auction> {
     let connectionUrl: string = this.apiUrl.base + this.apiUrl.auctions
       + '/' + id + this.apiUrl.bid;
     let data = {
