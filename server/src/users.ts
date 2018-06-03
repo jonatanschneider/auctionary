@@ -60,7 +60,7 @@ export class Users {
                         },
                         'endTime': {$lt: new Date().toISOString()}
                     };
-                    auctionsCollection.find(query).toArray()
+                    auctionsCollection.find(query).sort({ endTime: 1 }).toArray()
                         .then((bidAuctions: Auction[]) => {
                             for (let auction of bidAuctions) {
                                 if (auction.bids[auction.bids.length - 1].userId === userId) {
@@ -102,7 +102,7 @@ export class Users {
                         },
                         'endTime': {$lt: new Date().toISOString()}
                     };
-                    auctionsCollection.find(query).toArray()
+                    auctionsCollection.find(query).sort({ endTime: 1 }).toArray()
                         .then((bidAuctions: Auction[]) => {
                             for (let auction of bidAuctions) {
                                 if (auction.bids[auction.bids.length - 1].userId !== userId) {
@@ -177,7 +177,7 @@ export class Users {
                             '$in': auctionIds
                         }
                     };
-                    auctionsCollection.find(query).toArray()
+                    auctionsCollection.find(query).sort({ endTime: 1 }).toArray()
                         .then((ownAuctions: Auction[]) => {
                             for(let auction of ownAuctions) {
                                 auction['id'] = auction['_id'];
@@ -220,7 +220,7 @@ export class Users {
                             $gt: new Date().toISOString()
                         }
                     };
-                    auctionsCollection.find(query).toArray()
+                    auctionsCollection.find(query).sort({ endTime: 1 }).toArray()
                         .then((bidAuctions: Auction[]) => {
                             for(let auction of bidAuctions) {
                                 auction['id'] = auction['_id'];
