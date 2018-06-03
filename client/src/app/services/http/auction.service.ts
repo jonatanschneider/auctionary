@@ -18,7 +18,10 @@ export class AuctionService {
     base: 'https://localhost:8443/api',
     auctions: '/auctions',
     bid: '/bid',
-    new: '/new'
+    new: '/new',
+    me: '/me',
+    ownAuctions: '/my-auctions',
+    bidAuctions: '/bid-auctions'
   };
 
   constructor(
@@ -51,6 +54,32 @@ export class AuctionService {
       );
   }
 
+  /**
+   * Get auctions the user created
+   *
+   * @returns {Observable<Auction[]>}
+   */
+  getMyAuctions(): Observable<Auction[]> {
+    let connectionUrl: string = this.apiUrl.base + this.apiUrl.me + this.apiUrl.ownAuctions;
+    return this.http.get<Auction[]>(connectionUrl, httpOptions)
+      .pipe(
+        catchError(this.handleError<Auction[]>('getMyAuctions'))
+      );
+  }
+
+  /**
+   * Get auctions the user bid on
+   *
+   * @returns {Observable<Auction[]>}
+   */
+  getMyBidAuctions(): Observable<Auction[]> {
+    let connectionUrl: string = this.apiUrl.base + this.apiUrl.me + this.apiUrl.bidAuctions;
+    return this.http.get<Auction[]>(connectionUrl, httpOptions)
+      .pipe(
+        catchError(this.handleError<Auction[]>('getMyBidAuctions'))
+      )
+  }
+
   createBid(id: string, userId: string, bid: string): Observable<Auction> {
     let connectionUrl: string = this.apiUrl.base + this.apiUrl.auctions
       + '/' + id + this.apiUrl.bid;
@@ -61,6 +90,22 @@ export class AuctionService {
     return this.http.post<Auction>(connectionUrl, data, httpOptions)
       .pipe(
         catchError(this.handleError<Auction>('createBid'))
+      );
+  }
+
+  editAuction(auction: Auction): Observable<Auction> {
+    let connectionUrl: string = this.apiUrl.base + this.apiUrl.auctions + '/' + auction.id;
+    return this.http.put<Auction>(connectionUrl, auction, httpOptions)
+      .pipe(
+        catchError(this.handleError<Auction>('editAuction'))
+      );
+  }
+
+  deleteAuction(auctionId: string): Observable<Auction> {
+    let connectionUrl: string= this.apiUrl.base + this.apiUrl.auctions + '/' + auctionId;
+    return this.http.delete<Auction>(connectionUrl, httpOptions)
+      .pipe(
+        catchError(this.handleError<Auction>('deleteAuction'))
       );
   }
 

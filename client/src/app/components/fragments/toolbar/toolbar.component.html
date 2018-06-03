@@ -5,6 +5,10 @@
       <mat-icon>note_add</mat-icon>
       New auction
     </button>
+    <button mat-button routerLink="/dashboard" *ngIf="user">
+      <mat-icon>dashboard</mat-icon>
+      Dashboard
+    </button>
     <button mat-button routerLink="/auctions">
       <mat-icon>view_list</mat-icon>
       Discover Auctions

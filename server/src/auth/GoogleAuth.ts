@@ -29,7 +29,7 @@ export class GoogleAuth {
                     done(null, profile);
                 })
                 .catch((err) => {
-                    console.log('Error: ' + err);
+                    console.log('[ERR]: Could not access Google for login ' + err);
                 });
         }));
 
@@ -53,7 +53,6 @@ export class GoogleAuth {
     }
 
     static checkUser(user, usersCollection: Collection): Promise<string> {
-        console.log('[LOG]: Checking user...');
 
         let query: Object = {
             'login.type': LoginProvider.GOOGLE,
@@ -61,9 +60,7 @@ export class GoogleAuth {
         };
         return usersCollection.findOne(query)
             .then((foundUser: User) => {
-                console.log("[LOG]: FindOne found ", foundUser);
                 if (foundUser) {
-                    console.log("[LOG]: UserId: ", foundUser._id);
                     return foundUser._id;
                 } else {
                     return this.persistUser(user, usersCollection);
@@ -88,7 +85,6 @@ export class GoogleAuth {
 
         return usersCollection.insertOne(insertUser)
             .then(insertDocument => {
-                console.log('[LOG]: Inserted document with data ', insertDocument);
                 return insertDocument.insertedId;
             })
             .catch((error: MongoError) => {
