@@ -28,8 +28,11 @@ export class Auctions {
                             auction['_id'] = undefined;
                             if (auction['bids']) {
                                 auction['currentBid'] = auction['bids'][auction.bids.length - 1];
+                                auction['currentBid'].price = auction['currentBid'].price / 100;
+                                auction['startingPrice'] = auction['startingPrice'] / 100;
                                 auction['bids'] = undefined;
                             }
+                            auction['startingPrice'] = auction['startingPrice'] / 100;
                         }
                         res.status(200).send(auctions);
                     } else {
@@ -63,8 +66,12 @@ export class Auctions {
                         auction['_id'] = undefined;
                         if (auction['bids']) {
                             auction['currentBid'] = auction['bids'][auction['bids'].length - 1];
+                            auction['currentBid'].price = auction['currentBid'].price / 100;
+                            auction['startingPrice'] = auction['startingPrice'] / 100;
                         }
                         auction['bids'] = undefined;
+                        auction['startingPrice'] = auction['startingPrice'] / 100;
+
                     }
                     res.status(200).send(auction);
                 })
@@ -85,7 +92,7 @@ export class Auctions {
             auction.name = req.body.name ? req.body.name.trim() : '';
             auction.description = req.body.description ? req.body.description.trim() : '';
             auction.color = req.body.color ? req.body.color.trim() : '';
-            auction.startingPrice = req.body.startingPrice ? req.body.startingPrice as number : -1;
+            auction.startingPrice = req.body.startingPrice ? Auctions.createPriceFromInput(req.body.startingPrice) : -1;
             auction.endTime = req.body.endTime ? req.body.endTime as Date : undefined;
 
             if (!auction.name || !auction.sellerId || auction.startingPrice < 0 || !auction.endTime) {
@@ -125,7 +132,7 @@ export class Auctions {
                     name: req.body.name ? req.body.name.trim() : '',
                     description: req.body.description ? req.body.description.trim() : '',
                     color: req.body.color ? req.body.color.trim() : '',
-                    startingPrice: req.body.startingPrice ? req.body.startingPrice as number : -1,
+                    startingPrice: req.body.startingPrice ? Auctions.createPriceFromInput(req.body.startingPrice) : -1,
                     endTime: req.body.endTime ? req.body.endTime as Date : undefined
                 }
             };
@@ -177,12 +184,7 @@ export class Auctions {
         router.post('/api/auctions/:auctionId/bid', function(req: Request, res: Response) {
             const id = req.params.auctionId;
             const userID = req.body.userid ? req.body.userid : '';
-            const newBid = req.body.bid ? Number(req.body.bid) : -1;
-
-            if (req.body.bid.length - 1 > req.body.bid.indexOf('.') + 2 || req.body.bid.indexOf(',') !== -1) {
-                console.log('[ERR]: Bid has wrong format');
-                return;
-            }
+            const newBid = req.body.bid ? Auctions.createPriceFromInput(req.body.bid) : -1;
 
             if (userID === '' || newBid === -1 || !ObjectID.isValid(id)) {
                 res.status(400).send();
@@ -194,7 +196,7 @@ export class Auctions {
                 .then((auction: Auction) => {
                     const bid = new Bid();
                     bid.userId = userID;
-                    bid.price = newBid * 10; // Workaround to get decimal numbers into database
+                    bid.price = newBid;
                     bid.time = new Date();
                     if (!auction.bids || auction.bids.length === 0) {
                         if (bid.price > Number(auction.startingPrice)) {
@@ -235,5 +237,15 @@ export class Auctions {
                     res.status(505).send();
                 });
         });
+    }
+
+    static createPriceFromInput(input: string) {
+        if (input.indexOf(',') !== -1) {
+            input = input.replace(',', '.');
+        } else if (input.indexOf('.') === -1) {
+            return Number(input) * 100;
+        }
+        const splitted = input.split('.');
+        return Number(splitted[0]) * 100 + Number(splitted[1].substring(0, 2));
     }
 }
