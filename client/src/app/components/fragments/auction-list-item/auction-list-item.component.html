@@ -1,7 +1,7 @@
 <mat-list-item routerLink="/auctions/{{auction.id}}">
   <img mat-list-avatar src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Demo image">
   <h4 mat-line>{{auction.name}}</h4>
-  <p mat-line>ends {{auction.endTime}}</p>
+  <p mat-line>ends {{auction.endTime | date}}</p>
   <button mat-icon-button *ngIf="user.id === auction.sellerId" routerLink="/auctions/{{auction.id}}/edit">
     <mat-icon>edit</mat-icon>
   </button>
