@@ -27,8 +27,10 @@ export class AuctionListItemComponent implements OnInit {
             this.hasHighestBid = true;
           }
         } else {
-          if (this.auction.currentBid.userId === this.user.id) {
-            this.hasHighestBid = true;
+          if (this.auction.currentBid) {
+            if (this.auction.currentBid.userId === this.user.id) {
+              this.hasHighestBid = true;
+            }
           }
         }
       }
