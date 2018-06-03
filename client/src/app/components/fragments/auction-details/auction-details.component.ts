@@ -20,7 +20,7 @@ import { DeleteDialogComponent } from '../../dialogs/delete-dialog/delete-dialog
 export class AuctionDetailsComponent implements OnInit {
   auction: Auction;
   user: User;
-  remainingTime: Date;
+  remainingTime: Number;
 
   constructor(private route: ActivatedRoute,
               private auctionService: AuctionService,
@@ -44,8 +44,8 @@ export class AuctionDetailsComponent implements OnInit {
     });
 
     setInterval( () => {
-      if (this.remainingTime && this.remainingTime.getSeconds() > 0) {
-        this.remainingTime.setSeconds(this.remainingTime.getSeconds() - 1);
+      if (this.remainingTime > 0) {
+        this.remainingTime = this.remainingTime.valueOf() - 1;
       }
     }, 1000);
 
@@ -135,7 +135,7 @@ export class AuctionDetailsComponent implements OnInit {
       .subscribe((auction: Auction) => {
         this.auction = auction;
         this.checkForOpenDialog();
-        this.remainingTime = new Date(Date.parse(auction.endTime.toString()) - Date.now());
+        this.remainingTime = Math.floor((Date.parse(auction.endTime.toString()) - Date.now()) / 1000);
       });
   }
 
@@ -150,7 +150,7 @@ export class AuctionDetailsComponent implements OnInit {
   }
 
   getRemainder(): String {
-    let seconds = Math.floor(this.remainingTime.getTime() / 1000);
+    let seconds = this.remainingTime.valueOf();
     let output: String = '';
 
     if (seconds >= (7 * 24 * 60 * 60)) {

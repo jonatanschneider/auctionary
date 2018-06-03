@@ -5,8 +5,8 @@
     <mat-card-title class="price" *ngIf="auction.currentBid">{{auction.currentBid.price}} €</mat-card-title>
     <mat-card-title class="price" *ngIf="!auction.currentBid">{{auction.startingPrice}} €</mat-card-title>
     <mat-card-subtitle class="timer">{{auction.endTime | date}}</mat-card-subtitle>
-    <mat-card-subtitle class="countdown" *ngIf="remainingTime.getTime() / 1000 >= 60">{{getRemainder()}}</mat-card-subtitle>
-    <mat-card-subtitle class="countdown-warn" *ngIf="remainingTime.getTime() / 1000 < 60 && remainingTime.getTime() > 0">{{getRemainder()}}</mat-card-subtitle>
+    <mat-card-subtitle class="countdown" *ngIf="remainingTime.valueOf() / 1000 >= 60">{{getRemainder()}}</mat-card-subtitle>
+    <mat-card-subtitle class="countdown-warn" *ngIf="remainingTime.valueOf() < 60 && remainingTime.valueOf() > 0">{{getRemainder()}}</mat-card-subtitle>
   </mat-card-header>
   <img mat-card-image src='{{auction.images}}'>
   <mat-card-content>
