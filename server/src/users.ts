@@ -36,6 +36,90 @@ export class Users {
                 });
         });
 
+        router.get('/api/me/won-auctions', function(req: Request, res: Response) {
+            let userId: string = JSON.parse(req.headers[AUTH_HEADER_KEY].toString()).id;
+            let query: Object = {
+                _id: new ObjectID(userId)
+            };
+            let auctionIds: string[] = [];
+            let wonAuctions: Auction[] = [];
+
+            // Get all auction ids created by own user
+            usersCollection.findOne(query)
+                .then(user => {
+                    if (user.auctionIds) {
+                        for (let auctionId of user.auctionIds) {
+                            auctionIds.push(new ObjectID(auctionId));
+                        }
+                    }
+                })
+                .then(() => {
+                    query = {
+                        '_id': {
+                            '$in': auctionIds
+                        },
+                        'endTime': {$lt: new Date().toISOString()}
+                    };
+                    auctionsCollection.find(query).toArray()
+                        .then((bidAuctions: Auction[]) => {
+                            for (let auction of bidAuctions) {
+                                if (auction.bids[auction.bids.length - 1].userId === userId) {
+                                    auction['id'] = auction['_id'];
+                                    auction['_id'] = undefined;
+                                    wonAuctions.push(auction);
+                                }
+                            }
+                            res.status(200).send(wonAuctions);
+                        });
+                })
+                .catch((error: MongoError) => {
+                    console.log('[ERR]: Could not find one user ', error);
+                    res.status(505).send([]);
+                });
+        });
+
+        router.get('/api/me/lost-auctions', function(req: Request, res: Response) {
+            let userId: string = JSON.parse(req.headers[AUTH_HEADER_KEY].toString()).id;
+            let query: Object = {
+                _id: new ObjectID(userId)
+            };
+            let auctionIds: string[] = [];
+            let lostAuctions: Auction[] = [];
+
+            // Get all auction ids created by own user
+            usersCollection.findOne(query)
+                .then(user => {
+                    if (user.auctionIds) {
+                        for (let auctionId of user.auctionIds) {
+                            auctionIds.push(new ObjectID(auctionId));
+                        }
+                    }
+                })
+                .then(() => {
+                    query = {
+                        '_id': {
+                            '$in': auctionIds
+                        },
+                        'endTime': {$lt: new Date().toISOString()}
+                    };
+                    auctionsCollection.find(query).toArray()
+                        .then((bidAuctions: Auction[]) => {
+                            for (let auction of bidAuctions) {
+                                if (auction.bids[auction.bids.length - 1].userId !== userId) {
+                                    auction['id'] = auction['_id'];
+                                    auction['_id'] = undefined;
+                                    lostAuctions.push(auction);
+                                }
+                            }
+                            res.status(200).send(lostAuctions);
+                        });
+                })
+                .catch((error: MongoError) => {
+                    console.log('[ERR]: Could not find one user ', error);
+                    res.status(505).send([]);
+                });
+        });
+
         /**
          * Get own user data
          */

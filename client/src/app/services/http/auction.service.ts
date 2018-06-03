@@ -21,7 +21,9 @@ export class AuctionService {
     new: '/new',
     me: '/me',
     ownAuctions: '/my-auctions',
-    bidAuctions: '/bid-auctions'
+    bidAuctions: '/bid-auctions',
+    wonAuctions: '/won-auctions',
+    lostAuctions: '/lost-auctions'
   };
 
   constructor(
@@ -106,6 +108,22 @@ export class AuctionService {
     return this.http.delete<Auction>(connectionUrl, httpOptions)
       .pipe(
         catchError(this.handleError<Auction>('deleteAuction'))
+      );
+  }
+
+  getMyWonAuctions(): Observable<Auction[]> {
+    let connectionUrl: string = this.apiUrl.base + this.apiUrl.me + this.apiUrl.wonAuctions;
+    return this.http.get<Auction[]>(connectionUrl, httpOptions)
+      .pipe(
+        catchError(this.handleError<Auction[]>('getMyBidAuctions'))
+      );
+  }
+
+  getMyLostAuctions(): Observable<Auction[]> {
+    let connectionUrl: string = this.apiUrl.base + this.apiUrl.me + this.apiUrl.lostAuctions;
+    return this.http.get<Auction[]>(connectionUrl, httpOptions)
+      .pipe(
+        catchError(this.handleError<Auction[]>('getMyBidAuctions'))
       );
   }
 
