@@ -213,8 +213,11 @@ export class Users {
                 })
                 .then(() => {
                     query = {
-                        '_id': {
-                            '$in': auctionIds
+                        _id: {
+                            $in: auctionIds
+                        },
+                        endTime: {
+                            $gt: new Date().toISOString()
                         }
                     };
                     auctionsCollection.find(query).toArray()
