@@ -109,6 +109,22 @@ export class AuctionService {
       );
   }
 
+  getMyWonAuctions(): Observable<Auction[]> {
+    let connectionUrl: string = this.apiUrl.base + this.apiUrl.me + this.apiUrl.wonAuctions;
+    return this.http.get<Auction[]>(connectionUrl, httpOptions)
+      .pipe(
+        catchError(this.handleError<Auction[]>('getMyBidAuctions'))
+      );
+  }
+
+  getMyLostAuctions(): Observable<Auction[]> {
+    let connectionUrl: string = this.apiUrl.base + this.apiUrl.me + this.apiUrl.lostAuctions;
+    return this.http.get<Auction[]>(connectionUrl, httpOptions)
+      .pipe(
+        catchError(this.handleError<Auction[]>('getMyBidAuctions'))
+      );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
