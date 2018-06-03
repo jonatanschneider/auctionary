@@ -17,6 +17,7 @@ import { SocketService } from '../../../services/socket/socket.service';
 export class AuctionDetailsComponent implements OnInit {
   auction: Auction;
   user: User;
+  remainingTime: Number;
 
   constructor(private route: ActivatedRoute,
               private auctionService: AuctionService,
@@ -36,6 +37,12 @@ export class AuctionDetailsComponent implements OnInit {
     this.authenticationService.watchUser.subscribe((user: User) => {
       this.user = user;
     });
+
+    setInterval( () => {
+      if (this.remainingTime) {
+        this.remainingTime = this.remainingTime.valueOf() - 1;
+      }
+    }, 1000);
 
     this.socketConnection();
   }
@@ -72,6 +79,7 @@ export class AuctionDetailsComponent implements OnInit {
       .subscribe((auction: Auction) => {
         this.auction = auction;
         this.checkForOpenDialog();
+        this.remainingTime = Math.abs(Date.now() - auction.endTime.getTime());
       });
   }
 
