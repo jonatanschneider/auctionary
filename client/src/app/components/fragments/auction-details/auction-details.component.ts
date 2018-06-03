@@ -21,6 +21,8 @@ export class AuctionDetailsComponent implements OnInit {
   auction: Auction;
   user: User;
   remainingTime: Number;
+  cardColor: string;
+  hasHighestBid = false;
 
   constructor(private route: ActivatedRoute,
               private auctionService: AuctionService,
@@ -132,10 +134,18 @@ export class AuctionDetailsComponent implements OnInit {
 
   getAuction(auctionId: string): void {
     this.auctionService.getAuction(auctionId)
-      .subscribe((auction: Auction) => {
+      .subscribe((auction: any) => {
         this.auction = auction;
         this.checkForOpenDialog();
         this.remainingTime = Math.floor((Date.parse(auction.endTime.toString()) - Date.now()) / 1000);
+        if (this.user) {
+          if (this.auction.currentBid) {
+            if (this.auction.currentBid.userId === this.user.id) {
+              this.hasHighestBid = true;
+            }
+          }
+          this.cardColor = this.hasHighestBid ? '#9CCC65' : '#ef5350';
+        }
       });
   }
 
