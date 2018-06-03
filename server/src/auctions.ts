@@ -141,12 +141,13 @@ export class Auctions {
             }
 
             const query: Object = { _id: new ObjectID(id) };
+            console.log(req.body);
             const set: Object = {
                 $set: {
                     name: req.body.name ? req.body.name.trim() : '',
                     description: req.body.description ? req.body.description.trim() : '',
                     color: req.body.color ? req.body.color.trim() : '',
-                    startingPrice: req.body.startingPrice ? Auctions.createPriceFromInput(req.body.startingPrice) : -1,
+                    startingPrice: req.body.startingPrice ? Auctions.createPriceFromInput(String(req.body.startingPrice)) : -1,
                     endTime: req.body.endTime ? req.body.endTime as Date : undefined
                 }
             };
