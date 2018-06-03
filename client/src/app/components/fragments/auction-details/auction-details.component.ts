@@ -151,7 +151,6 @@ export class AuctionDetailsComponent implements OnInit {
 
   getRemainder(): String {
     let seconds = Math.floor(this.remainingTime.getTime() / 1000);
-    console.log(seconds);
     let output: String = '';
 
     if (seconds >= (7 * 24 * 60 * 60)) {
