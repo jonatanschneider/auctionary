@@ -116,15 +116,15 @@ export class Auctions {
                     return transformedAuction.id;
                 })
                 .then((auctionId: any) => {
-                    const query = {_id : new ObjectID(auction.sellerId)};
-                  usersCollection.updateOne(query, {$push: {ownAuctionIds: auctionId}})
-                      .then((response) => {
-                          if (response.matchedCount === 1) {
-                              res.status(200).send();
-                          } else {
-                              res.status(404).send();
-                          }
-                      });
+                    const query = { _id: new ObjectID(auction.sellerId) };
+                    usersCollection.updateOne(query, { $push: { ownAuctionIds: auctionId } })
+                        .then((response) => {
+                            if (response.matchedCount === 1) {
+                                res.status(200).send();
+                            } else {
+                                res.status(404).send();
+                            }
+                        });
                 })
                 .catch((error: MongoError) => {
                     console.log('[ERR]: Failed to create auction in database', error);
@@ -139,18 +139,17 @@ export class Auctions {
          */
         router.put('/api/auctions/:id', function (req: Request, res: Response) {
             const id: string = req.params.id;
+            const userId: string = JSON.parse(req.headers[AUTH_HEADER_KEY].toString()).id;
 
             if (!ObjectID.isValid(id)) {
                 res.status(404).send();
                 return;
             }
 
-            if (JSON.parse(req.headers[AUTH_HEADER_KEY].toString()).id !== id) {
-                res.status(403).send();
-                return;
-            }
-
-            const query: Object = { _id: new ObjectID(id) };
+            const query: Object = {
+                _id: new ObjectID(id),
+                sellerId: userId
+            };
             const startingPrice = req.body.startingPrice ? Auctions.createPriceFromInput(String(req.body.startingPrice)) : -1;
 
             const set: Object = {
@@ -189,21 +188,24 @@ export class Auctions {
          */
         router.delete('/api/auctions/:id', function (req: Request, res: Response) {
             const id: string = req.params.id;
+            const userId: string = JSON.parse(req.headers[AUTH_HEADER_KEY].toString()).id;
 
             if (!ObjectID.isValid(id)) {
                 res.status(404).send();
                 return;
             }
 
-            if (JSON.parse(req.headers[AUTH_HEADER_KEY].toString()).id !== id) {
-                res.status(403).send();
-                return;
-            }
-
-            const query: Object = { _id: new ObjectID(id) };
+            const query: Object = {
+                _id: new ObjectID(id),
+                sellerId: userId
+            };;
             auctionsCollection.deleteOne(query)
-                .then(() => {
-                    res.status(200).send();
+                .then(response => {
+                    if(response.deleteCount === 1) {
+                        res.status(200).send();
+                    } else {
+                        res.status(403).send();
+                    }
                 })
                 .catch((error: MongoError) => {
                     console.log('[ERR]: Failed to delete auction from database', error);
@@ -216,7 +218,7 @@ export class Auctions {
          *
          * Creates a new bid for an auction
          */
-        router.post('/api/auctions/:auctionId/bid', function(req: Request, res: Response) {
+        router.post('/api/auctions/:auctionId/bid', function (req: Request, res: Response) {
             const id = req.params.auctionId;
             const userID = req.body.userid ? req.body.userid : '';
             const newBid = req.body.bid ? Auctions.createPriceFromInput(req.body.bid) : -1;
@@ -232,7 +234,7 @@ export class Auctions {
             }
 
             // Find auction in database
-            let query: Object = {_id: new ObjectID(id)};
+            let query: Object = { _id: new ObjectID(id) };
             auctionsCollection.findOne(query)
                 .then((auction: Auction) => {
                     const bid = new Bid();
@@ -263,7 +265,7 @@ export class Auctions {
                 // Update auction
                 .then((bids: Bid) => {
                     if (bids) {
-                        auctionsCollection.updateOne(query, {$push: { bids }})
+                        auctionsCollection.updateOne(query, { $push: { bids } })
                             .then(response => {
                                 if (response.matchedCount === 1) {
                                     res.status(200).send();
@@ -275,8 +277,8 @@ export class Auctions {
                             })
                             .then(success => {
                                 if (success) {
-                                    query = {_id: new ObjectID(userID)};
-                                    usersCollection.updateOne(query, {$push: {auctionIds: id}})
+                                    query = { _id: new ObjectID(userID) };
+                                    usersCollection.updateOne(query, { $push: { auctionIds: id } })
                                         .then(response => {
                                             if (response.matchedCount === 1) {
                                                 res.status(200).send();
