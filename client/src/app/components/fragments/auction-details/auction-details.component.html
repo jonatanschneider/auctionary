@@ -8,13 +8,14 @@
   </mat-card-header>
   <img mat-card-image src='{{auction.images}}'>
   <mat-card-content>
-    <p>Farbe: <span class="color">{{auction.color}}</span></p>
+    <p>Color: <span class="color">{{auction.color}}</span></p>
     <p class="description">
       {{auction.description}}
     </p>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-button (click)="openBidDialog()" [disabled]="!this.user">BIETEN</button>
+    <button mat-button (click)="openBidDialog()" [disabled]="!this.user">BID</button>
   </mat-card-actions>
 </mat-card>
+
 
