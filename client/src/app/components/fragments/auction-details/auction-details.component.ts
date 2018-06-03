@@ -20,6 +20,8 @@ import { DeleteDialogComponent } from '../../dialogs/delete-dialog/delete-dialog
 export class AuctionDetailsComponent implements OnInit {
   auction: Auction;
   user: User;
+  hasHighestBid = false;
+  cardColor = '';
 
   constructor(private route: ActivatedRoute,
               private auctionService: AuctionService,
@@ -125,8 +127,11 @@ export class AuctionDetailsComponent implements OnInit {
 
   getAuction(auctionId: string): void {
     this.auctionService.getAuction(auctionId)
-      .subscribe((auction: Auction) => {
-        this.auction = auction;
+      .subscribe((data: any) => {
+        this.auction = data.auction;
+        console.log(data.currentUserHasHighestBid);
+        this.hasHighestBid = data.currentUserHasHighestBid;
+        this.cardColor = this.hasHighestBid ? '#9CCC65' : '#ef5350';
         this.checkForOpenDialog();
       });
   }
