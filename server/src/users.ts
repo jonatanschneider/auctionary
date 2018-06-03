@@ -197,13 +197,10 @@ export class Users {
          */
         router.get('/api/me/bid-auctions', function (req: Request, res: Response) {
             let userId: string = JSON.parse(req.headers[AUTH_HEADER_KEY].toString()).id;
-            let query: Object = {
-                _id: new ObjectID(userId)
-            };
             let auctionIds: string[] = [];
 
             // Get all auction ids created by own user
-            usersCollection.findOne(query)
+            usersCollection.find({})
                 .then(user => {
                     if (user.auctionIds) {
                         for (let auctionId of user.auctionIds) {
@@ -212,7 +209,7 @@ export class Users {
                     }
                 })
                 .then(() => {
-                    query = {
+                    let query = {
                         _id: {
                             $in: auctionIds
                         },
