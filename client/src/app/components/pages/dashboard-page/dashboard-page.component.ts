@@ -13,6 +13,8 @@ export class DashboardPageComponent implements OnInit {
   user: User;
   myAuctions: Auction[] = [];
   bidAuctions: Auction[] = [];
+  wonAuctions: Auction[] = [];
+  lostAuctions: Auction[] = [];
 
   constructor(private authenticationService: AuthenticationService,
               private auctionService: AuctionService) {
@@ -34,6 +36,18 @@ export class DashboardPageComponent implements OnInit {
     this.auctionService.getMyBidAuctions()
       .subscribe((bidAuctions: Auction[]) => {
         this.bidAuctions = bidAuctions;
+      });
+
+    // Fetch user's auctions he won
+    this.auctionService.getMyWonAuctions()
+      .subscribe((wonAuctions: Auction[]) => {
+        this.wonAuctions = wonAuctions;
+      });
+
+    // Fetch user's auctions he lost
+    this.auctionService.getMyLostAuctions()
+      .subscribe((lostAuctions: Auction[]) => {
+        this.lostAuctions = lostAuctions;
       });
   }
 }
