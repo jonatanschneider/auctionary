@@ -14,7 +14,10 @@ import { Router } from '@angular/router';
 export class AuctionCreatePageComponent {
   form = new FormGroup({
     name: new FormControl('', [Validators.required]),
-    startingPrice: new FormControl('', [Validators.required]),
+    startingPrice: new FormControl('', [
+      Validators.required,
+      Validators.pattern('^[0-9]+(,\\d{1,2})?$')
+    ]),
     description: new FormControl(''),
     color: new FormControl(''),
     uptime: new FormControl('', [Validators.required]),
