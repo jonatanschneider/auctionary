@@ -54,8 +54,6 @@ export class Auctions {
          */
         router.get('/api/auctions/:id', function (req: Request, res: Response) {
             const id: string = req.params.id;
-            const userId: string = JSON.parse(req.headers[AUTH_HEADER_KEY].toString()).id;
-            let currentUserHasHighestBid = false;
 
             if (!ObjectID.isValid(id)) {
                 res.status(404).send();
@@ -75,12 +73,8 @@ export class Auctions {
                         }
                         auction['bids'] = undefined;
                         auction['startingPrice'] = auction['startingPrice'] / 100;
-
-                        if (auction['currentBid'].userId === userId) {
-                            currentUserHasHighestBid = true;
-                        }
                     }
-                    res.status(200).send({auction: auction, currentUserHasHighestBid: currentUserHasHighestBid});
+                    res.status(200).send(auction);
                 })
                 .catch((error: MongoError) => {
                     console.log('[ERR]: Failed to fetch auction from database', error);
