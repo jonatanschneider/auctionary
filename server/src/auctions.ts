@@ -97,6 +97,11 @@ export class Auctions {
             auction.startingPrice = req.body.startingPrice ? Auctions.createPriceFromInput(req.body.startingPrice) : -1;
             auction.endTime = req.body.endTime ? req.body.endTime as Date : undefined;
 
+            if (Number.isNaN(auction.startingPrice)) {
+                console.log('[ERR]: Failed to parse input - Starting Price is NaN');
+                res.status(400).send();
+            }
+
             if (!auction.name || !auction.sellerId || auction.startingPrice < 0 || !auction.endTime) {
                 res.status(400).send();
                 return;
@@ -146,16 +151,23 @@ export class Auctions {
             }
 
             const query: Object = { _id: new ObjectID(id) };
-            console.log(req.body);
+            const startingPrice = req.body.startingPrice ? Auctions.createPriceFromInput(String(req.body.startingPrice)) : -1;
+
             const set: Object = {
                 $set: {
                     name: req.body.name ? req.body.name.trim() : '',
                     description: req.body.description ? req.body.description.trim() : '',
                     color: req.body.color ? req.body.color.trim() : '',
-                    startingPrice: req.body.startingPrice ? Auctions.createPriceFromInput(String(req.body.startingPrice)) : -1,
+                    startingPrice: startingPrice,
                     endTime: req.body.endTime ? req.body.endTime as Date : undefined
                 }
             };
+
+            if (Number.isNaN(startingPrice)) {
+                console.log('[ERR]: Failed to parse input - Starting Price is NaN');
+                res.status(400).send();
+            }
+
             auctionsCollection.updateOne(query, set)
                 .then(response => {
                     if (response.matchedCount === 1) {
@@ -213,6 +225,12 @@ export class Auctions {
                 res.status(400).send();
                 return;
             }
+
+            if (Number.isNaN(newBid)) {
+                console.log('[ERR]: Failed to parse input - Bid is NaN');
+                res.status(400).send();
+            }
+
             // Find auction in database
             let query: Object = {_id: new ObjectID(id)};
             auctionsCollection.findOne(query)

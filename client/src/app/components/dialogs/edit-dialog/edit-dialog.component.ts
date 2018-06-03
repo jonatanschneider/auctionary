@@ -12,7 +12,10 @@ import { NotificationService } from '../../../services/util/notification.service
 export class EditDialogComponent implements OnInit {
   form = new FormGroup({
     name: new FormControl('', [Validators.required]),
-    startingPrice: new FormControl('', [Validators.required]),
+    startingPrice: new FormControl('', [
+      Validators.required,
+      Validators.pattern('^[0-9]+(,\\d{1,2})?$')
+    ]),
     description: new FormControl(''),
     color: new FormControl('')
   });

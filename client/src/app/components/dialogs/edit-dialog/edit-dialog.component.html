@@ -7,7 +7,9 @@
     </mat-form-field>
     <mat-form-field class="input-block">
       <input matInput #startingPrice placeholder="Starting price" formControlName="startingPrice">
-      <mat-error *ngIf="form.get('startingPrice').invalid">Please enter a starting price</mat-error>
+      <mat-error *ngIf="form.get('startingPrice').invalid">
+        Please enter a valid starting price (e.g. <i>80,00</i> or <i>100</i>)
+      </mat-error>
     </mat-form-field>
     <mat-form-field class="input-block">
     <textarea matInput placeholder="Description" name="description" matTextareaAutosize
