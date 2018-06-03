@@ -20,6 +20,7 @@ import { DeleteDialogComponent } from '../../dialogs/delete-dialog/delete-dialog
 export class AuctionDetailsComponent implements OnInit {
   auction: Auction;
   user: User;
+  remainingTime: Number;
   hasHighestBid = false;
   cardColor = '';
 
@@ -43,6 +44,12 @@ export class AuctionDetailsComponent implements OnInit {
     this.authenticationService.watchUser.subscribe((user: User) => {
       this.user = user;
     });
+
+    setInterval( () => {
+      if (this.remainingTime > 0) {
+        this.remainingTime = this.remainingTime.valueOf() - 1;
+      }
+    }, 1000);
 
     this.socketConnection();
   }
@@ -127,15 +134,13 @@ export class AuctionDetailsComponent implements OnInit {
 
   getAuction(auctionId: string): void {
     this.auctionService.getAuction(auctionId)
-      .subscribe((auction: any) => {
-        this.auction = auction;
-        if (this.auction.currentBid.userId === this.user.id) {
-          this.cardColor = '#9CCC65';
-          this.hasHighestBid = true;
-        } else {
-          this.cardColor = '#ef5350';
-        }
+      .subscribe((data: any) => {
+        this.auction = data.auction;
+        console.log(data.currentUserHasHighestBid);
+        this.hasHighestBid = data.currentUserHasHighestBid;
+        this.cardColor = this.hasHighestBid ? '#9CCC65' : '#ef5350';
         this.checkForOpenDialog();
+        this.remainingTime = Math.floor((Date.parse(data.endTime.toString()) - Date.now()) / 1000);
       });
   }
 
@@ -147,5 +152,26 @@ export class AuctionDetailsComponent implements OnInit {
           this.getAuction(this.auction.id);
         }
       });
+  }
+
+  getRemainder(): String {
+    let seconds = this.remainingTime.valueOf();
+    let output: String = '';
+
+    if (seconds >= (7 * 24 * 60 * 60)) {
+      output += Math.floor(seconds / (7 * 24 * 60 * 60)) + ' weeks, ';
+      seconds = seconds % (7 * 24 * 60 * 60);
+    }
+    if (seconds >= (24 * 60 * 60)) {
+      output += Math.floor(seconds / (24 * 60 * 60)) + ' days, ';
+      seconds = seconds % (24 * 60 * 60);
+    }
+    output +=  Math.floor(seconds / (60 * 60)) + ':';
+    seconds = seconds % (60 * 60);
+    output +=  Math.floor(seconds / 60) + ':';
+    seconds = seconds % 60;
+    output +=  Math.floor(seconds) + ' left';
+
+    return output;
   }
 }
