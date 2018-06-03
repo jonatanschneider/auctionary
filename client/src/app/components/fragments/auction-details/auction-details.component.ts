@@ -127,11 +127,14 @@ export class AuctionDetailsComponent implements OnInit {
 
   getAuction(auctionId: string): void {
     this.auctionService.getAuction(auctionId)
-      .subscribe((data: any) => {
-        this.auction = data.auction;
-        console.log(data.currentUserHasHighestBid);
-        this.hasHighestBid = data.currentUserHasHighestBid;
-        this.cardColor = this.hasHighestBid ? '#9CCC65' : '#ef5350';
+      .subscribe((auction: any) => {
+        this.auction = auction;
+        if (this.auction.currentBid.userId === this.user.id) {
+          this.cardColor = '#9CCC65';
+          this.hasHighestBid = true;
+        } else {
+          this.cardColor = '#ef5350';
+        }
         this.checkForOpenDialog();
       });
   }
