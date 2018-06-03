@@ -5,6 +5,7 @@
     <mat-card-title class="price" *ngIf="auction.currentBid">{{auction.currentBid.price}} €</mat-card-title>
     <mat-card-title class="price" *ngIf="!auction.currentBid">{{auction.startingPrice}} €</mat-card-title>
     <mat-card-subtitle class="timer">{{auction.endTime | date}}</mat-card-subtitle>
+    <mat-card-subtitle class="countdown">{{remainingTime}} seconds left</mat-card-subtitle>
   </mat-card-header>
   <img mat-card-image src='{{auction.images}}'>
   <mat-card-content>
