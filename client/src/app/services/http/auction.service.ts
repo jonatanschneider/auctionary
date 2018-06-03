@@ -21,7 +21,9 @@ export class AuctionService {
     new: '/new',
     me: '/me',
     ownAuctions: '/my-auctions',
-    bidAuctions: '/bid-auctions'
+    bidAuctions: '/bid-auctions',
+    wonAuctions: '/won-auctions',
+    lostAuctions: '/lost-auctions'
   };
 
   constructor(
