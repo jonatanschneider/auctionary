@@ -1,29 +1,33 @@
-<h1>New auction</h1>
-<form (ngSubmit)="create()" [formGroup]="form">
-  <mat-form-field class="input-block">
-    <input matInput placeholder="Name" formControlName="name">
-    <mat-error *ngIf="form.get('name').invalid">Please enter a name</mat-error>
-  </mat-form-field>
-  <mat-form-field class="input-block">
-    <input matInput #startingPrice placeholder="Starting price" formControlName="startingPrice">
-    <mat-error *ngIf="form.get('startingPrice').invalid">
-      Please enter a valid starting price (e.g. <i>80,00</i> or <i>100</i>)
-    </mat-error>
-  </mat-form-field>
-  <mat-form-field class="input-block">
+<div fxFlex fxLayout="row" fxLayoutAlign="center">
+  <div fxFlex fxLayout="column" fxLayoutAlign="start" class="container">
+    <h1>New auction</h1>
+    <form (ngSubmit)="create()" [formGroup]="form">
+      <mat-form-field class="input-block">
+        <input matInput placeholder="Name" formControlName="name">
+        <mat-error *ngIf="form.get('name').invalid">Please enter a name</mat-error>
+      </mat-form-field>
+      <mat-form-field class="input-block">
+        <input matInput #startingPrice placeholder="Starting price" formControlName="startingPrice">
+        <mat-error *ngIf="form.get('startingPrice').invalid">
+          Please enter a valid starting price (e.g. <i>80,00</i> or <i>100</i>)
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="input-block">
     <textarea matInput placeholder="Description" name="description" matTextareaAutosize
               matAutosizeMinRows="3" matAutosizeMaxRows="8" formControlName="description"></textarea>
-  </mat-form-field>
-  <mat-form-field class="input-block">
-    <input matInput placeholder="Color" formControlName="color">
-  </mat-form-field>
-  <mat-form-field class="input-block">
-    <mat-select placeholder="Uptime" formControlName="uptime">
-      <mat-option *ngFor="let option of config.uptimeOptions" [value]="option.value">
-        {{ option.label }}
-      </mat-option>
-    </mat-select>
-    <mat-error *ngIf="form.get('uptime').invalid">Please select an uptime</mat-error>
-  </mat-form-field>
-  <button mat-raised-button type="submit" color="primary">Submit</button>
-</form>
+      </mat-form-field>
+      <mat-form-field class="input-block">
+        <input matInput placeholder="Color" formControlName="color">
+      </mat-form-field>
+      <mat-form-field class="input-block">
+        <mat-select placeholder="Uptime" formControlName="uptime">
+          <mat-option *ngFor="let option of config.uptimeOptions" [value]="option.value">
+            {{ option.label }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.get('uptime').invalid">Please select an uptime</mat-error>
+      </mat-form-field>
+      <button mat-raised-button type="submit" color="primary">Submit</button>
+    </form>
+  </div>
+</div>
