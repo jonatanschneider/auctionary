@@ -108,7 +108,8 @@ export class AuctionDetailsComponent implements OnInit {
   openDeleteDialog(): void {
     this.location.go('auctions/' + this.auction.id + '/delete');
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
-      width: '250px'
+      width: '250px',
+      data: { auction: this.auction }
     });
 
     dialogRef.afterClosed().subscribe(result => {
